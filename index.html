@@ -4,12 +4,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Reading Adventure</title>
+<title>Reading Adventure V4</title>
 
 <style>
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -22,28 +20,21 @@ body {
 
 header {
   background: #dceeff;
-  padding: 28px 15px;
+  padding: 25px 15px;
 }
 
-h1 {
-  font-size: 36px;
-  margin: 0;
-}
-
-h2 {
-  font-size: 28px;
-}
+h1 { margin: 0; font-size: 36px; }
 
 main {
   max-width: 1000px;
-  margin: 35px auto;
+  margin: 30px auto;
   padding: 15px;
 }
 
 .panel {
   background: white;
   border-radius: 22px;
-  padding: 30px;
+  padding: 28px;
   margin-bottom: 20px;
   box-shadow: 0 4px 15px #00000010;
 }
@@ -51,14 +42,13 @@ main {
 .menu {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  margin-top: 25px;
+  gap: 15px;
 }
 
 button {
-  font-family: inherit;
+  font: inherit;
   font-size: 20px;
-  padding: 15px 20px;
+  padding: 14px 20px;
   margin: 6px;
   border: 2px solid #a8cdf3;
   border-radius: 15px;
@@ -68,61 +58,40 @@ button {
   min-height: 55px;
 }
 
-button:hover {
-  background: #c6e2ff;
-}
+button:hover { background: #c6e2ff; }
 
 button:focus-visible {
   outline: 4px solid #ffb347;
-  outline-offset: 3px;
 }
 
 button:disabled {
-  opacity: 0.55;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
 .menu button {
-  min-height: 115px;
-  font-size: 22px;
+  min-height: 105px;
 }
 
-.hidden {
-  display: none;
-}
+.hidden { display: none; }
 
 .options {
-  margin: 25px 0;
+  margin: 20px 0;
 }
 
 .options button {
-  min-width: 95px;
-  font-size: 28px;
-}
-
-.word-box {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 25px 0;
-}
-
-.letter-tile {
-  display: inline-block;
-  min-width: 65px;
-  padding: 15px;
-  background: #e6f3ff;
-  border: 2px solid #a8cdf3;
-  border-radius: 12px;
-  font-size: 30px;
+  min-width: 75px;
+  font-size: 25px;
 }
 
 .feedback {
-  font-size: 22px;
-  font-weight: bold;
   min-height: 45px;
-  margin: 18px 0;
+  font-size: 21px;
+  font-weight: bold;
+}
+
+.progress {
+  color: #55718b;
 }
 
 .stars {
@@ -130,48 +99,62 @@ button:disabled {
   font-size: 22px;
 }
 
-.progress {
-  color: #55718b;
-  font-size: 17px;
+.word-box {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 20px 0;
+}
+
+.tile {
+  min-width: 65px;
+  padding: 12px;
+  border: 2px solid #a8cdf3;
+  border-radius: 12px;
+  background: #eef6ff;
+  font-size: 30px;
 }
 
 .sentence {
-  font-size: 28px;
+  font-size: 29px;
+  line-height: 2;
+  padding: 20px;
   background: #f1f8ff;
-  padding: 22px;
   border-radius: 15px;
+}
+
+.sentence span {
+  display: inline-block;
+  margin: 0 4px;
+  padding: 2px 5px;
+  border-radius: 7px;
+}
+
+.sentence span.active {
+  background: #ffe39c;
 }
 
 .stat {
-  background: #eef6ff;
-  border-radius: 15px;
   padding: 18px;
   margin: 12px;
+  border-radius: 15px;
+  background: #eef6ff;
 }
 
 .stat strong {
-  font-size: 28px;
+  font-size: 30px;
 }
 
 .note {
-  color: #536d83;
   font-size: 15px;
+  color: #55718b;
 }
 
 @media (max-width: 600px) {
   h1 { font-size: 29px; }
-
-  .menu {
-    grid-template-columns: 1fr;
-  }
-
-  .panel {
-    padding: 20px 12px;
-  }
-
-  button {
-    font-size: 18px;
-  }
+  .menu { grid-template-columns: 1fr; }
+  .panel { padding: 18px 10px; }
 }
 </style>
 </head>
@@ -180,7 +163,7 @@ button:disabled {
 
 <header>
   <h1>📚 Reading Adventure</h1>
-  <p>Learn sounds, build words and have fun!</p>
+  <p>Learn sounds, blend words and enjoy reading!</p>
   <div class="stars">
     ⭐ Stars: <span id="totalStars">0</span>
   </div>
@@ -188,14 +171,22 @@ button:disabled {
 
 <main>
 
-<!-- HOME PAGE -->
+<!-- HOME -->
 <section id="home" class="panel">
   <h2>Welcome, Little Reader!</h2>
   <p>Choose a learning adventure.</p>
 
   <div class="menu">
     <button onclick="startGame('letters')">
-      🔤 Letter Sounds
+      🔠 Find the Letter
+    </button>
+
+    <button onclick="startGame('phonics')">
+      🔊 Letter Sounds
+    </button>
+
+    <button onclick="startGame('blending')">
+      🎵 Sound Blending
     </button>
 
     <button onclick="startGame('words')">
@@ -211,128 +202,48 @@ button:disabled {
     </button>
   </div>
 
-  <p>Play at your own pace. There are no timers.</p>
+  <p>Learn at your own pace. No timers!</p>
 </section>
 
-<!-- LETTER GAME -->
-<section id="letters" class="panel hidden">
-  <h2>🔤 Letter Sounds</h2>
-  <p class="progress" id="letterProgress"></p>
+<!-- GAME SCREEN -->
+<section id="game" class="panel hidden">
+  <h2 id="gameTitle"></h2>
+  <p class="progress" id="gameProgress"></p>
+  <p id="gameInstruction"></p>
 
-  <p>Find the correct letter.</p>
+  <div id="gameContent"></div>
 
-  <h2 id="letterPrompt"></h2>
-
-  <div class="options" id="letterOptions"></div>
-
-  <p class="feedback" id="letterFeedback"
+  <p class="feedback" id="feedback"
      role="status" aria-live="polite"></p>
 
-  <button id="letterNext" class="hidden"
-          onclick="nextLetter()">
+  <button id="nextButton" class="hidden"
+          onclick="nextQuestion()">
     Next ➜
   </button>
 
   <button onclick="goHome()">🏠 Home</button>
 </section>
 
-<!-- WORD GAME -->
-<section id="words" class="panel hidden">
-  <h2>🧩 Build a Word</h2>
-  <p class="progress" id="wordProgress"></p>
-
-  <p>Tap the letters in the correct order.</p>
-
-  <h2 id="wordHint"></h2>
-
-  <div class="word-box" id="wordAnswer"></div>
-  <div class="options" id="wordOptions"></div>
-
-  <p class="feedback" id="wordFeedback"
-     role="status" aria-live="polite"></p>
-
-  <button onclick="resetWord()">Try Again</button>
-
-  <button id="wordNext" class="hidden"
-          onclick="nextWord()">
-    Next ➜
-  </button>
-
-  <button onclick="goHome()">🏠 Home</button>
-</section>
-
-<!-- SENTENCE GAME -->
-<section id="sentences" class="panel hidden">
-  <h2>📖 Read a Sentence</h2>
-  <p class="progress" id="sentenceProgress"></p>
-
-  <div class="sentence" id="sentenceText"></div>
-
-  <h3 id="sentenceQuestion"></h3>
-
-  <div class="options" id="sentenceOptions"></div>
-
-  <p class="feedback" id="sentenceFeedback"
-     role="status" aria-live="polite"></p>
-
-  <button id="sentenceNext" class="hidden"
-          onclick="nextSentence()">
-    Next ➜
-  </button>
-
-  <button onclick="goHome()">🏠 Home</button>
-</section>
-
-<!-- LEARNING JOURNEY -->
+<!-- JOURNEY -->
 <section id="journey" class="panel hidden">
   <h2>🏆 My Learning Journey</h2>
-
-  <div class="stat">
-    ⭐ Total Stars<br>
-    <strong id="journeyStars">0</strong>
-  </div>
-
-  <div class="stat">
-    🎮 Questions Attempted<br>
-    <strong id="journeyAttempts">0</strong>
-  </div>
-
-  <div class="stat">
-    ✅ Correct Answers<br>
-    <strong id="journeyCorrect">0</strong>
-  </div>
-
-  <div class="stat">
-    📊 Accuracy<br>
-    <strong id="journeyAccuracy">0%</strong>
-  </div>
-
-  <div class="stat">
-    🎉 Completed Games<br>
-    <strong id="journeyCompleted">0</strong>
-  </div>
+  <div id="journeyStats"></div>
 
   <p class="note">
-    Progress is saved on this device only.
+    Progress is stored on this device only.
   </p>
 
   <button onclick="goHome()">🏠 Home</button>
-
-  <button onclick="resetProgress()">
-    Reset Progress
-  </button>
+  <button onclick="resetProgress()">Reset Progress</button>
 </section>
 
-<!-- FINISH SCREEN -->
+<!-- FINISH -->
 <section id="finish" class="panel hidden">
   <h2>🎉 Adventure Complete!</h2>
-
   <p id="finishMessage"></p>
-
-  <h2>⭐ Great effort!</h2>
-
-  <button onclick="goHome()">
-    🏠 Back to Home
+  <button onclick="goHome()">🏠 Home</button>
+  <button onclick="startGame(currentGame)">
+    Play Again
   </button>
 </section>
 
@@ -340,11 +251,11 @@ button:disabled {
 
 <script>
 
-// -----------------------------------
-// PROGRESS STORAGE
-// -----------------------------------
+// ===================================
+// DATA AND STORAGE
+// ===================================
 
-const storageKey = "readingAdventureV2";
+const storageKey = "readingAdventureV4";
 
 function defaultProgress() {
   return {
@@ -357,24 +268,12 @@ function defaultProgress() {
 
 function loadProgress() {
   try {
-    const saved = JSON.parse(
+    const data = JSON.parse(
       localStorage.getItem(storageKey)
     );
-
-    if (!saved || typeof saved !== "object") {
-      return defaultProgress();
-    }
-
-    const clean = defaultProgress();
-
-    Object.keys(clean).forEach(key => {
-      const value = Number(saved[key]);
-      if (Number.isFinite(value) && value >= 0) {
-        clean[key] = value;
-      }
-    });
-
-    return clean;
+    return data && typeof data === "object"
+      ? {...defaultProgress(), ...data}
+      : defaultProgress();
   } catch {
     return defaultProgress();
   }
@@ -388,22 +287,16 @@ function saveProgress() {
       storageKey,
       JSON.stringify(progress)
     );
-  } catch {
-    // Game remains playable without storage.
-  }
+  } catch {}
 
-  updateStars();
-}
-
-function updateStars() {
   document.getElementById("totalStars").textContent =
     progress.stars;
 }
 
-function recordAnswer(isCorrect) {
+function recordAnswer(correct) {
   progress.attempts++;
 
-  if (isCorrect) {
+  if (correct) {
     progress.correct++;
     progress.stars++;
   }
@@ -411,477 +304,647 @@ function recordAnswer(isCorrect) {
   saveProgress();
 }
 
-function completeGame(score, total) {
-  progress.completed++;
-  saveProgress();
+// ===================================
+// AUDIO
+// ===================================
 
-  document.getElementById("finishMessage").textContent =
-    `You answered ${score} out of ${total} correctly!`;
+let phonemeAudio = new Audio();
+let speechToken = 0;
 
-  showSection("finish");
+function stopAudio() {
+  phonemeAudio.pause();
+  phonemeAudio.currentTime = 0;
+
+  speechToken++;
+
+  if ("speechSynthesis" in window) {
+    speechSynthesis.cancel();
+  }
 }
 
-// -----------------------------------
-// NAVIGATION
-// -----------------------------------
+function speakText(text, onEnd) {
+  if (!("speechSynthesis" in window)) {
+    setFeedback("Speech is unavailable in this browser.");
+    return;
+  }
 
-const sections = [
-  "home",
-  "letters",
-  "words",
-  "sentences",
-  "journey",
-  "finish"
+  speechSynthesis.cancel();
+  const token = ++speechToken;
+
+  const utterance =
+    new SpeechSynthesisUtterance(text);
+
+  utterance.lang = "en-SG";
+  utterance.rate = 0.75;
+  utterance.pitch = 1;
+
+  utterance.onend = () => {
+    if (token === speechToken && onEnd) onEnd();
+  };
+
+  speechSynthesis.speak(utterance);
+}
+
+function playPhoneme(letter, onEnd) {
+  phonemeAudio.pause();
+  phonemeAudio = new Audio(
+    "audio/" + letter + ".mp3"
+  );
+
+  phonemeAudio.onended = () => {
+    if (onEnd) onEnd();
+  };
+
+  phonemeAudio.play().catch(() => {
+    setFeedback(
+      "Audio unavailable. Check the audio folder."
+    );
+  });
+}
+
+// ===================================
+// GAME CONTENT
+// ===================================
+
+const letterData = [
+  {answer:"m", options:["m","s","t"]},
+  {answer:"s", options:["a","s","p"]},
+  {answer:"t", options:["t","n","m"]},
+  {answer:"a", options:["a","i","s"]},
+  {answer:"p", options:["p","t","m"]}
 ];
 
+const phonicsData = [
+  {answer:"s", options:["s","m","t"]},
+  {answer:"a", options:["a","i","p"]},
+  {answer:"t", options:["t","s","n"]},
+  {answer:"p", options:["p","m","a"]},
+  {answer:"i", options:["i","a","n"]},
+  {answer:"n", options:["n","m","t"]},
+  {answer:"m", options:["m","s","p"]}
+];
+
+const blendingData = [
+  {word:"sat", sounds:["s","a","t"],
+   options:["sat","mat","tap"]},
+  {word:"mat", sounds:["m","a","t"],
+   options:["sat","mat","map"]},
+  {word:"pin", sounds:["p","i","n"],
+   options:["pin","pan","tin"]},
+  {word:"sit", sounds:["s","i","t"],
+   options:["sit","sat","sip"]}
+];
+
+const wordData = [
+  {word:"sat"},
+  {word:"mat"},
+  {word:"pin"},
+  {word:"sit"}
+];
+
+const sentenceData = [
+  {
+    sentence:"Sam sat.",
+    question:"Who sat?",
+    options:["Sam","Tom","Pat"],
+    answer:"Sam"
+  },
+  {
+    sentence:"A cat sat on a mat.",
+    question:"What sat on the mat?",
+    options:["A cat","A dog","A bird"],
+    answer:"A cat"
+  },
+  {
+    sentence:"The sun is hot.",
+    question:"What is hot?",
+    options:["The sun","The moon","The rain"],
+    answer:"The sun"
+  }
+];
+
+const gameInfo = {
+  letters:{
+    title:"🔠 Find the Letter",
+    instruction:"Find the correct letter.",
+    data:letterData
+  },
+  phonics:{
+    title:"🔊 Letter Sounds",
+    instruction:"Listen and choose the letter.",
+    data:phonicsData
+  },
+  blending:{
+    title:"🎵 Sound Blending",
+    instruction:"Listen to the sounds. Find the word.",
+    data:blendingData
+  },
+  words:{
+    title:"🧩 Build a Word",
+    instruction:"Listen and arrange the letters.",
+    data:wordData
+  },
+  sentences:{
+    title:"📖 Read a Sentence",
+    instruction:"Read, listen and answer.",
+    data:sentenceData
+  }
+};
+
+// ===================================
+// NAVIGATION
+// ===================================
+
+let currentGame = "letters";
+let questionIndex = 0;
+let gameScore = 0;
+let answered = false;
+let selectedLetters = [];
+let usedTiles = [];
+
 function showSection(id) {
-  sections.forEach(section => {
-    document.getElementById(section)
-      .classList.toggle("hidden", section !== id);
-  });
+  ["home","game","journey","finish"].forEach(
+    section => {
+      document.getElementById(section)
+        .classList.toggle(
+          "hidden", section !== id
+        );
+    }
+  );
 
   window.scrollTo(0, 0);
 }
 
 function goHome() {
-  updateStars();
+  stopAudio();
+  saveProgress();
   showSection("home");
 }
 
 function startGame(game) {
-  if (game === "letters") startLetters();
-  if (game === "words") startWords();
-  if (game === "sentences") startSentences();
+  stopAudio();
+
+  currentGame = game;
+  questionIndex = 0;
+  gameScore = 0;
+
+  showSection("game");
+  loadQuestion();
 }
 
-// -----------------------------------
-// GAME 1: LETTER RECOGNITION
-// -----------------------------------
-
-// Written letter recognition prototype.
-// Accurate phoneme recordings will be
-// added in a later version.
-
-const letterQuestions = [
-  {
-    prompt: "Find the letter m",
-    answer: "m",
-    options: ["m", "s", "t"]
-  },
-  {
-    prompt: "Find the letter s",
-    answer: "s",
-    options: ["a", "s", "p"]
-  },
-  {
-    prompt: "Find the letter t",
-    answer: "t",
-    options: ["t", "n", "i"]
-  },
-  {
-    prompt: "Find the letter a",
-    answer: "a",
-    options: ["m", "a", "s"]
-  },
-  {
-    prompt: "Find the letter p",
-    answer: "p",
-    options: ["p", "t", "n"]
-  }
-];
-
-let letterIndex = 0;
-let letterScore = 0;
-let letterAnswered = false;
-
-function startLetters() {
-  letterIndex = 0;
-  letterScore = 0;
-  showSection("letters");
-  loadLetter();
+function getQuestion() {
+  return gameInfo[currentGame]
+    .data[questionIndex];
 }
 
-function loadLetter() {
-  letterAnswered = false;
+function setFeedback(message) {
+  document.getElementById("feedback")
+    .textContent = message;
+}
 
-  const question = letterQuestions[letterIndex];
+function createButton(text, callback) {
+  const button = document.createElement("button");
+  button.textContent = text;
+  button.onclick = callback;
+  return button;
+}
 
-  document.getElementById("letterProgress").textContent =
-    `Question ${letterIndex + 1} of ${letterQuestions.length}`;
+function loadQuestion() {
+  stopAudio();
 
-  document.getElementById("letterPrompt").textContent =
-    question.prompt;
+  answered = false;
+  selectedLetters = [];
+  usedTiles = [];
 
-  document.getElementById("letterFeedback").textContent =
-    "";
+  const info = gameInfo[currentGame];
 
-  document.getElementById("letterNext")
+  document.getElementById("gameTitle")
+    .textContent = info.title;
+
+  document.getElementById("gameInstruction")
+    .textContent = info.instruction;
+
+  document.getElementById("gameProgress")
+    .textContent =
+    `Question ${questionIndex + 1} of ${info.data.length}`;
+
+  document.getElementById("gameContent")
+    .innerHTML = "";
+
+  document.getElementById("nextButton")
     .classList.add("hidden");
 
-  const container = document.getElementById("letterOptions");
-  container.innerHTML = "";
+  setFeedback("");
 
-  question.options.forEach(letter => {
-    const button = document.createElement("button");
-    button.textContent = letter;
-
-    button.onclick = () => checkLetter(letter);
-
-    container.appendChild(button);
-  });
-}
-
-function checkLetter(selected) {
-  if (letterAnswered) return;
-
-  letterAnswered = true;
-
-  const answer = letterQuestions[letterIndex].answer;
-  const isCorrect = selected === answer;
-
-  recordAnswer(isCorrect);
-
-  if (isCorrect) {
-    letterScore++;
+  if (currentGame === "letters") {
+    renderLetters();
   }
 
-  document.getElementById("letterFeedback").textContent =
-    isCorrect
-      ? "⭐ Excellent! That's correct!"
-      : `Good try! The correct letter is ${answer}.`;
+  if (currentGame === "phonics") {
+    renderPhonics();
+  }
 
-  document.getElementById("letterNext")
+  if (currentGame === "blending") {
+    renderBlending();
+  }
+
+  if (currentGame === "words") {
+    renderWords();
+  }
+
+  if (currentGame === "sentences") {
+    renderSentences();
+  }
+}
+
+// ===================================
+// ANSWER HANDLING
+// ===================================
+
+function submitAnswer(isCorrect, correctAnswer) {
+  if (answered) return;
+
+  answered = true;
+  recordAnswer(isCorrect);
+
+  if (isCorrect) gameScore++;
+
+  setFeedback(
+    isCorrect
+      ? "⭐ Wonderful! Great job!"
+      : "Good try! The answer is " + correctAnswer + "."
+  );
+
+  document.getElementById("nextButton")
     .classList.remove("hidden");
 }
 
-function nextLetter() {
-  letterIndex++;
+function nextQuestion() {
+  stopAudio();
+  questionIndex++;
 
-  if (letterIndex < letterQuestions.length) {
-    loadLetter();
+  if (
+    questionIndex <
+    gameInfo[currentGame].data.length
+  ) {
+    loadQuestion();
   } else {
-    completeGame(
-      letterScore,
-      letterQuestions.length
-    );
+    progress.completed++;
+    saveProgress();
+
+    document.getElementById("finishMessage")
+      .textContent =
+      `You got ${gameScore} out of ${
+        gameInfo[currentGame].data.length
+      } correct!`;
+
+    showSection("finish");
   }
 }
 
-// -----------------------------------
-// GAME 2: BUILD A WORD
-// -----------------------------------
+// ===================================
+// GAME 1: FIND THE LETTER
+// ===================================
 
-const wordQuestions = [
-  { word: "sat", hint: "Build the word: sat" },
-  { word: "mat", hint: "Build the word: mat" },
-  { word: "tap", hint: "Build the word: tap" },
-  { word: "pat", hint: "Build the word: pat" }
-];
+function renderLetters() {
+  const q = getQuestion();
+  const area = document.getElementById("gameContent");
 
-let wordIndex = 0;
-let wordScore = 0;
-let wordSelected = [];
-let wordAnswered = false;
+  const heading = document.createElement("h2");
+  heading.textContent = "Find the letter " + q.answer;
+  area.appendChild(heading);
 
-function startWords() {
-  wordIndex = 0;
-  wordScore = 0;
-  showSection("words");
-  loadWord();
+  q.options.forEach(letter => {
+    area.appendChild(
+      createButton(letter, () => {
+        submitAnswer(
+          letter === q.answer,
+          q.answer
+        );
+      })
+    );
+  });
 }
 
-function loadWord() {
-  wordSelected = [];
-  wordAnswered = false;
+// ===================================
+// GAME 2: LETTER SOUNDS
+// ===================================
 
-  const question = wordQuestions[wordIndex];
+function renderPhonics() {
+  const q = getQuestion();
+  const area = document.getElementById("gameContent");
 
-  document.getElementById("wordProgress").textContent =
-    `Word ${wordIndex + 1} of ${wordQuestions.length}`;
+  area.appendChild(
+    createButton("🔊 Hear the Sound", () => {
+      playPhoneme(q.answer);
+    })
+  );
 
-  document.getElementById("wordHint").textContent =
-    question.hint;
+  const options = document.createElement("div");
+  options.className = "options";
 
-  document.getElementById("wordFeedback").textContent =
-    "";
-
-  document.getElementById("wordNext")
-    .classList.add("hidden");
-
-  renderWord();
-}
-
-function renderWord() {
-  const question = wordQuestions[wordIndex];
-  const answerBox = document.getElementById("wordAnswer");
-  const optionBox = document.getElementById("wordOptions");
-
-  answerBox.innerHTML = "";
-  optionBox.innerHTML = "";
-
-  for (let i = 0; i < question.word.length; i++) {
-    const tile = document.createElement("span");
-    tile.className = "letter-tile";
-    tile.textContent = wordSelected[i] || "_";
-    answerBox.appendChild(tile);
-  }
-
-  const letters = question.word.split("");
-
-  // Reverse letter order for the prototype.
-  const shuffled = [...letters].reverse();
-
-  shuffled.forEach((letter, position) => {
-    const button = document.createElement("button");
-    button.textContent = letter;
-
-    const alreadyUsed = wordSelected.some(
-      item => item.position === position
+  q.options.forEach(letter => {
+    options.appendChild(
+      createButton(letter, () => {
+        submitAnswer(
+          letter === q.answer,
+          q.answer
+        );
+      })
     );
-
-    // Word selections are stored as objects below.
-    button.disabled = usedPositions.includes(position);
-
-    button.onclick = () => selectWordLetter(
-      letter,
-      position
-    );
-
-    optionBox.appendChild(button);
   });
 
-  // Display selected letters rather than objects.
-  answerBox.innerHTML = "";
-
-  for (let i = 0; i < question.word.length; i++) {
-    const tile = document.createElement("span");
-    tile.className = "letter-tile";
-    tile.textContent = wordSelected[i]?.letter || "_";
-    answerBox.appendChild(tile);
-  }
+  area.appendChild(options);
 }
 
-let usedPositions = [];
+// ===================================
+// GAME 3: SOUND BLENDING
+// ===================================
 
-function selectWordLetter(letter, position) {
-  if (wordAnswered || usedPositions.includes(position)) {
-    return;
+function playSoundSequence(sounds) {
+  stopAudio();
+
+  let position = 0;
+
+  function nextSound() {
+    if (position >= sounds.length) return;
+
+    const letter = sounds[position];
+    position++;
+
+    playPhoneme(letter, () => {
+      setTimeout(nextSound, 350);
+    });
   }
 
-  wordSelected.push({ letter, position });
-  usedPositions.push(position);
+  nextSound();
+}
 
-  renderWord();
+function renderBlending() {
+  const q = getQuestion();
+  const area = document.getElementById("gameContent");
 
-  const target = wordQuestions[wordIndex].word;
+  area.appendChild(
+    createButton("🔊 Hear Each Sound", () => {
+      playSoundSequence(q.sounds);
+    })
+  );
 
-  if (wordSelected.length === target.length) {
-    const attempt = wordSelected
-      .map(item => item.letter)
-      .join("");
+  area.appendChild(
+    createButton("🔊 Hear the Whole Word", () => {
+      stopAudio();
+      speakText(q.word);
+    })
+  );
 
-    const isCorrect = attempt === target;
+  const options = document.createElement("div");
+  options.className = "options";
 
-    wordAnswered = true;
-    recordAnswer(isCorrect);
+  q.options.forEach(word => {
+    options.appendChild(
+      createButton(word, () => {
+        submitAnswer(
+          word === q.word,
+          q.word
+        );
+      })
+    );
+  });
 
-    if (isCorrect) {
-      wordScore++;
+  area.appendChild(options);
+}
+
+// ===================================
+// GAME 4: BUILD A WORD
+// ===================================
+
+function renderWords() {
+  const q = getQuestion();
+  const area = document.getElementById("gameContent");
+
+  area.appendChild(
+    createButton("🔊 Hear the Word", () => {
+      speakText(q.word);
+    })
+  );
+
+  const answerBox = document.createElement("div");
+  answerBox.className = "word-box";
+  answerBox.id = "answerBox";
+  area.appendChild(answerBox);
+
+  const tileBox = document.createElement("div");
+  tileBox.className = "options";
+  tileBox.id = "tileBox";
+  area.appendChild(tileBox);
+
+  const retry = createButton(
+    "↩ Clear Letters",
+    () => {
+      if (answered) return;
+      selectedLetters = [];
+      usedTiles = [];
+      updateWordTiles();
     }
+  );
 
-    document.getElementById("wordFeedback").textContent =
-      isCorrect
-        ? "⭐ Wonderful! You built the word!"
-        : `Good try! The word is ${target}.`;
-
-    document.getElementById("wordNext")
-      .classList.remove("hidden");
-  }
+  area.appendChild(retry);
+  updateWordTiles();
 }
 
-function resetWord() {
-  if (wordAnswered) {
-    document.getElementById("wordFeedback").textContent =
-      "Let's practise the word again!";
+function updateWordTiles() {
+  const q = getQuestion();
+
+  const answerBox =
+    document.getElementById("answerBox");
+
+  const tileBox =
+    document.getElementById("tileBox");
+
+  answerBox.innerHTML = "";
+  tileBox.innerHTML = "";
+
+  for (let i = 0; i < q.word.length; i++) {
+    const tile = document.createElement("span");
+    tile.className = "tile";
+    tile.textContent = selectedLetters[i] || "_";
+    answerBox.appendChild(tile);
   }
 
-  wordSelected = [];
-  usedPositions = [];
-  wordAnswered = false;
+  const letters = q.word.split("").reverse();
 
-  document.getElementById("wordNext")
-    .classList.add("hidden");
+  letters.forEach((letter, index) => {
+    const button = createButton(letter, () => {
+      if (answered || usedTiles.includes(index)) {
+        return;
+      }
 
-  renderWord();
-}
+      usedTiles.push(index);
+      selectedLetters.push(letter);
 
-function nextWord() {
-  wordIndex++;
-  usedPositions = [];
+      updateWordTiles();
 
-  if (wordIndex < wordQuestions.length) {
-    loadWord();
-  } else {
-    completeGame(wordScore, wordQuestions.length);
-  }
-}
+      if (selectedLetters.length === q.word.length) {
+        const answer = selectedLetters.join("");
 
-// -----------------------------------
-// GAME 3: READ A SENTENCE
-// -----------------------------------
+        submitAnswer(
+          answer === q.word,
+          q.word
+        );
+      }
+    });
 
-const sentenceQuestions = [
-  {
-    sentence: "Sam sat.",
-    question: "Who sat?",
-    options: ["Sam", "Tom", "Pat"],
-    answer: "Sam"
-  },
-  {
-    sentence: "A cat sat on a mat.",
-    question: "What sat on the mat?",
-    options: ["A dog", "A cat", "A bird"],
-    answer: "A cat"
-  },
-  {
-    sentence: "The sun is hot.",
-    question: "What is hot?",
-    options: ["The sun", "The rain", "The moon"],
-    answer: "The sun"
-  }
-];
+    button.disabled =
+      answered || usedTiles.includes(index);
 
-let sentenceIndex = 0;
-let sentenceScore = 0;
-let sentenceAnswered = false;
-
-function startSentences() {
-  sentenceIndex = 0;
-  sentenceScore = 0;
-  showSection("sentences");
-  loadSentence();
-}
-
-function loadSentence() {
-  sentenceAnswered = false;
-
-  const question = sentenceQuestions[sentenceIndex];
-
-  document.getElementById("sentenceProgress").textContent =
-    `Sentence ${sentenceIndex + 1} of ${sentenceQuestions.length}`;
-
-  document.getElementById("sentenceText").textContent =
-    question.sentence;
-
-  document.getElementById("sentenceQuestion").textContent =
-    question.question;
-
-  document.getElementById("sentenceFeedback").textContent =
-    "";
-
-  document.getElementById("sentenceNext")
-    .classList.add("hidden");
-
-  const container = document.getElementById("sentenceOptions");
-  container.innerHTML = "";
-
-  question.options.forEach(option => {
-    const button = document.createElement("button");
-    button.textContent = option;
-
-    button.onclick = () => checkSentence(option);
-
-    container.appendChild(button);
+    tileBox.appendChild(button);
   });
 }
 
-function checkSentence(selected) {
-  if (sentenceAnswered) return;
+// ===================================
+// GAME 5: READ A SENTENCE
+// ===================================
 
-  sentenceAnswered = true;
+function renderSentences() {
+  const q = getQuestion();
+  const area = document.getElementById("gameContent");
 
-  const answer =
-    sentenceQuestions[sentenceIndex].answer;
+  const sentenceBox = document.createElement("div");
+  sentenceBox.className = "sentence";
+  sentenceBox.id = "sentenceBox";
 
-  const isCorrect = selected === answer;
+  const words = q.sentence.split(" ");
 
-  recordAnswer(isCorrect);
+  words.forEach((word, index) => {
+    const span = document.createElement("span");
+    span.textContent = word;
+    span.id = "spokenWord" + index;
+    sentenceBox.appendChild(span);
+  });
 
-  if (isCorrect) {
-    sentenceScore++;
-  }
+  area.appendChild(sentenceBox);
 
-  document.getElementById("sentenceFeedback").textContent =
-    isCorrect
-      ? "⭐ Fantastic reading!"
-      : `Good try! The answer is ${answer}.`;
+  area.appendChild(
+    createButton("🔊 Read with Me", () => {
+      readSentenceWithHighlight(words);
+    })
+  );
 
-  document.getElementById("sentenceNext")
-    .classList.remove("hidden");
-}
+  const heading = document.createElement("h3");
+  heading.textContent = q.question;
+  area.appendChild(heading);
 
-function nextSentence() {
-  sentenceIndex++;
+  const options = document.createElement("div");
+  options.className = "options";
 
-  if (sentenceIndex < sentenceQuestions.length) {
-    loadSentence();
-  } else {
-    completeGame(
-      sentenceScore,
-      sentenceQuestions.length
+  q.options.forEach(answer => {
+    options.appendChild(
+      createButton(answer, () => {
+        submitAnswer(
+          answer === q.answer,
+          q.answer
+        );
+      })
     );
-  }
+  });
+
+  area.appendChild(options);
 }
 
-// -----------------------------------
-// GAME 4: LEARNING JOURNEY
-// -----------------------------------
+function readSentenceWithHighlight(words) {
+  stopAudio();
+
+  let index = 0;
+
+  function readNext() {
+    if (index >= words.length) return;
+
+    document.querySelectorAll(
+      ".sentence span"
+    ).forEach(span => {
+      span.classList.remove("active");
+    });
+
+    const span = document.getElementById(
+      "spokenWord" + index
+    );
+
+    if (span) span.classList.add("active");
+
+    const word = words[index];
+    index++;
+
+    speakText(word, () => {
+      readNext();
+    });
+  }
+
+  readNext();
+}
+
+// ===================================
+// LEARNING JOURNEY
+// ===================================
 
 function showJourney() {
-  document.getElementById("journeyStars").textContent =
-    progress.stars;
+  stopAudio();
 
-  document.getElementById("journeyAttempts").textContent =
-    progress.attempts;
-
-  document.getElementById("journeyCorrect").textContent =
-    progress.correct;
-
-  document.getElementById("journeyCompleted").textContent =
-    progress.completed;
-
-  const accuracy = progress.attempts > 0
+  const accuracy = progress.attempts
     ? Math.round(
-        progress.correct / progress.attempts * 100
+        progress.correct /
+        progress.attempts * 100
       )
     : 0;
 
-  document.getElementById("journeyAccuracy").textContent =
-    accuracy + "%";
+  const area = document.getElementById(
+    "journeyStats"
+  );
+
+  area.innerHTML = "";
+
+  const stats = [
+    ["⭐ Total Stars", progress.stars],
+    ["🎮 Questions Attempted", progress.attempts],
+    ["✅ Correct Answers", progress.correct],
+    ["📊 Accuracy", accuracy + "%"],
+    ["🎉 Completed Games", progress.completed]
+  ];
+
+  stats.forEach(([label, value]) => {
+    const box = document.createElement("div");
+    box.className = "stat";
+
+    const title = document.createElement("div");
+    title.textContent = label;
+
+    const number = document.createElement("strong");
+    number.textContent = value;
+
+    box.appendChild(title);
+    box.appendChild(number);
+    area.appendChild(box);
+  });
 
   showSection("journey");
 }
 
 function resetProgress() {
-  const confirmed = confirm(
-    "Are you sure you want to reset your progress?"
-  );
-
-  if (!confirmed) return;
+  if (!confirm("Reset all learning progress?")) {
+    return;
+  }
 
   progress = defaultProgress();
   saveProgress();
   showJourney();
 }
 
-// -----------------------------------
-// INITIALISE
-// -----------------------------------
+// ===================================
+// START
+// ===================================
 
-updateStars();
+saveProgress();
 goHome();
 
 </script>
-
 </body>
 </html>
