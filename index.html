@@ -1,0 +1,222 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1">
+  <title>Reading Adventure</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f2f8ff;
+      color: #254666;
+      text-align: center;
+    }
+    header {
+      background: #dceeff;
+      padding: 24px 16px;
+    }
+    h1 { margin: 0 0 8px; }
+    main {
+      max-width: 700px;
+      margin: 25px auto;
+      padding: 16px;
+    }
+    .panel {
+      background: white;
+      border-radius: 20px;
+      padding: 25px;
+      margin-bottom: 18px;
+      box-shadow: 0 3px 12px #00000012;
+    }
+    button {
+      font-size: 21px;
+      border: 2px solid #bfd6ed;
+      border-radius: 15px;
+      padding: 16px 24px;
+      margin: 7px;
+      background: #e5f2ff;
+      color: #254666;
+      cursor: pointer;
+      min-height: 60px;
+    }
+    button:focus-visible {
+      outline: 4px solid #ffb347;
+    }
+    button:hover { background: #d2e9ff; }
+    .letter {
+      font-size: 42px;
+      min-width: 95px;
+    }
+    #feedback {
+      min-height: 55px;
+      font-size: 21px;
+      font-weight: bold;
+    }
+    .hidden { display: none; }
+    .star { color: #a36b00; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>📚 Reading Adventure</h1>
+  <p>Learn sounds, build words and have fun!</p>
+</header>
+
+<main>
+  <section id="home" class="panel">
+    <h2>Welcome, Little Reader!</h2>
+    <p>Ready for a sound adventure?</p>
+    <button onclick="startGame()">
+      🔤 Play Letter Sounds
+    </button>
+    <p class="star">
+      ⭐ Stars earned: <span id="homeStars">0</span>
+    </p>
+  </section>
+
+  <section id="game" class="panel hidden">
+    <h2>Sound Detective</h2>
+    <p id="progress"></p>
+    <p>Listen to the sound. Find its letter!</p>
+
+    <button onclick="playSound()">
+      🔊 Hear the sound
+    </button>
+
+    <div id="choices"></div>
+    <p id="feedback" role="status"
+       aria-live="polite"></p>
+
+    <button id="next" class="hidden"
+            onclick="nextQuestion()">
+      Next ➜
+    </button>
+  </section>
+
+  <section id="finish" class="panel hidden">
+    <h2>🎉 Adventure Complete!</h2>
+    <p id="result"></p>
+    <button onclick="startGame()">Play Again</button>
+    <button onclick="goHome()">Home</button>
+  </section>
+</main>
+
+<script>
+  const questions = [
+    {letter:"m", options:["m","s","t"]},
+    {letter:"s", options:["a","s","p"]},
+    {letter:"t", options:["t","n","i"]},
+    {letter:"a", options:["m","a","s"]},
+    {letter:"p", options:["p","t","n"]}
+  ];
+
+  let index = 0;
+  let correct = 0;
+  let answered = false;
+
+  function getStars() {
+    try {
+      return Number(localStorage.getItem("stars")) || 0;
+    } catch {
+      return 0;
+    }
+  }
+
+  function saveStars(value) {
+    try {
+      localStorage.setItem("stars", String(value));
+    } catch {
+      // The game still works without storage.
+    }
+  }
+
+  function show(section) {
+    ["home","game","finish"].forEach(id => {
+      document.getElementById(id).classList.toggle(
+        "hidden", id !== section
+      );
+    });
+  }
+
+  function goHome() {
+    document.getElementById("homeStars").textContent =
+      getStars();
+    show("home");
+  }
+
+  function startGame() {
+    index = 0;
+    correct = 0;
+    show("game");
+    loadQuestion();
+  }
+
+  function loadQuestion() {
+    answered = false;
+    document.getElementById("feedback").textContent = "";
+    document.getElementById("next").classList.add("hidden");
+    document.getElementById("progress").textContent =
+      `Question ${index + 1} of ${questions.length}`;
+
+    const container = document.getElementById("choices");
+    container.innerHTML = "";
+
+    questions[index].options.forEach(letter => {
+      const button = document.createElement("button");
+      button.className = "letter";
+      button.textContent = letter;
+      button.onclick = () => checkAnswer(letter);
+      container.appendChild(button);
+    });
+  }
+
+  function playSound() {
+    const letter = questions[index].letter;
+    const speech = new SpeechSynthesisUtterance(letter);
+    speech.lang = "en-SG";
+    speech.rate = 0.65;
+    speechSynthesis.cancel();
+    speechSynthesis.speak(speech);
+  }
+
+  function checkAnswer(letter) {
+    if (answered) return;
+    answered = true;
+
+    const isCorrect = letter === questions[index].letter;
+    const feedback = document.getElementById("feedback");
+
+    if (isCorrect) {
+      correct++;
+      saveStars(getStars() + 1);
+      feedback.textContent = "⭐ Great job!";
+    } else {
+      feedback.textContent =
+        `Good try! The correct letter is ${questions[index].letter}.`;
+    }
+
+    document.getElementById("next")
+      .classList.remove("hidden");
+  }
+
+  function nextQuestion() {
+    index++;
+    if (index < questions.length) {
+      loadQuestion();
+    } else {
+      document.getElementById("result").textContent =
+        `You got ${correct} out of ${questions.length}!`;
+      show("finish");
+    }
+  }
+
+  goHome();
+</script>
+
+</body>
+</html>
