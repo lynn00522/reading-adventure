@@ -2,220 +2,885 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1">
-  <title>Reading Adventure</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f2f8ff;
-      color: #254666;
-      text-align: center;
-    }
-    header {
-      background: #dceeff;
-      padding: 24px 16px;
-    }
-    h1 { margin: 0 0 8px; }
-    main {
-      max-width: 700px;
-      margin: 25px auto;
-      padding: 16px;
-    }
-    .panel {
-      background: white;
-      border-radius: 20px;
-      padding: 25px;
-      margin-bottom: 18px;
-      box-shadow: 0 3px 12px #00000012;
-    }
-    button {
-      font-size: 21px;
-      border: 2px solid #bfd6ed;
-      border-radius: 15px;
-      padding: 16px 24px;
-      margin: 7px;
-      background: #e5f2ff;
-      color: #254666;
-      cursor: pointer;
-      min-height: 60px;
-    }
-    button:focus-visible {
-      outline: 4px solid #ffb347;
-    }
-    button:hover { background: #d2e9ff; }
-    .letter {
-      font-size: 42px;
-      min-width: 95px;
-    }
-    #feedback {
-      min-height: 55px;
-      font-size: 21px;
-      font-weight: bold;
-    }
-    .hidden { display: none; }
-    .star { color: #a36b00; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reading Adventure</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #eef6ff;
+  color: #284766;
+  text-align: center;
+  line-height: 1.6;
+}
+
+header {
+  background: #dceeff;
+  padding: 28px 15px;
+}
+
+h1 {
+  font-size: 36px;
+  margin: 0;
+}
+
+h2 {
+  font-size: 28px;
+}
+
+main {
+  max-width: 1000px;
+  margin: 35px auto;
+  padding: 15px;
+}
+
+.panel {
+  background: white;
+  border-radius: 22px;
+  padding: 30px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px #00000010;
+}
+
+.menu {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 25px;
+}
+
+button {
+  font-family: inherit;
+  font-size: 20px;
+  padding: 15px 20px;
+  margin: 6px;
+  border: 2px solid #a8cdf3;
+  border-radius: 15px;
+  background: #dfeeff;
+  color: #284766;
+  cursor: pointer;
+  min-height: 55px;
+}
+
+button:hover {
+  background: #c6e2ff;
+}
+
+button:focus-visible {
+  outline: 4px solid #ffb347;
+  outline-offset: 3px;
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.menu button {
+  min-height: 115px;
+  font-size: 22px;
+}
+
+.hidden {
+  display: none;
+}
+
+.options {
+  margin: 25px 0;
+}
+
+.options button {
+  min-width: 95px;
+  font-size: 28px;
+}
+
+.word-box {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 25px 0;
+}
+
+.letter-tile {
+  display: inline-block;
+  min-width: 65px;
+  padding: 15px;
+  background: #e6f3ff;
+  border: 2px solid #a8cdf3;
+  border-radius: 12px;
+  font-size: 30px;
+}
+
+.feedback {
+  font-size: 22px;
+  font-weight: bold;
+  min-height: 45px;
+  margin: 18px 0;
+}
+
+.stars {
+  color: #996400;
+  font-size: 22px;
+}
+
+.progress {
+  color: #55718b;
+  font-size: 17px;
+}
+
+.sentence {
+  font-size: 28px;
+  background: #f1f8ff;
+  padding: 22px;
+  border-radius: 15px;
+}
+
+.stat {
+  background: #eef6ff;
+  border-radius: 15px;
+  padding: 18px;
+  margin: 12px;
+}
+
+.stat strong {
+  font-size: 28px;
+}
+
+.note {
+  color: #536d83;
+  font-size: 15px;
+}
+
+@media (max-width: 600px) {
+  h1 { font-size: 29px; }
+
+  .menu {
+    grid-template-columns: 1fr;
+  }
+
+  .panel {
+    padding: 20px 12px;
+  }
+
+  button {
+    font-size: 18px;
+  }
+}
+</style>
 </head>
+
 <body>
 
 <header>
   <h1>📚 Reading Adventure</h1>
   <p>Learn sounds, build words and have fun!</p>
+  <div class="stars">
+    ⭐ Stars: <span id="totalStars">0</span>
+  </div>
 </header>
 
 <main>
-  <section id="home" class="panel">
-    <h2>Welcome, Little Reader!</h2>
-    <p>Ready for a sound adventure?</p>
-    <button onclick="startGame()">
-      🔤 Play Letter Sounds
-    </button>
-    <p class="star">
-      ⭐ Stars earned: <span id="homeStars">0</span>
-    </p>
-  </section>
 
-  <section id="game" class="panel hidden">
-    <h2>Sound Detective</h2>
-    <p id="progress"></p>
-    <p>Listen to the sound. Find its letter!</p>
+<!-- HOME PAGE -->
+<section id="home" class="panel">
+  <h2>Welcome, Little Reader!</h2>
+  <p>Choose a learning adventure.</p>
 
-    <button onclick="playSound()">
-      🔊 Hear the sound
+  <div class="menu">
+    <button onclick="startGame('letters')">
+      🔤 Letter Sounds
     </button>
 
-    <div id="choices"></div>
-    <p id="feedback" role="status"
-       aria-live="polite"></p>
-
-    <button id="next" class="hidden"
-            onclick="nextQuestion()">
-      Next ➜
+    <button onclick="startGame('words')">
+      🧩 Build a Word
     </button>
-  </section>
 
-  <section id="finish" class="panel hidden">
-    <h2>🎉 Adventure Complete!</h2>
-    <p id="result"></p>
-    <button onclick="startGame()">Play Again</button>
-    <button onclick="goHome()">Home</button>
-  </section>
+    <button onclick="startGame('sentences')">
+      📖 Read a Sentence
+    </button>
+
+    <button onclick="showJourney()">
+      🏆 My Learning Journey
+    </button>
+  </div>
+
+  <p>Play at your own pace. There are no timers.</p>
+</section>
+
+<!-- LETTER GAME -->
+<section id="letters" class="panel hidden">
+  <h2>🔤 Letter Sounds</h2>
+  <p class="progress" id="letterProgress"></p>
+
+  <p>Find the correct letter.</p>
+
+  <h2 id="letterPrompt"></h2>
+
+  <div class="options" id="letterOptions"></div>
+
+  <p class="feedback" id="letterFeedback"
+     role="status" aria-live="polite"></p>
+
+  <button id="letterNext" class="hidden"
+          onclick="nextLetter()">
+    Next ➜
+  </button>
+
+  <button onclick="goHome()">🏠 Home</button>
+</section>
+
+<!-- WORD GAME -->
+<section id="words" class="panel hidden">
+  <h2>🧩 Build a Word</h2>
+  <p class="progress" id="wordProgress"></p>
+
+  <p>Tap the letters in the correct order.</p>
+
+  <h2 id="wordHint"></h2>
+
+  <div class="word-box" id="wordAnswer"></div>
+  <div class="options" id="wordOptions"></div>
+
+  <p class="feedback" id="wordFeedback"
+     role="status" aria-live="polite"></p>
+
+  <button onclick="resetWord()">Try Again</button>
+
+  <button id="wordNext" class="hidden"
+          onclick="nextWord()">
+    Next ➜
+  </button>
+
+  <button onclick="goHome()">🏠 Home</button>
+</section>
+
+<!-- SENTENCE GAME -->
+<section id="sentences" class="panel hidden">
+  <h2>📖 Read a Sentence</h2>
+  <p class="progress" id="sentenceProgress"></p>
+
+  <div class="sentence" id="sentenceText"></div>
+
+  <h3 id="sentenceQuestion"></h3>
+
+  <div class="options" id="sentenceOptions"></div>
+
+  <p class="feedback" id="sentenceFeedback"
+     role="status" aria-live="polite"></p>
+
+  <button id="sentenceNext" class="hidden"
+          onclick="nextSentence()">
+    Next ➜
+  </button>
+
+  <button onclick="goHome()">🏠 Home</button>
+</section>
+
+<!-- LEARNING JOURNEY -->
+<section id="journey" class="panel hidden">
+  <h2>🏆 My Learning Journey</h2>
+
+  <div class="stat">
+    ⭐ Total Stars<br>
+    <strong id="journeyStars">0</strong>
+  </div>
+
+  <div class="stat">
+    🎮 Questions Attempted<br>
+    <strong id="journeyAttempts">0</strong>
+  </div>
+
+  <div class="stat">
+    ✅ Correct Answers<br>
+    <strong id="journeyCorrect">0</strong>
+  </div>
+
+  <div class="stat">
+    📊 Accuracy<br>
+    <strong id="journeyAccuracy">0%</strong>
+  </div>
+
+  <div class="stat">
+    🎉 Completed Games<br>
+    <strong id="journeyCompleted">0</strong>
+  </div>
+
+  <p class="note">
+    Progress is saved on this device only.
+  </p>
+
+  <button onclick="goHome()">🏠 Home</button>
+
+  <button onclick="resetProgress()">
+    Reset Progress
+  </button>
+</section>
+
+<!-- FINISH SCREEN -->
+<section id="finish" class="panel hidden">
+  <h2>🎉 Adventure Complete!</h2>
+
+  <p id="finishMessage"></p>
+
+  <h2>⭐ Great effort!</h2>
+
+  <button onclick="goHome()">
+    🏠 Back to Home
+  </button>
+</section>
+
 </main>
 
 <script>
-  const questions = [
-    {letter:"m", options:["m","s","t"]},
-    {letter:"s", options:["a","s","p"]},
-    {letter:"t", options:["t","n","i"]},
-    {letter:"a", options:["m","a","s"]},
-    {letter:"p", options:["p","t","n"]}
-  ];
 
-  let index = 0;
-  let correct = 0;
-  let answered = false;
+// -----------------------------------
+// PROGRESS STORAGE
+// -----------------------------------
 
-  function getStars() {
-    try {
-      return Number(localStorage.getItem("stars")) || 0;
-    } catch {
-      return 0;
+const storageKey = "readingAdventureV2";
+
+function defaultProgress() {
+  return {
+    stars: 0,
+    attempts: 0,
+    correct: 0,
+    completed: 0
+  };
+}
+
+function loadProgress() {
+  try {
+    const saved = JSON.parse(
+      localStorage.getItem(storageKey)
+    );
+
+    if (!saved || typeof saved !== "object") {
+      return defaultProgress();
     }
-  }
 
-  function saveStars(value) {
-    try {
-      localStorage.setItem("stars", String(value));
-    } catch {
-      // The game still works without storage.
-    }
-  }
+    const clean = defaultProgress();
 
-  function show(section) {
-    ["home","game","finish"].forEach(id => {
-      document.getElementById(id).classList.toggle(
-        "hidden", id !== section
-      );
+    Object.keys(clean).forEach(key => {
+      const value = Number(saved[key]);
+      if (Number.isFinite(value) && value >= 0) {
+        clean[key] = value;
+      }
     });
+
+    return clean;
+  } catch {
+    return defaultProgress();
+  }
+}
+
+let progress = loadProgress();
+
+function saveProgress() {
+  try {
+    localStorage.setItem(
+      storageKey,
+      JSON.stringify(progress)
+    );
+  } catch {
+    // Game remains playable without storage.
   }
 
-  function goHome() {
-    document.getElementById("homeStars").textContent =
-      getStars();
-    show("home");
+  updateStars();
+}
+
+function updateStars() {
+  document.getElementById("totalStars").textContent =
+    progress.stars;
+}
+
+function recordAnswer(isCorrect) {
+  progress.attempts++;
+
+  if (isCorrect) {
+    progress.correct++;
+    progress.stars++;
   }
 
-  function startGame() {
-    index = 0;
-    correct = 0;
-    show("game");
-    loadQuestion();
+  saveProgress();
+}
+
+function completeGame(score, total) {
+  progress.completed++;
+  saveProgress();
+
+  document.getElementById("finishMessage").textContent =
+    `You answered ${score} out of ${total} correctly!`;
+
+  showSection("finish");
+}
+
+// -----------------------------------
+// NAVIGATION
+// -----------------------------------
+
+const sections = [
+  "home",
+  "letters",
+  "words",
+  "sentences",
+  "journey",
+  "finish"
+];
+
+function showSection(id) {
+  sections.forEach(section => {
+    document.getElementById(section)
+      .classList.toggle("hidden", section !== id);
+  });
+
+  window.scrollTo(0, 0);
+}
+
+function goHome() {
+  updateStars();
+  showSection("home");
+}
+
+function startGame(game) {
+  if (game === "letters") startLetters();
+  if (game === "words") startWords();
+  if (game === "sentences") startSentences();
+}
+
+// -----------------------------------
+// GAME 1: LETTER RECOGNITION
+// -----------------------------------
+
+// Written letter recognition prototype.
+// Accurate phoneme recordings will be
+// added in a later version.
+
+const letterQuestions = [
+  {
+    prompt: "Find the letter m",
+    answer: "m",
+    options: ["m", "s", "t"]
+  },
+  {
+    prompt: "Find the letter s",
+    answer: "s",
+    options: ["a", "s", "p"]
+  },
+  {
+    prompt: "Find the letter t",
+    answer: "t",
+    options: ["t", "n", "i"]
+  },
+  {
+    prompt: "Find the letter a",
+    answer: "a",
+    options: ["m", "a", "s"]
+  },
+  {
+    prompt: "Find the letter p",
+    answer: "p",
+    options: ["p", "t", "n"]
+  }
+];
+
+let letterIndex = 0;
+let letterScore = 0;
+let letterAnswered = false;
+
+function startLetters() {
+  letterIndex = 0;
+  letterScore = 0;
+  showSection("letters");
+  loadLetter();
+}
+
+function loadLetter() {
+  letterAnswered = false;
+
+  const question = letterQuestions[letterIndex];
+
+  document.getElementById("letterProgress").textContent =
+    `Question ${letterIndex + 1} of ${letterQuestions.length}`;
+
+  document.getElementById("letterPrompt").textContent =
+    question.prompt;
+
+  document.getElementById("letterFeedback").textContent =
+    "";
+
+  document.getElementById("letterNext")
+    .classList.add("hidden");
+
+  const container = document.getElementById("letterOptions");
+  container.innerHTML = "";
+
+  question.options.forEach(letter => {
+    const button = document.createElement("button");
+    button.textContent = letter;
+
+    button.onclick = () => checkLetter(letter);
+
+    container.appendChild(button);
+  });
+}
+
+function checkLetter(selected) {
+  if (letterAnswered) return;
+
+  letterAnswered = true;
+
+  const answer = letterQuestions[letterIndex].answer;
+  const isCorrect = selected === answer;
+
+  recordAnswer(isCorrect);
+
+  if (isCorrect) {
+    letterScore++;
   }
 
-  function loadQuestion() {
-    answered = false;
-    document.getElementById("feedback").textContent = "";
-    document.getElementById("next").classList.add("hidden");
-    document.getElementById("progress").textContent =
-      `Question ${index + 1} of ${questions.length}`;
+  document.getElementById("letterFeedback").textContent =
+    isCorrect
+      ? "⭐ Excellent! That's correct!"
+      : `Good try! The correct letter is ${answer}.`;
 
-    const container = document.getElementById("choices");
-    container.innerHTML = "";
+  document.getElementById("letterNext")
+    .classList.remove("hidden");
+}
 
-    questions[index].options.forEach(letter => {
-      const button = document.createElement("button");
-      button.className = "letter";
-      button.textContent = letter;
-      button.onclick = () => checkAnswer(letter);
-      container.appendChild(button);
-    });
+function nextLetter() {
+  letterIndex++;
+
+  if (letterIndex < letterQuestions.length) {
+    loadLetter();
+  } else {
+    completeGame(
+      letterScore,
+      letterQuestions.length
+    );
+  }
+}
+
+// -----------------------------------
+// GAME 2: BUILD A WORD
+// -----------------------------------
+
+const wordQuestions = [
+  { word: "sat", hint: "Build the word: sat" },
+  { word: "mat", hint: "Build the word: mat" },
+  { word: "tap", hint: "Build the word: tap" },
+  { word: "pat", hint: "Build the word: pat" }
+];
+
+let wordIndex = 0;
+let wordScore = 0;
+let wordSelected = [];
+let wordAnswered = false;
+
+function startWords() {
+  wordIndex = 0;
+  wordScore = 0;
+  showSection("words");
+  loadWord();
+}
+
+function loadWord() {
+  wordSelected = [];
+  wordAnswered = false;
+
+  const question = wordQuestions[wordIndex];
+
+  document.getElementById("wordProgress").textContent =
+    `Word ${wordIndex + 1} of ${wordQuestions.length}`;
+
+  document.getElementById("wordHint").textContent =
+    question.hint;
+
+  document.getElementById("wordFeedback").textContent =
+    "";
+
+  document.getElementById("wordNext")
+    .classList.add("hidden");
+
+  renderWord();
+}
+
+function renderWord() {
+  const question = wordQuestions[wordIndex];
+  const answerBox = document.getElementById("wordAnswer");
+  const optionBox = document.getElementById("wordOptions");
+
+  answerBox.innerHTML = "";
+  optionBox.innerHTML = "";
+
+  for (let i = 0; i < question.word.length; i++) {
+    const tile = document.createElement("span");
+    tile.className = "letter-tile";
+    tile.textContent = wordSelected[i] || "_";
+    answerBox.appendChild(tile);
   }
 
-  function playSound() {
-    const letter = questions[index].letter;
-    const speech = new SpeechSynthesisUtterance(letter);
-    speech.lang = "en-SG";
-    speech.rate = 0.65;
-    speechSynthesis.cancel();
-    speechSynthesis.speak(speech);
+  const letters = question.word.split("");
+
+  // Reverse letter order for the prototype.
+  const shuffled = [...letters].reverse();
+
+  shuffled.forEach((letter, position) => {
+    const button = document.createElement("button");
+    button.textContent = letter;
+
+    const alreadyUsed = wordSelected.some(
+      item => item.position === position
+    );
+
+    // Word selections are stored as objects below.
+    button.disabled = usedPositions.includes(position);
+
+    button.onclick = () => selectWordLetter(
+      letter,
+      position
+    );
+
+    optionBox.appendChild(button);
+  });
+
+  // Display selected letters rather than objects.
+  answerBox.innerHTML = "";
+
+  for (let i = 0; i < question.word.length; i++) {
+    const tile = document.createElement("span");
+    tile.className = "letter-tile";
+    tile.textContent = wordSelected[i]?.letter || "_";
+    answerBox.appendChild(tile);
+  }
+}
+
+let usedPositions = [];
+
+function selectWordLetter(letter, position) {
+  if (wordAnswered || usedPositions.includes(position)) {
+    return;
   }
 
-  function checkAnswer(letter) {
-    if (answered) return;
-    answered = true;
+  wordSelected.push({ letter, position });
+  usedPositions.push(position);
 
-    const isCorrect = letter === questions[index].letter;
-    const feedback = document.getElementById("feedback");
+  renderWord();
+
+  const target = wordQuestions[wordIndex].word;
+
+  if (wordSelected.length === target.length) {
+    const attempt = wordSelected
+      .map(item => item.letter)
+      .join("");
+
+    const isCorrect = attempt === target;
+
+    wordAnswered = true;
+    recordAnswer(isCorrect);
 
     if (isCorrect) {
-      correct++;
-      saveStars(getStars() + 1);
-      feedback.textContent = "⭐ Great job!";
-    } else {
-      feedback.textContent =
-        `Good try! The correct letter is ${questions[index].letter}.`;
+      wordScore++;
     }
 
-    document.getElementById("next")
+    document.getElementById("wordFeedback").textContent =
+      isCorrect
+        ? "⭐ Wonderful! You built the word!"
+        : `Good try! The word is ${target}.`;
+
+    document.getElementById("wordNext")
       .classList.remove("hidden");
   }
+}
 
-  function nextQuestion() {
-    index++;
-    if (index < questions.length) {
-      loadQuestion();
-    } else {
-      document.getElementById("result").textContent =
-        `You got ${correct} out of ${questions.length}!`;
-      show("finish");
-    }
+function resetWord() {
+  if (wordAnswered) {
+    document.getElementById("wordFeedback").textContent =
+      "Let's practise the word again!";
   }
 
-  goHome();
+  wordSelected = [];
+  usedPositions = [];
+  wordAnswered = false;
+
+  document.getElementById("wordNext")
+    .classList.add("hidden");
+
+  renderWord();
+}
+
+function nextWord() {
+  wordIndex++;
+  usedPositions = [];
+
+  if (wordIndex < wordQuestions.length) {
+    loadWord();
+  } else {
+    completeGame(wordScore, wordQuestions.length);
+  }
+}
+
+// -----------------------------------
+// GAME 3: READ A SENTENCE
+// -----------------------------------
+
+const sentenceQuestions = [
+  {
+    sentence: "Sam sat.",
+    question: "Who sat?",
+    options: ["Sam", "Tom", "Pat"],
+    answer: "Sam"
+  },
+  {
+    sentence: "A cat sat on a mat.",
+    question: "What sat on the mat?",
+    options: ["A dog", "A cat", "A bird"],
+    answer: "A cat"
+  },
+  {
+    sentence: "The sun is hot.",
+    question: "What is hot?",
+    options: ["The sun", "The rain", "The moon"],
+    answer: "The sun"
+  }
+];
+
+let sentenceIndex = 0;
+let sentenceScore = 0;
+let sentenceAnswered = false;
+
+function startSentences() {
+  sentenceIndex = 0;
+  sentenceScore = 0;
+  showSection("sentences");
+  loadSentence();
+}
+
+function loadSentence() {
+  sentenceAnswered = false;
+
+  const question = sentenceQuestions[sentenceIndex];
+
+  document.getElementById("sentenceProgress").textContent =
+    `Sentence ${sentenceIndex + 1} of ${sentenceQuestions.length}`;
+
+  document.getElementById("sentenceText").textContent =
+    question.sentence;
+
+  document.getElementById("sentenceQuestion").textContent =
+    question.question;
+
+  document.getElementById("sentenceFeedback").textContent =
+    "";
+
+  document.getElementById("sentenceNext")
+    .classList.add("hidden");
+
+  const container = document.getElementById("sentenceOptions");
+  container.innerHTML = "";
+
+  question.options.forEach(option => {
+    const button = document.createElement("button");
+    button.textContent = option;
+
+    button.onclick = () => checkSentence(option);
+
+    container.appendChild(button);
+  });
+}
+
+function checkSentence(selected) {
+  if (sentenceAnswered) return;
+
+  sentenceAnswered = true;
+
+  const answer =
+    sentenceQuestions[sentenceIndex].answer;
+
+  const isCorrect = selected === answer;
+
+  recordAnswer(isCorrect);
+
+  if (isCorrect) {
+    sentenceScore++;
+  }
+
+  document.getElementById("sentenceFeedback").textContent =
+    isCorrect
+      ? "⭐ Fantastic reading!"
+      : `Good try! The answer is ${answer}.`;
+
+  document.getElementById("sentenceNext")
+    .classList.remove("hidden");
+}
+
+function nextSentence() {
+  sentenceIndex++;
+
+  if (sentenceIndex < sentenceQuestions.length) {
+    loadSentence();
+  } else {
+    completeGame(
+      sentenceScore,
+      sentenceQuestions.length
+    );
+  }
+}
+
+// -----------------------------------
+// GAME 4: LEARNING JOURNEY
+// -----------------------------------
+
+function showJourney() {
+  document.getElementById("journeyStars").textContent =
+    progress.stars;
+
+  document.getElementById("journeyAttempts").textContent =
+    progress.attempts;
+
+  document.getElementById("journeyCorrect").textContent =
+    progress.correct;
+
+  document.getElementById("journeyCompleted").textContent =
+    progress.completed;
+
+  const accuracy = progress.attempts > 0
+    ? Math.round(
+        progress.correct / progress.attempts * 100
+      )
+    : 0;
+
+  document.getElementById("journeyAccuracy").textContent =
+    accuracy + "%";
+
+  showSection("journey");
+}
+
+function resetProgress() {
+  const confirmed = confirm(
+    "Are you sure you want to reset your progress?"
+  );
+
+  if (!confirmed) return;
+
+  progress = defaultProgress();
+  saveProgress();
+  showJourney();
+}
+
+// -----------------------------------
+// INITIALISE
+// -----------------------------------
+
+updateStars();
+goHome();
+
 </script>
 
 </body>
