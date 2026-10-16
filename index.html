@@ -3,948 +3,925 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Reading Adventure V4</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reading Adventure V5</title>
 <style>
-* { box-sizing: border-box; }
-
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #eef6ff;
-  color: #284766;
-  text-align: center;
-  line-height: 1.6;
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:Arial,sans-serif;
+  background:#eef6ff;color:#284766;
+  text-align:center;line-height:1.6
 }
-
-header {
-  background: #dceeff;
-  padding: 25px 15px;
+header{background:#dceeff;padding:24px 12px}
+h1{margin:0;font-size:34px}
+main{max-width:960px;margin:25px auto;padding:12px}
+.panel{
+  background:white;border-radius:20px;
+  padding:25px;margin-bottom:18px;
+  box-shadow:0 3px 12px #00000012
 }
-
-h1 { margin: 0; font-size: 36px; }
-
-main {
-  max-width: 1000px;
-  margin: 30px auto;
-  padding: 15px;
+.menu{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px
 }
-
-.panel {
-  background: white;
-  border-radius: 22px;
-  padding: 28px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 15px #00000010;
+button,select{
+  font:inherit;color:#284766;
+  border:2px solid #a8cdf3;
+  border-radius:12px;background:#dfeeff;
+  padding:13px;margin:5px
 }
-
-.menu {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
+button{cursor:pointer;min-height:54px}
+button:hover{background:#c7e3ff}
+button:focus-visible,select:focus-visible{
+  outline:3px solid #f4ad32
 }
-
-button {
-  font: inherit;
-  font-size: 20px;
-  padding: 14px 20px;
-  margin: 6px;
-  border: 2px solid #a8cdf3;
-  border-radius: 15px;
-  background: #dfeeff;
-  color: #284766;
-  cursor: pointer;
-  min-height: 55px;
+button:disabled{opacity:.5;cursor:not-allowed}
+.menu button{min-height:100px;font-size:20px}
+.hidden{display:none}
+.options{margin:20px auto}
+.options button{min-width:65px;font-size:23px}
+.feedback{min-height:45px;font-size:20px;font-weight:bold}
+.stars{color:#946000;font-size:21px}
+.tile{
+  display:inline-block;padding:12px;
+  margin:5px;border:2px solid #a8cdf3;
+  border-radius:10px;font-size:28px;
+  min-width:55px
 }
-
-button:hover { background: #c6e2ff; }
-
-button:focus-visible {
-  outline: 4px solid #ffb347;
+.sentence{
+  font-size:27px;background:#f1f8ff;
+  padding:18px;border-radius:12px;
+  line-height:2
 }
-
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+.sentence span{
+  display:inline-block;margin:0 4px;
+  padding:0 5px;border-radius:6px
 }
-
-.menu button {
-  min-height: 105px;
+.sentence .active{background:#ffe39c}
+.library{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+  gap:8px
 }
-
-.hidden { display: none; }
-
-.options {
-  margin: 20px 0;
+.library button{font-size:16px;min-height:75px}
+.stat{
+  background:#eef6ff;border-radius:12px;
+  padding:15px;margin:10px
 }
-
-.options button {
-  min-width: 75px;
-  font-size: 25px;
-}
-
-.feedback {
-  min-height: 45px;
-  font-size: 21px;
-  font-weight: bold;
-}
-
-.progress {
-  color: #55718b;
-}
-
-.stars {
-  color: #996400;
-  font-size: 22px;
-}
-
-.word-box {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin: 20px 0;
-}
-
-.tile {
-  min-width: 65px;
-  padding: 12px;
-  border: 2px solid #a8cdf3;
-  border-radius: 12px;
-  background: #eef6ff;
-  font-size: 30px;
-}
-
-.sentence {
-  font-size: 29px;
-  line-height: 2;
-  padding: 20px;
-  background: #f1f8ff;
-  border-radius: 15px;
-}
-
-.sentence span {
-  display: inline-block;
-  margin: 0 4px;
-  padding: 2px 5px;
-  border-radius: 7px;
-}
-
-.sentence span.active {
-  background: #ffe39c;
-}
-
-.stat {
-  padding: 18px;
-  margin: 12px;
-  border-radius: 15px;
-  background: #eef6ff;
-}
-
-.stat strong {
-  font-size: 30px;
-}
-
-.note {
-  font-size: 15px;
-  color: #55718b;
-}
-
-@media (max-width: 600px) {
-  h1 { font-size: 29px; }
-  .menu { grid-template-columns: 1fr; }
-  .panel { padding: 18px 10px; }
+.stat strong{font-size:27px}
+.note{font-size:14px;color:#58728a}
+@media(max-width:600px){
+  h1{font-size:28px}
+  .menu{grid-template-columns:1fr}
+  .panel{padding:17px 10px}
 }
 </style>
 </head>
-
 <body>
 
 <header>
-  <h1>📚 Reading Adventure</h1>
-  <p>Learn sounds, blend words and enjoy reading!</p>
-  <div class="stars">
-    ⭐ Stars: <span id="totalStars">0</span>
-  </div>
+<h1>📚 Reading Adventure</h1>
+<p>Listen, blend, spell and read!</p>
+<div class="stars">
+⭐ Stars: <span id="stars">0</span>
+</div>
 </header>
 
 <main>
 
-<!-- HOME -->
 <section id="home" class="panel">
-  <h2>Welcome, Little Reader!</h2>
-  <p>Choose a learning adventure.</p>
-
-  <div class="menu">
-    <button onclick="startGame('letters')">
-      🔠 Find the Letter
-    </button>
-
-    <button onclick="startGame('phonics')">
-      🔊 Letter Sounds
-    </button>
-
-    <button onclick="startGame('blending')">
-      🎵 Sound Blending
-    </button>
-
-    <button onclick="startGame('words')">
-      🧩 Build a Word
-    </button>
-
-    <button onclick="startGame('sentences')">
-      📖 Read a Sentence
-    </button>
-
-    <button onclick="showJourney()">
-      🏆 My Learning Journey
-    </button>
-  </div>
-
-  <p>Learn at your own pace. No timers!</p>
+<h2>Welcome, Little Reader!</h2>
+<p>Choose your learning adventure.</p>
+<div class="menu">
+<button onclick="startGame('letters')">
+🔠 Find the Letter
+</button>
+<button onclick="startGame('phonics')">
+🔊 Letter Sounds
+</button>
+<button onclick="startGame('blending')">
+🎵 Sound Blending
+</button>
+<button onclick="startGame('words')">
+🧩 Build a Word
+</button>
+<button onclick="startGame('sentences')">
+📖 Read a Sentence
+</button>
+<button onclick="showLibrary()">
+🎧 Sound Library
+</button>
+<button onclick="showJourney()">
+🏆 My Learning Journey
+</button>
+</div>
+<p class="note">Learn at your own pace. No timers!</p>
 </section>
 
-<!-- GAME SCREEN -->
 <section id="game" class="panel hidden">
-  <h2 id="gameTitle"></h2>
-  <p class="progress" id="gameProgress"></p>
-  <p id="gameInstruction"></p>
-
-  <div id="gameContent"></div>
-
-  <p class="feedback" id="feedback"
-     role="status" aria-live="polite"></p>
-
-  <button id="nextButton" class="hidden"
-          onclick="nextQuestion()">
-    Next ➜
-  </button>
-
-  <button onclick="goHome()">🏠 Home</button>
+<h2 id="gameTitle"></h2>
+<p id="counter"></p>
+<p id="instruction"></p>
+<div id="gameArea"></div>
+<p id="feedback" class="feedback"
+   role="status" aria-live="polite"></p>
+<button id="next" class="hidden"
+ onclick="nextQuestion()">Next ➜</button>
+<button onclick="goHome()">🏠 Home</button>
 </section>
 
-<!-- JOURNEY -->
+<section id="libraryPage" class="panel hidden">
+<h2>🎧 Sound Library</h2>
+<p>Choose a group and listen to the sounds.</p>
+<label for="soundGroup">Sound group:</label>
+<select id="soundGroup" onchange="renderLibrary()">
+<option value="beginner">Beginner letters</option>
+<option value="letters">Other single letters</option>
+<option value="consonants">Consonant combinations</option>
+<option value="vowels">Vowels and combinations</option>
+<option value="all">All available sounds</option>
+</select>
+<div id="soundLibrary" class="library"></div>
+<p id="libraryFeedback" class="feedback"
+   role="status"></p>
+<button onclick="goHome()">🏠 Home</button>
+</section>
+
 <section id="journey" class="panel hidden">
-  <h2>🏆 My Learning Journey</h2>
-  <div id="journeyStats"></div>
-
-  <p class="note">
-    Progress is stored on this device only.
-  </p>
-
-  <button onclick="goHome()">🏠 Home</button>
-  <button onclick="resetProgress()">Reset Progress</button>
+<h2>🏆 My Learning Journey</h2>
+<div id="stats"></div>
+<p class="note">
+Progress is stored only in this browser.
+</p>
+<button onclick="goHome()">🏠 Home</button>
+<button onclick="resetProgress()">Reset Progress</button>
 </section>
 
-<!-- FINISH -->
 <section id="finish" class="panel hidden">
-  <h2>🎉 Adventure Complete!</h2>
-  <p id="finishMessage"></p>
-  <button onclick="goHome()">🏠 Home</button>
-  <button onclick="startGame(currentGame)">
-    Play Again
-  </button>
+<h2>🎉 Adventure Complete!</h2>
+<p id="result"></p>
+<button onclick="startGame(currentGame)">
+Play Again
+</button>
+<button onclick="goHome()">🏠 Home</button>
 </section>
 
 </main>
 
 <script>
+// ====================================
+// AUDIO LIBRARY
+// Exact filenames from your screenshot
+// ====================================
 
-// ===================================
-// DATA AND STORAGE
-// ===================================
+const sounds = [
+ {id:"s",file:"s.mp3",group:"beginner"},
+ {id:"a",file:"a.mp3",group:"beginner"},
+ {id:"t",file:"t.mp3",group:"beginner"},
+ {id:"p",file:"p.mp3",group:"beginner"},
+ {id:"i",file:"i.mp3",group:"beginner"},
+ {id:"n",file:"n.mp3",group:"beginner"},
+ {id:"m",file:"m.mp3",group:"beginner"},
 
-const storageKey = "readingAdventureV4";
+ {id:"b",file:"b.mp3",group:"letters"},
+ {id:"c",file:"c.mp3",group:"letters"},
+ {id:"d",file:"d.mp3",group:"letters"},
+ {id:"e",file:"e.mp3",group:"letters"},
+ {id:"f",file:"f.mp3",group:"letters"},
+ {id:"g",file:"g.mp3",group:"letters"},
+ {id:"h",file:"h.mp3",group:"letters"},
+ {id:"j",file:"j.mp3",group:"letters"},
+ {id:"l",file:"l.mp3",group:"letters"},
+ {id:"o",file:"o.mp3",group:"letters"},
+ {id:"r",file:"r.mp3",group:"letters"},
+ {id:"u",file:"u.mp3",group:"letters"},
+ {id:"v",file:"v.mp3",group:"letters"},
+ {id:"w",file:"w.mp3",group:"letters"},
+ {id:"y",file:"y.mp3",group:"letters"},
+ {id:"z",file:"z.mp3",group:"letters"},
 
-function defaultProgress() {
-  return {
-    stars: 0,
-    attempts: 0,
-    correct: 0,
-    completed: 0
-  };
-}
+ {id:"ch",file:"ch-chair.mp3",group:"consonants"},
+ {id:"ng",file:"ng.mp3",group:"consonants"},
+ {id:"sh",file:"sh.mp3",group:"consonants"},
+ {id:"th-voiced",file:"th-that.mp3",
+  group:"consonants"},
+ {id:"th-unvoiced",file:"th-thing.mp3",
+  group:"consonants"},
+ {id:"zh",file:"zh.mp3",group:"consonants"},
 
-function loadProgress() {
-  try {
-    const data = JSON.parse(
-      localStorage.getItem(storageKey)
-    );
-    return data && typeof data === "object"
-      ? {...defaultProgress(), ...data}
-      : defaultProgress();
-  } catch {
-    return defaultProgress();
+ {id:"ai",file:"ai.mp3",group:"vowels"},
+ {id:"air",file:"air.mp3",group:"vowels"},
+ {id:"ar",file:"ar.mp3",group:"vowels"},
+ {id:"ear",file:"ear.mp3",group:"vowels"},
+ {id:"ee",file:"ee.mp3",group:"vowels"},
+ {id:"igh",file:"igh.mp3",group:"vowels"},
+ {id:"oa",file:"oa.mp3",group:"vowels"},
+ {id:"oi",file:"oi.mp3",group:"vowels"},
+ {id:"oo-short",file:"oo-book.mp3",
+  group:"vowels"},
+ {id:"oo-long",file:"oo-moon.mp3",
+  group:"vowels"},
+ {id:"or",file:"or.mp3",group:"vowels"},
+ {id:"ow",file:"ow-how.mp3",group:"vowels"},
+ {id:"ur",file:"ur.mp3",group:"vowels"},
+ {id:"ure",file:"ure.mp3",group:"vowels"}
+];
+
+const soundMap = Object.fromEntries(
+  sounds.map(s=>[s.id,s.file])
+);
+
+// Letter k shares the /k/ phoneme with c.
+soundMap.k = "c.mp3";
+
+// ====================================
+// AUDIO FUNCTIONS
+// ====================================
+
+let audio = new Audio();
+let audioRun = 0;
+let speechRun = 0;
+let pendingDelay = null;
+
+function stopAudio(){
+  audioRun++;
+  speechRun++;
+  audio.pause();
+  audio.onended = null;
+  if(pendingDelay!==null){
+    clearTimeout(pendingDelay);
+    pendingDelay=null;
   }
-}
-
-let progress = loadProgress();
-
-function saveProgress() {
-  try {
-    localStorage.setItem(
-      storageKey,
-      JSON.stringify(progress)
-    );
-  } catch {}
-
-  document.getElementById("totalStars").textContent =
-    progress.stars;
-}
-
-function recordAnswer(correct) {
-  progress.attempts++;
-
-  if (correct) {
-    progress.correct++;
-    progress.stars++;
-  }
-
-  saveProgress();
-}
-
-// ===================================
-// AUDIO
-// ===================================
-
-let phonemeAudio = new Audio();
-let speechToken = 0;
-
-function stopAudio() {
-  phonemeAudio.pause();
-  phonemeAudio.currentTime = 0;
-
-  speechToken++;
-
-  if ("speechSynthesis" in window) {
+  if("speechSynthesis" in window){
     speechSynthesis.cancel();
   }
+  document.querySelectorAll(".active")
+    .forEach(el=>el.classList.remove("active"));
 }
 
-function speakText(text, onEnd) {
-  if (!("speechSynthesis" in window)) {
-    setFeedback("Speech is unavailable in this browser.");
+function audioMessage(message){
+  const id=document.getElementById("game")
+    .classList.contains("hidden")
+    ? "libraryFeedback" : "feedback";
+  document.getElementById(id).textContent=message;
+}
+
+function playSound(id,onEnd){
+  const file=soundMap[id];
+  if(!file){
+    audioMessage("No recording for "+id);
+    return;
+  }
+
+  audio.pause();
+  audio.onended=null;
+  const run=++audioRun;
+  audio=new Audio("audio/"+file);
+
+  audio.onended=()=>{
+    if(run===audioRun && onEnd) onEnd();
+  };
+
+  audio.onerror=()=>{
+    if(run===audioRun){
+      audioMessage("Cannot load audio/"+file);
+    }
+  };
+
+  audio.play().catch(()=>{
+    if(run===audioRun){
+      audioMessage("Unable to play audio/"+file);
+    }
+  });
+}
+
+function speak(text,onEnd){
+  if(!("speechSynthesis" in window)){
+    audioMessage("Speech is unavailable.");
     return;
   }
 
   speechSynthesis.cancel();
-  const token = ++speechToken;
+  const run=++speechRun;
+  const utterance=new SpeechSynthesisUtterance(text);
+  utterance.lang="en-GB";
+  utterance.rate=0.75;
 
-  const utterance =
-    new SpeechSynthesisUtterance(text);
-
-  utterance.lang = "en-SG";
-  utterance.rate = 0.75;
-  utterance.pitch = 1;
-
-  utterance.onend = () => {
-    if (token === speechToken && onEnd) onEnd();
+  utterance.onend=()=>{
+    if(run===speechRun && onEnd) onEnd();
   };
-
   speechSynthesis.speak(utterance);
 }
 
-function playPhoneme(letter, onEnd) {
-  phonemeAudio.pause();
-  phonemeAudio = new Audio(
-    "audio/" + letter + ".mp3"
-  );
+// ====================================
+// PROGRESS
+// ====================================
 
-  phonemeAudio.onended = () => {
-    if (onEnd) onEnd();
+const storageKey="readingAdventureV5";
+
+function emptyProgress(){
+  return {
+    stars:0,attempts:0,
+    correct:0,completed:0
   };
-
-  phonemeAudio.play().catch(() => {
-    setFeedback(
-      "Audio unavailable. Check the audio folder."
-    );
-  });
 }
 
-// ===================================
-// GAME CONTENT
-// ===================================
+function loadProgress(){
+  try{
+    const saved=JSON.parse(
+      localStorage.getItem(storageKey)
+    );
+    const result=emptyProgress();
+    if(saved && typeof saved==="object"){
+      Object.keys(result).forEach(key=>{
+        if(Number.isFinite(saved[key]) &&
+           saved[key]>=0){
+          result[key]=saved[key];
+        }
+      });
+    }
+    return result;
+  }catch{
+    return emptyProgress();
+  }
+}
 
-const letterData = [
-  {answer:"m", options:["m","s","t"]},
-  {answer:"s", options:["a","s","p"]},
-  {answer:"t", options:["t","n","m"]},
-  {answer:"a", options:["a","i","s"]},
-  {answer:"p", options:["p","t","m"]}
+let progress=loadProgress();
+
+function saveProgress(){
+  try{
+    localStorage.setItem(
+      storageKey,JSON.stringify(progress)
+    );
+  }catch{}
+  document.getElementById("stars").textContent=
+    progress.stars;
+}
+
+function recordAnswer(correct){
+  progress.attempts++;
+  if(correct){
+    progress.correct++;
+    progress.stars++;
+  }
+  saveProgress();
+}
+
+// ====================================
+// LEARNING DATA
+// ====================================
+
+const beginner=["s","a","t","p","i","n","m"];
+const basicLetters=[
+  ...beginner,
+  "d","g","o","c","k","e","u","r",
+  "h","b","f","l","j","v","w","y","z"
 ];
 
-const phonicsData = [
-  {answer:"s", options:["s","m","t"]},
-  {answer:"a", options:["a","i","p"]},
-  {answer:"t", options:["t","s","n"]},
-  {answer:"p", options:["p","m","a"]},
-  {answer:"i", options:["i","a","n"]},
-  {answer:"n", options:["n","m","t"]},
-  {answer:"m", options:["m","s","p"]}
+const advanced=[
+  "ch","sh","ng","th-voiced",
+  "th-unvoiced","ai","ee","igh",
+  "oa","oo-short","oo-long","ow"
 ];
 
-const blendingData = [
-  {word:"sat", sounds:["s","a","t"],
-   options:["sat","mat","tap"]},
-  {word:"mat", sounds:["m","a","t"],
-   options:["sat","mat","map"]},
-  {word:"pin", sounds:["p","i","n"],
-   options:["pin","pan","tin"]},
-  {word:"sit", sounds:["s","i","t"],
-   options:["sit","sat","sip"]}
+const wordData=[
+  {word:"sat",parts:["s","a","t"]},
+  {word:"mat",parts:["m","a","t"]},
+  {word:"pin",parts:["p","i","n"]},
+  {word:"sit",parts:["s","i","t"]},
+  {word:"tap",parts:["t","a","p"]},
+  {word:"map",parts:["m","a","p"]},
+  {word:"nap",parts:["n","a","p"]}
 ];
 
-const wordData = [
-  {word:"sat"},
-  {word:"mat"},
-  {word:"pin"},
-  {word:"sit"}
-];
-
-const sentenceData = [
+const sentenceData=[
   {
-    sentence:"Sam sat.",
+    text:"Sam sat.",
     question:"Who sat?",
     options:["Sam","Tom","Pat"],
     answer:"Sam"
   },
   {
-    sentence:"A cat sat on a mat.",
+    text:"A cat sat on a mat.",
     question:"What sat on the mat?",
     options:["A cat","A dog","A bird"],
     answer:"A cat"
   },
   {
-    sentence:"The sun is hot.",
+    text:"The sun is hot.",
     question:"What is hot?",
-    options:["The sun","The moon","The rain"],
+    options:["The sun","The rain","The moon"],
     answer:"The sun"
   }
 ];
 
-const gameInfo = {
-  letters:{
-    title:"🔠 Find the Letter",
-    instruction:"Find the correct letter.",
-    data:letterData
-  },
-  phonics:{
-    title:"🔊 Letter Sounds",
-    instruction:"Listen and choose the letter.",
-    data:phonicsData
-  },
-  blending:{
-    title:"🎵 Sound Blending",
-    instruction:"Listen to the sounds. Find the word.",
-    data:blendingData
-  },
-  words:{
-    title:"🧩 Build a Word",
-    instruction:"Listen and arrange the letters.",
-    data:wordData
-  },
-  sentences:{
-    title:"📖 Read a Sentence",
-    instruction:"Read, listen and answer.",
-    data:sentenceData
-  }
-};
-
-// ===================================
+// ====================================
 // NAVIGATION
-// ===================================
+// ====================================
 
-let currentGame = "letters";
-let questionIndex = 0;
-let gameScore = 0;
-let answered = false;
-let selectedLetters = [];
-let usedTiles = [];
+let currentGame="";
+let questions=[];
+let index=0;
+let score=0;
+let answered=false;
+let selected=[];
+let used=[];
 
-function showSection(id) {
-  ["home","game","journey","finish"].forEach(
-    section => {
-      document.getElementById(section)
-        .classList.toggle(
-          "hidden", section !== id
-        );
-    }
-  );
-
-  window.scrollTo(0, 0);
+function show(id){
+  ["home","game","libraryPage",
+   "journey","finish"].forEach(name=>{
+    document.getElementById(name)
+      .classList.toggle("hidden",name!==id);
+  });
+  window.scrollTo(0,0);
 }
 
-function goHome() {
+function goHome(){
   stopAudio();
   saveProgress();
-  showSection("home");
+  show("home");
 }
 
-function startGame(game) {
+function shuffle(items){
+  const result=[...items];
+  for(let i=result.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [result[i],result[j]]=[result[j],result[i]];
+  }
+  return result;
+}
+
+function button(text,action){
+  const el=document.createElement("button");
+  el.textContent=text;
+  el.onclick=action;
+  return el;
+}
+
+function feedback(text){
+  document.getElementById("feedback")
+    .textContent=text;
+}
+
+function startGame(game){
   stopAudio();
+  currentGame=game;
+  index=0;
+  score=0;
 
-  currentGame = game;
-  questionIndex = 0;
-  gameScore = 0;
+  if(game==="letters"){
+    questions=shuffle(basicLetters).slice(0,7);
+  }else if(game==="phonics"){
+    questions=shuffle([
+      ...beginner,...advanced
+    ]).slice(0,10);
+  }else if(game==="blending" ||
+           game==="words"){
+    questions=shuffle(wordData).slice(0,5);
+  }else{
+    questions=shuffle(sentenceData);
+  }
 
-  showSection("game");
+  show("game");
   loadQuestion();
 }
 
-function getQuestion() {
-  return gameInfo[currentGame]
-    .data[questionIndex];
-}
-
-function setFeedback(message) {
-  document.getElementById("feedback")
-    .textContent = message;
-}
-
-function createButton(text, callback) {
-  const button = document.createElement("button");
-  button.textContent = text;
-  button.onclick = callback;
-  return button;
-}
-
-function loadQuestion() {
+function loadQuestion(){
   stopAudio();
+  answered=false;
+  selected=[];
+  used=[];
 
-  answered = false;
-  selectedLetters = [];
-  usedTiles = [];
-
-  const info = gameInfo[currentGame];
+  const titles={
+    letters:"🔠 Find the Letter",
+    phonics:"🔊 Letter Sounds",
+    blending:"🎵 Sound Blending",
+    words:"🧩 Build a Word",
+    sentences:"📖 Read a Sentence"
+  };
 
   document.getElementById("gameTitle")
-    .textContent = info.title;
+    .textContent=titles[currentGame];
 
-  document.getElementById("gameInstruction")
-    .textContent = info.instruction;
+  document.getElementById("counter")
+    .textContent=
+    `Question ${index+1} of ${questions.length}`;
 
-  document.getElementById("gameProgress")
-    .textContent =
-    `Question ${questionIndex + 1} of ${info.data.length}`;
-
-  document.getElementById("gameContent")
-    .innerHTML = "";
-
-  document.getElementById("nextButton")
+  document.getElementById("next")
     .classList.add("hidden");
 
-  setFeedback("");
+  document.getElementById("gameArea")
+    .innerHTML="";
 
-  if (currentGame === "letters") {
-    renderLetters();
-  }
+  feedback("");
 
-  if (currentGame === "phonics") {
-    renderPhonics();
-  }
-
-  if (currentGame === "blending") {
-    renderBlending();
-  }
-
-  if (currentGame === "words") {
-    renderWords();
-  }
-
-  if (currentGame === "sentences") {
-    renderSentences();
-  }
+  if(currentGame==="letters") renderLetters();
+  if(currentGame==="phonics") renderPhonics();
+  if(currentGame==="blending") renderBlending();
+  if(currentGame==="words") renderWords();
+  if(currentGame==="sentences") renderSentences();
 }
 
-// ===================================
-// ANSWER HANDLING
-// ===================================
+function submit(correct,answer){
+  if(answered)return;
+  answered=true;
+  recordAnswer(correct);
+  if(correct)score++;
 
-function submitAnswer(isCorrect, correctAnswer) {
-  if (answered) return;
+  feedback(correct
+    ?"⭐ Wonderful! Great job!"
+    :"Good try! The answer is "+answer+".");
 
-  answered = true;
-  recordAnswer(isCorrect);
-
-  if (isCorrect) gameScore++;
-
-  setFeedback(
-    isCorrect
-      ? "⭐ Wonderful! Great job!"
-      : "Good try! The answer is " + correctAnswer + "."
-  );
-
-  document.getElementById("nextButton")
+  document.getElementById("next")
     .classList.remove("hidden");
 }
 
-function nextQuestion() {
+function nextQuestion(){
   stopAudio();
-  questionIndex++;
+  index++;
 
-  if (
-    questionIndex <
-    gameInfo[currentGame].data.length
-  ) {
+  if(index<questions.length){
     loadQuestion();
-  } else {
+  }else{
     progress.completed++;
     saveProgress();
-
-    document.getElementById("finishMessage")
-      .textContent =
-      `You got ${gameScore} out of ${
-        gameInfo[currentGame].data.length
-      } correct!`;
-
-    showSection("finish");
+    document.getElementById("result")
+      .textContent=
+      `You got ${score} out of ${questions.length}!`;
+    show("finish");
   }
 }
 
-// ===================================
-// GAME 1: FIND THE LETTER
-// ===================================
+function makeChoices(correct,pool,count=3){
+  const distractors=shuffle(
+    pool.filter(x=>x!==correct)
+  ).slice(0,count-1);
+  return shuffle([correct,...distractors]);
+}
 
-function renderLetters() {
-  const q = getQuestion();
-  const area = document.getElementById("gameContent");
+// ====================================
+// FIND THE LETTER
+// ====================================
 
-  const heading = document.createElement("h2");
-  heading.textContent = "Find the letter " + q.answer;
-  area.appendChild(heading);
+function renderLetters(){
+  const target=questions[index];
+  document.getElementById("instruction")
+    .textContent="Find the letter "+target;
 
-  q.options.forEach(letter => {
-    area.appendChild(
-      createButton(letter, () => {
-        submitAnswer(
-          letter === q.answer,
-          q.answer
-        );
-      })
-    );
+  const area=document.getElementById("gameArea");
+  const choices=makeChoices(target,basicLetters);
+
+  choices.forEach(letter=>{
+    area.appendChild(button(letter,()=>{
+      submit(letter===target,target);
+    }));
   });
 }
 
-// ===================================
-// GAME 2: LETTER SOUNDS
-// ===================================
+// ====================================
+// LETTER SOUNDS
+// ====================================
 
-function renderPhonics() {
-  const q = getQuestion();
-  const area = document.getElementById("gameContent");
+function renderPhonics(){
+  const target=questions[index];
 
-  area.appendChild(
-    createButton("🔊 Hear the Sound", () => {
-      playPhoneme(q.answer);
-    })
-  );
+  document.getElementById("instruction")
+    .textContent="Listen and choose the sound's spelling.";
 
-  const options = document.createElement("div");
-  options.className = "options";
+  const area=document.getElementById("gameArea");
 
-  q.options.forEach(letter => {
-    options.appendChild(
-      createButton(letter, () => {
-        submitAnswer(
-          letter === q.answer,
-          q.answer
-        );
-      })
-    );
+  area.appendChild(button("🔊 Hear the Sound",()=>{
+    playSound(target);
+  }));
+
+  const pool=advanced.includes(target)
+    ? advanced : beginner;
+
+  const choices=makeChoices(target,pool);
+
+  const box=document.createElement("div");
+  box.className="options";
+
+  choices.forEach(choice=>{
+    const display={
+      "th-voiced":"th (that)",
+      "th-unvoiced":"th (thing)",
+      "oo-short":"oo (book)",
+      "oo-long":"oo (moon)"
+    };
+    box.appendChild(button(
+      display[choice]||choice,()=>{
+        submit(choice===target,display[target]||target);
+      }
+    ));
   });
 
-  area.appendChild(options);
+  area.appendChild(box);
 }
 
-// ===================================
-// GAME 3: SOUND BLENDING
-// ===================================
+// ====================================
+// SOUND BLENDING
+// ====================================
 
-function playSoundSequence(sounds) {
+function playSequence(parts){
   stopAudio();
+  const run=audioRun;
+  let pos=0;
 
-  let position = 0;
-
-  function nextSound() {
-    if (position >= sounds.length) return;
-
-    const letter = sounds[position];
-    position++;
-
-    playPhoneme(letter, () => {
-      setTimeout(nextSound, 350);
+  function next(){
+    if(run!==audioRun)return;
+    if(pos>=parts.length)return;
+    const part=parts[pos++];
+    playSound(part,()=>{
+      // Continue after the current clip.
+      pendingDelay=setTimeout(next,100);
     });
   }
 
-  nextSound();
+  // playSound increments audioRun, so a
+  // separate sequence token is needed.
+  let sequenceActive=true;
+  function playNext(){
+    if(!sequenceActive || pos>=parts.length)return;
+    playSound(parts[pos++],()=>{
+      pendingDelay=setTimeout(playNext,100);
+    });
+  }
+  playNext();
 }
 
-function renderBlending() {
-  const q = getQuestion();
-  const area = document.getElementById("gameContent");
+function renderBlending(){
+  const q=questions[index];
+  const area=document.getElementById("gameArea");
 
-  area.appendChild(
-    createButton("🔊 Hear Each Sound", () => {
-      playSoundSequence(q.sounds);
-    })
+  document.getElementById("instruction")
+    .textContent=
+    "Listen to the sounds. Which word do they make?";
+
+  area.appendChild(button("🔊 Hear Each Sound",()=>{
+    playSequence(q.parts);
+  }));
+
+  area.appendChild(button("🔊 Hear Whole Word",()=>{
+    stopAudio();
+    speak(q.word);
+  }));
+
+  const choices=makeChoices(
+    q.word,wordData.map(w=>w.word)
   );
 
-  area.appendChild(
-    createButton("🔊 Hear the Whole Word", () => {
-      stopAudio();
-      speakText(q.word);
-    })
-  );
+  const box=document.createElement("div");
+  box.className="options";
 
-  const options = document.createElement("div");
-  options.className = "options";
-
-  q.options.forEach(word => {
-    options.appendChild(
-      createButton(word, () => {
-        submitAnswer(
-          word === q.word,
-          q.word
-        );
-      })
-    );
+  choices.forEach(word=>{
+    box.appendChild(button(word,()=>{
+      submit(word===q.word,q.word);
+    }));
   });
-
-  area.appendChild(options);
+  area.appendChild(box);
 }
 
-// ===================================
-// GAME 4: BUILD A WORD
-// ===================================
+// ====================================
+// BUILD A WORD
+// ====================================
 
-function renderWords() {
-  const q = getQuestion();
-  const area = document.getElementById("gameContent");
+let tileOrder=[];
 
-  area.appendChild(
-    createButton("🔊 Hear the Word", () => {
-      speakText(q.word);
-    })
-  );
+function renderWords(){
+  const q=questions[index];
+  const area=document.getElementById("gameArea");
 
-  const answerBox = document.createElement("div");
-  answerBox.className = "word-box";
-  answerBox.id = "answerBox";
-  area.appendChild(answerBox);
+  document.getElementById("instruction")
+    .textContent="Listen and build the word.";
 
-  const tileBox = document.createElement("div");
-  tileBox.className = "options";
-  tileBox.id = "tileBox";
-  area.appendChild(tileBox);
+  area.appendChild(button("🔊 Hear the Word",()=>{
+    speak(q.word);
+  }));
 
-  const retry = createButton(
-    "↩ Clear Letters",
-    () => {
-      if (answered) return;
-      selectedLetters = [];
-      usedTiles = [];
-      updateWordTiles();
-    }
-  );
+  const answer=document.createElement("div");
+  answer.id="answerTiles";
+  answer.className="options";
+  area.appendChild(answer);
 
-  area.appendChild(retry);
-  updateWordTiles();
+  const choices=document.createElement("div");
+  choices.id="wordTiles";
+  choices.className="options";
+  area.appendChild(choices);
+
+  tileOrder=shuffle(q.word.split(""));
+  updateTiles();
+
+  area.appendChild(button("↩ Clear Letters",()=>{
+    if(answered)return;
+    selected=[];
+    used=[];
+    updateTiles();
+  }));
 }
 
-function updateWordTiles() {
-  const q = getQuestion();
+function updateTiles(){
+  const q=questions[index];
+  const answer=document.getElementById("answerTiles");
+  const choices=document.getElementById("wordTiles");
 
-  const answerBox =
-    document.getElementById("answerBox");
+  answer.innerHTML="";
+  choices.innerHTML="";
 
-  const tileBox =
-    document.getElementById("tileBox");
-
-  answerBox.innerHTML = "";
-  tileBox.innerHTML = "";
-
-  for (let i = 0; i < q.word.length; i++) {
-    const tile = document.createElement("span");
-    tile.className = "tile";
-    tile.textContent = selectedLetters[i] || "_";
-    answerBox.appendChild(tile);
+  for(let i=0;i<q.word.length;i++){
+    const tile=document.createElement("span");
+    tile.className="tile";
+    tile.textContent=selected[i]||"_";
+    answer.appendChild(tile);
   }
 
-  const letters = q.word.split("").reverse();
+  tileOrder.forEach((letter,i)=>{
+    const b=button(letter,()=>{
+      if(answered||used.includes(i))return;
+      used.push(i);
+      selected.push(letter);
+      updateTiles();
 
-  letters.forEach((letter, index) => {
-    const button = createButton(letter, () => {
-      if (answered || usedTiles.includes(index)) {
+      if(selected.length===q.word.length){
+        submit(selected.join("")===q.word,q.word);
+      }
+    });
+    b.disabled=answered||used.includes(i);
+    choices.appendChild(b);
+  });
+}
+
+// ====================================
+// READ A SENTENCE
+// ====================================
+
+function renderSentences(){
+  const q=questions[index];
+  const area=document.getElementById("gameArea");
+
+  document.getElementById("instruction")
+    .textContent="Read the sentence and answer.";
+
+  const sentence=document.createElement("div");
+  sentence.className="sentence";
+  sentence.id="sentenceDisplay";
+
+  const words=q.text.split(" ");
+  words.forEach(word=>{
+    const span=document.createElement("span");
+    span.textContent=word;
+    sentence.appendChild(span);
+  });
+  area.appendChild(sentence);
+
+  area.appendChild(button("🔊 Read Whole Sentence",()=>{
+    stopAudio();
+    speak(q.text);
+  }));
+
+  area.appendChild(button("🔊 Read Word by Word",()=>{
+    stopAudio();
+    const run=speechRun;
+    let position=0;
+
+    function nextWord(){
+      if(run!==speechRun)return;
+      if(position>=words.length)return;
+
+      sentence.querySelectorAll("span")
+        .forEach(s=>s.classList.remove("active"));
+
+      sentence.children[position]
+        .classList.add("active");
+
+      speak(words[position++],()=>{
+        pendingDelay=setTimeout(nextWord,100);
+      });
+    }
+
+    // Use a dedicated callback chain below.
+    function playWord(){
+      if(position>=words.length){
+        sentence.querySelectorAll("span")
+          .forEach(s=>s.classList.remove("active"));
         return;
       }
 
-      usedTiles.push(index);
-      selectedLetters.push(letter);
+      sentence.querySelectorAll("span")
+        .forEach(s=>s.classList.remove("active"));
 
-      updateWordTiles();
+      sentence.children[position]
+        .classList.add("active");
 
-      if (selectedLetters.length === q.word.length) {
-        const answer = selectedLetters.join("");
+      speak(words[position++],()=>{
+        pendingDelay=setTimeout(playWord,100);
+      });
+    }
+    playWord();
+  }));
 
-        submitAnswer(
-          answer === q.word,
-          q.word
-        );
-      }
-    });
-
-    button.disabled =
-      answered || usedTiles.includes(index);
-
-    tileBox.appendChild(button);
-  });
-}
-
-// ===================================
-// GAME 5: READ A SENTENCE
-// ===================================
-
-function renderSentences() {
-  const q = getQuestion();
-  const area = document.getElementById("gameContent");
-
-  const sentenceBox = document.createElement("div");
-  sentenceBox.className = "sentence";
-  sentenceBox.id = "sentenceBox";
-
-  const words = q.sentence.split(" ");
-
-  words.forEach((word, index) => {
-    const span = document.createElement("span");
-    span.textContent = word;
-    span.id = "spokenWord" + index;
-    sentenceBox.appendChild(span);
-  });
-
-  area.appendChild(sentenceBox);
-
-  area.appendChild(
-    createButton("🔊 Read with Me", () => {
-      readSentenceWithHighlight(words);
-    })
-  );
-
-  const heading = document.createElement("h3");
-  heading.textContent = q.question;
+  const heading=document.createElement("h3");
+  heading.textContent=q.question;
   area.appendChild(heading);
 
-  const options = document.createElement("div");
-  options.className = "options";
+  const box=document.createElement("div");
+  box.className="options";
 
-  q.options.forEach(answer => {
-    options.appendChild(
-      createButton(answer, () => {
-        submitAnswer(
-          answer === q.answer,
-          q.answer
-        );
-      })
-    );
+  q.options.forEach(choice=>{
+    box.appendChild(button(choice,()=>{
+      submit(choice===q.answer,q.answer);
+    }));
+  });
+  area.appendChild(box);
+}
+
+// ====================================
+// SOUND LIBRARY
+// ====================================
+
+function showLibrary(){
+  stopAudio();
+  show("libraryPage");
+  renderLibrary();
+}
+
+function renderLibrary(){
+  const group=document.getElementById("soundGroup").value;
+  const area=document.getElementById("soundLibrary");
+  area.innerHTML="";
+  document.getElementById("libraryFeedback")
+    .textContent="";
+
+  const items=sounds.filter(s=>{
+    if(group==="all")return true;
+    if(group==="beginner")return s.group==="beginner";
+    return s.group===group;
   });
 
-  area.appendChild(options);
+  items.forEach(s=>{
+    const label={
+      "th-voiced":"th — that",
+      "th-unvoiced":"th — thing",
+      "oo-short":"oo — book",
+      "oo-long":"oo — moon"
+    }[s.id]||s.id;
+
+    area.appendChild(button("🔊 "+label,()=>{
+      playSound(s.id);
+    }));
+  });
 }
 
-function readSentenceWithHighlight(words) {
-  stopAudio();
-
-  let index = 0;
-
-  function readNext() {
-    if (index >= words.length) return;
-
-    document.querySelectorAll(
-      ".sentence span"
-    ).forEach(span => {
-      span.classList.remove("active");
-    });
-
-    const span = document.getElementById(
-      "spokenWord" + index
-    );
-
-    if (span) span.classList.add("active");
-
-    const word = words[index];
-    index++;
-
-    speakText(word, () => {
-      readNext();
-    });
-  }
-
-  readNext();
-}
-
-// ===================================
+// ====================================
 // LEARNING JOURNEY
-// ===================================
+// ====================================
 
-function showJourney() {
+function showJourney(){
   stopAudio();
-
-  const accuracy = progress.attempts
+  const accuracy=progress.attempts
     ? Math.round(
-        progress.correct /
-        progress.attempts * 100
-      )
-    : 0;
+      100*progress.correct/progress.attempts
+    ):0;
 
-  const area = document.getElementById(
-    "journeyStats"
-  );
-
-  area.innerHTML = "";
-
-  const stats = [
-    ["⭐ Total Stars", progress.stars],
-    ["🎮 Questions Attempted", progress.attempts],
-    ["✅ Correct Answers", progress.correct],
-    ["📊 Accuracy", accuracy + "%"],
-    ["🎉 Completed Games", progress.completed]
+  const entries=[
+    ["⭐ Stars",progress.stars],
+    ["🎮 Attempts",progress.attempts],
+    ["✅ Correct",progress.correct],
+    ["📊 Accuracy",accuracy+"%"],
+    ["🎉 Games completed",progress.completed]
   ];
 
-  stats.forEach(([label, value]) => {
-    const box = document.createElement("div");
-    box.className = "stat";
+  const area=document.getElementById("stats");
+  area.innerHTML="";
 
-    const title = document.createElement("div");
-    title.textContent = label;
+  entries.forEach(([label,value])=>{
+    const div=document.createElement("div");
+    div.className="stat";
 
-    const number = document.createElement("strong");
-    number.textContent = value;
+    const name=document.createElement("div");
+    name.textContent=label;
 
-    box.appendChild(title);
-    box.appendChild(number);
-    area.appendChild(box);
+    const number=document.createElement("strong");
+    number.textContent=value;
+
+    div.appendChild(name);
+    div.appendChild(number);
+    area.appendChild(div);
   });
 
-  showSection("journey");
+  show("journey");
 }
 
-function resetProgress() {
-  if (!confirm("Reset all learning progress?")) {
-    return;
-  }
-
-  progress = defaultProgress();
+function resetProgress(){
+  if(!confirm("Reset all progress?"))return;
+  progress=emptyProgress();
   saveProgress();
   showJourney();
 }
 
-// ===================================
-// START
-// ===================================
-
 saveProgress();
 goHome();
-
 </script>
 </body>
 </html>
