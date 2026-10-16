@@ -4,38 +4,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Reading Adventure V5</title>
+<title>Reading Adventure V6</title>
 <style>
 *{box-sizing:border-box}
-body{
-  margin:0;font-family:Arial,sans-serif;
-  background:#eef6ff;color:#284766;
-  text-align:center;line-height:1.6
-}
+body{margin:0;font-family:Arial,sans-serif;background:#eef6ff;color:#284766;text-align:center;line-height:1.6}
 header{background:#dceeff;padding:24px 12px}
 h1{margin:0;font-size:34px}
 main{max-width:960px;margin:25px auto;padding:12px}
-.panel{
-  background:white;border-radius:20px;
-  padding:25px;margin-bottom:18px;
-  box-shadow:0 3px 12px #00000012
-}
-.menu{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:12px
-}
-button,select{
-  font:inherit;color:#284766;
-  border:2px solid #a8cdf3;
-  border-radius:12px;background:#dfeeff;
-  padding:13px;margin:5px
-}
+.panel{background:white;border-radius:20px;padding:25px;margin-bottom:18px;box-shadow:0 3px 12px #00000012}
+.menu{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+button,select,input{font:inherit;color:#284766;border:2px solid #a8cdf3;border-radius:12px;background:#dfeeff;padding:13px;margin:5px}
 button{cursor:pointer;min-height:54px}
 button:hover{background:#c7e3ff}
-button:focus-visible,select:focus-visible{
-  outline:3px solid #f4ad32
-}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #f4ad32}
 button:disabled{opacity:.5;cursor:not-allowed}
 .menu button{min-height:100px;font-size:20px}
 .hidden{display:none}
@@ -43,38 +24,26 @@ button:disabled{opacity:.5;cursor:not-allowed}
 .options button{min-width:65px;font-size:23px}
 .feedback{min-height:45px;font-size:20px;font-weight:bold}
 .stars{color:#946000;font-size:21px}
-.tile{
-  display:inline-block;padding:12px;
-  margin:5px;border:2px solid #a8cdf3;
-  border-radius:10px;font-size:28px;
-  min-width:55px
-}
-.sentence{
-  font-size:27px;background:#f1f8ff;
-  padding:18px;border-radius:12px;
-  line-height:2
-}
-.sentence span{
-  display:inline-block;margin:0 4px;
-  padding:0 5px;border-radius:6px
-}
+.tile{display:inline-block;padding:12px;margin:5px;border:2px solid #a8cdf3;border-radius:10px;font-size:28px;min-width:55px}
+.sentence{font-size:27px;background:#f1f8ff;padding:18px;border-radius:12px;line-height:2}
+.sentence span{display:inline-block;margin:0 4px;padding:0 5px;border-radius:6px}
 .sentence .active{background:#ffe39c}
-.library{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
-  gap:8px
-}
+.library{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
 .library button{font-size:16px;min-height:75px}
-.stat{
-  background:#eef6ff;border-radius:12px;
-  padding:15px;margin:10px
-}
+.stat{background:#eef6ff;border-radius:12px;padding:15px;margin:10px}
 .stat strong{font-size:27px}
 .note{font-size:14px;color:#58728a}
+.spelling-word{font-size:36px;font-weight:bold;letter-spacing:3px;margin:18px}
+.spelling-input{font-size:24px;width:90%;max-width:360px;background:white;text-align:center}
+.mode-buttons button.selected{background:#b8dfb8;border-color:#69a969}
+.day-buttons{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:15px}
+.day-buttons button{min-width:90px}
+.day-buttons button.selected{background:#b8dfb8;border-color:#69a969}
 @media(max-width:600px){
-  h1{font-size:28px}
-  .menu{grid-template-columns:1fr}
-  .panel{padding:17px 10px}
+h1{font-size:28px}
+.menu{grid-template-columns:1fr}
+.panel{padding:17px 10px}
+.sentence{font-size:23px}
 }
 </style>
 </head>
@@ -83,9 +52,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
 <header>
 <h1>📚 Reading Adventure</h1>
 <p>Listen, blend, spell and read!</p>
-<div class="stars">
-⭐ Stars: <span id="stars">0</span>
-</div>
+<div class="stars">⭐ Stars: <span id="stars">0</span></div>
 </header>
 
 <main>
@@ -94,27 +61,14 @@ button:disabled{opacity:.5;cursor:not-allowed}
 <h2>Welcome, Little Reader!</h2>
 <p>Choose your learning adventure.</p>
 <div class="menu">
-<button onclick="startGame('letters')">
-🔠 Find the Letter
-</button>
-<button onclick="startGame('phonics')">
-🔊 Letter Sounds
-</button>
-<button onclick="startGame('blending')">
-🎵 Sound Blending
-</button>
-<button onclick="startGame('words')">
-🧩 Build a Word
-</button>
-<button onclick="startGame('sentences')">
-📖 Read a Sentence
-</button>
-<button onclick="showLibrary()">
-🎧 Sound Library
-</button>
-<button onclick="showJourney()">
-🏆 My Learning Journey
-</button>
+<button onclick="startGame('letters')">🔠 Find the Letter</button>
+<button onclick="startGame('phonics')">🔊 Letter Sounds</button>
+<button onclick="startGame('blending')">🎵 Sound Blending</button>
+<button onclick="startGame('words')">🧩 Build a Word</button>
+<button onclick="showDailyReading()">📖 Daily Sentence Reading</button>
+<button onclick="showSpelling()">✏️ Weekly Spelling</button>
+<button onclick="showLibrary()">🎧 Sound Library</button>
+<button onclick="showJourney()">🏆 My Learning Journey</button>
 </div>
 <p class="note">Learn at your own pace. No timers!</p>
 </section>
@@ -124,10 +78,33 @@ button:disabled{opacity:.5;cursor:not-allowed}
 <p id="counter"></p>
 <p id="instruction"></p>
 <div id="gameArea"></div>
-<p id="feedback" class="feedback"
-   role="status" aria-live="polite"></p>
-<button id="next" class="hidden"
- onclick="nextQuestion()">Next ➜</button>
+<p id="feedback" class="feedback" role="status" aria-live="polite"></p>
+<button id="next" class="hidden" onclick="nextQuestion()">Next ➜</button>
+<button onclick="goHome()">🏠 Home</button>
+</section>
+
+<section id="spellingPage" class="panel hidden">
+<h2>✏️ Weekly Spelling</h2>
+<p><strong>Week 6 — Unit 14: The Broken Bangle</strong></p>
+<p>Monday, 19 October 2026</p>
+<div class="mode-buttons">
+<button id="learnModeBtn" onclick="setSpellingMode('learn')">📖 Learn Mode</button>
+<button id="practiceModeBtn" onclick="setSpellingMode('practice')">✏️ Practice Mode</button>
+</div>
+<p id="spellingCounter"></p>
+<div id="spellingContent"></div>
+<p id="spellingFeedback" class="feedback" role="status" aria-live="polite"></p>
+<button id="spellingNext" class="hidden" onclick="nextSpelling()">Next Word ➜</button>
+<button onclick="goHome()">🏠 Home</button>
+</section>
+
+<section id="dailyPage" class="panel hidden">
+<h2>📖 Daily Sentence Reading</h2>
+<p>Choose a day to practise reading.</p>
+<div class="day-buttons" id="dayButtons"></div>
+<div id="dailyContent"></div>
+<p id="dailyFeedback" class="feedback" role="status" aria-live="polite"></p>
+<button id="dailyNext" class="hidden" onclick="nextDailySentence()">Next Sentence ➜</button>
 <button onclick="goHome()">🏠 Home</button>
 </section>
 
@@ -143,17 +120,14 @@ button:disabled{opacity:.5;cursor:not-allowed}
 <option value="all">All available sounds</option>
 </select>
 <div id="soundLibrary" class="library"></div>
-<p id="libraryFeedback" class="feedback"
-   role="status"></p>
+<p id="libraryFeedback" class="feedback" role="status"></p>
 <button onclick="goHome()">🏠 Home</button>
 </section>
 
 <section id="journey" class="panel hidden">
 <h2>🏆 My Learning Journey</h2>
 <div id="stats"></div>
-<p class="note">
-Progress is stored only in this browser.
-</p>
+<p class="note">Progress is stored only in this browser.</p>
 <button onclick="goHome()">🏠 Home</button>
 <button onclick="resetProgress()">Reset Progress</button>
 </section>
@@ -161,10 +135,8 @@ Progress is stored only in this browser.
 <section id="finish" class="panel hidden">
 <h2>🎉 Adventure Complete!</h2>
 <p id="result"></p>
-<button onclick="startGame(currentGame)">
-Play Again
-</button>
 <button onclick="goHome()">🏠 Home</button>
+<button id="playAgain" onclick="startGame(currentGame)">Play Again</button>
 </section>
 
 </main>
@@ -172,83 +144,75 @@ Play Again
 <script>
 // ====================================
 // AUDIO LIBRARY
-// Exact filenames from your screenshot
 // ====================================
 
-const sounds = [
- {id:"s",file:"s.mp3",group:"beginner"},
- {id:"a",file:"a.mp3",group:"beginner"},
- {id:"t",file:"t.mp3",group:"beginner"},
- {id:"p",file:"p.mp3",group:"beginner"},
- {id:"i",file:"i.mp3",group:"beginner"},
- {id:"n",file:"n.mp3",group:"beginner"},
- {id:"m",file:"m.mp3",group:"beginner"},
-
- {id:"b",file:"b.mp3",group:"letters"},
- {id:"c",file:"c.mp3",group:"letters"},
- {id:"d",file:"d.mp3",group:"letters"},
- {id:"e",file:"e.mp3",group:"letters"},
- {id:"f",file:"f.mp3",group:"letters"},
- {id:"g",file:"g.mp3",group:"letters"},
- {id:"h",file:"h.mp3",group:"letters"},
- {id:"j",file:"j.mp3",group:"letters"},
- {id:"l",file:"l.mp3",group:"letters"},
- {id:"o",file:"o.mp3",group:"letters"},
- {id:"r",file:"r.mp3",group:"letters"},
- {id:"u",file:"u.mp3",group:"letters"},
- {id:"v",file:"v.mp3",group:"letters"},
- {id:"w",file:"w.mp3",group:"letters"},
- {id:"y",file:"y.mp3",group:"letters"},
- {id:"z",file:"z.mp3",group:"letters"},
-
- {id:"ch",file:"ch-chair.mp3",group:"consonants"},
- {id:"ng",file:"ng.mp3",group:"consonants"},
- {id:"sh",file:"sh.mp3",group:"consonants"},
- {id:"th-voiced",file:"th-that.mp3",
-  group:"consonants"},
- {id:"th-unvoiced",file:"th-thing.mp3",
-  group:"consonants"},
- {id:"zh",file:"zh.mp3",group:"consonants"},
-
- {id:"ai",file:"ai.mp3",group:"vowels"},
- {id:"air",file:"air.mp3",group:"vowels"},
- {id:"ar",file:"ar.mp3",group:"vowels"},
- {id:"ear",file:"ear.mp3",group:"vowels"},
- {id:"ee",file:"ee.mp3",group:"vowels"},
- {id:"igh",file:"igh.mp3",group:"vowels"},
- {id:"oa",file:"oa.mp3",group:"vowels"},
- {id:"oi",file:"oi.mp3",group:"vowels"},
- {id:"oo-short",file:"oo-book.mp3",
-  group:"vowels"},
- {id:"oo-long",file:"oo-moon.mp3",
-  group:"vowels"},
- {id:"or",file:"or.mp3",group:"vowels"},
- {id:"ow",file:"ow-how.mp3",group:"vowels"},
- {id:"ur",file:"ur.mp3",group:"vowels"},
- {id:"ure",file:"ure.mp3",group:"vowels"}
+const sounds=[
+{id:"s",file:"s.mp3",group:"beginner"},
+{id:"a",file:"a.mp3",group:"beginner"},
+{id:"t",file:"t.mp3",group:"beginner"},
+{id:"p",file:"p.mp3",group:"beginner"},
+{id:"i",file:"i.mp3",group:"beginner"},
+{id:"n",file:"n.mp3",group:"beginner"},
+{id:"m",file:"m.mp3",group:"beginner"},
+{id:"b",file:"b.mp3",group:"letters"},
+{id:"c",file:"c.mp3",group:"letters"},
+{id:"d",file:"d.mp3",group:"letters"},
+{id:"e",file:"e.mp3",group:"letters"},
+{id:"f",file:"f.mp3",group:"letters"},
+{id:"g",file:"g.mp3",group:"letters"},
+{id:"h",file:"h.mp3",group:"letters"},
+{id:"j",file:"j.mp3",group:"letters"},
+{id:"l",file:"l.mp3",group:"letters"},
+{id:"o",file:"o.mp3",group:"letters"},
+{id:"r",file:"r.mp3",group:"letters"},
+{id:"u",file:"u.mp3",group:"letters"},
+{id:"v",file:"v.mp3",group:"letters"},
+{id:"w",file:"w.mp3",group:"letters"},
+{id:"y",file:"y.mp3",group:"letters"},
+{id:"z",file:"z.mp3",group:"letters"},
+{id:"ch",file:"ch-chair.mp3",group:"consonants"},
+{id:"ng",file:"ng.mp3",group:"consonants"},
+{id:"sh",file:"sh.mp3",group:"consonants"},
+{id:"th-voiced",file:"th-that.mp3",group:"consonants"},
+{id:"th-unvoiced",file:"th-thing.mp3",group:"consonants"},
+{id:"zh",file:"zh.mp3",group:"consonants"},
+{id:"ai",file:"ai.mp3",group:"vowels"},
+{id:"air",file:"air.mp3",group:"vowels"},
+{id:"ar",file:"ar.mp3",group:"vowels"},
+{id:"ear",file:"ear.mp3",group:"vowels"},
+{id:"ee",file:"ee.mp3",group:"vowels"},
+{id:"igh",file:"igh.mp3",group:"vowels"},
+{id:"oa",file:"oa.mp3",group:"vowels"},
+{id:"oi",file:"oi.mp3",group:"vowels"},
+{id:"oo-short",file:"oo-book.mp3",group:"vowels"},
+{id:"oo-long",file:"oo-moon.mp3",group:"vowels"},
+{id:"or",file:"or.mp3",group:"vowels"},
+{id:"ow",file:"ow-how.mp3",group:"vowels"},
+{id:"ur",file:"ur.mp3",group:"vowels"},
+{id:"ure",file:"ure.mp3",group:"vowels"}
 ];
 
-const soundMap = Object.fromEntries(
-  sounds.map(s=>[s.id,s.file])
+const soundMap=Object.fromEntries(
+sounds.map(s=>[s.id,s.file])
 );
-
-// Letter k shares the /k/ phoneme with c.
-soundMap.k = "c.mp3";
+soundMap.k="c.mp3";
 
 // ====================================
 // AUDIO FUNCTIONS
 // ====================================
 
-let audio = new Audio();
-let audioRun = 0;
-let speechRun = 0;
-let pendingDelay = null;
+let audio=new Audio();
+let audioRun=0;
+let speechRun=0;
+let pendingDelay=null;
+let playbackSession=0;
 
 function stopAudio(){
   audioRun++;
   speechRun++;
+  playbackSession++;
   audio.pause();
-  audio.onended = null;
+  audio.onended=null;
   if(pendingDelay!==null){
     clearTimeout(pendingDelay);
     pendingDelay=null;
@@ -261,10 +225,18 @@ function stopAudio(){
 }
 
 function audioMessage(message){
-  const id=document.getElementById("game")
-    .classList.contains("hidden")
-    ? "libraryFeedback" : "feedback";
-  document.getElementById(id).textContent=message;
+  const pages=[
+    ["spellingPage","spellingFeedback"],
+    ["dailyPage","dailyFeedback"],
+    ["libraryPage","libraryFeedback"],
+    ["game","feedback"]
+  ];
+  for(const [page,target] of pages){
+    if(!document.getElementById(page).classList.contains("hidden")){
+      document.getElementById(target).textContent=message;
+      return;
+    }
+  }
 }
 
 function playSound(id,onEnd){
@@ -273,90 +245,101 @@ function playSound(id,onEnd){
     audioMessage("No recording for "+id);
     return;
   }
-
   audio.pause();
   audio.onended=null;
   const run=++audioRun;
   audio=new Audio("audio/"+file);
-
   audio.onended=()=>{
-    if(run===audioRun && onEnd) onEnd();
+    if(run===audioRun && onEnd)onEnd();
   };
-
   audio.onerror=()=>{
-    if(run===audioRun){
-      audioMessage("Cannot load audio/"+file);
-    }
+    if(run===audioRun)audioMessage("Cannot load audio/"+file);
   };
-
   audio.play().catch(()=>{
-    if(run===audioRun){
-      audioMessage("Unable to play audio/"+file);
-    }
+    if(run===audioRun)audioMessage("Unable to play audio/"+file);
   });
 }
 
 function speak(text,onEnd){
   if(!("speechSynthesis" in window)){
-    audioMessage("Speech is unavailable.");
+    audioMessage("Speech is unavailable in this browser.");
     return;
   }
-
   speechSynthesis.cancel();
   const run=++speechRun;
   const utterance=new SpeechSynthesisUtterance(text);
   utterance.lang="en-GB";
   utterance.rate=0.75;
-
   utterance.onend=()=>{
-    if(run===speechRun && onEnd) onEnd();
+    if(run===speechRun && onEnd)onEnd();
   };
   speechSynthesis.speak(utterance);
+}
+
+function playSequence(parts){
+  stopAudio();
+  const session=playbackSession;
+  let pos=0;
+  function next(){
+    if(session!==playbackSession || pos>=parts.length)return;
+    playSound(parts[pos++],()=>{
+      pendingDelay=setTimeout(next,150);
+    });
+  }
+  next();
+}
+
+function readWordByWord(words,containerId){
+  stopAudio();
+  const session=playbackSession;
+  const container=document.getElementById(containerId);
+  let pos=0;
+  function next(){
+    if(session!==playbackSession)return;
+    container.querySelectorAll("span").forEach(
+      s=>s.classList.remove("active")
+    );
+    if(pos>=words.length)return;
+    container.children[pos].classList.add("active");
+    speak(words[pos++],()=>{
+      pendingDelay=setTimeout(next,100);
+    });
+  }
+  next();
 }
 
 // ====================================
 // PROGRESS
 // ====================================
 
-const storageKey="readingAdventureV5";
+const storageKey="readingAdventureV6";
 
 function emptyProgress(){
-  return {
-    stars:0,attempts:0,
-    correct:0,completed:0
-  };
+  return {stars:0,attempts:0,correct:0,completed:0};
 }
 
 function loadProgress(){
   try{
-    const saved=JSON.parse(
-      localStorage.getItem(storageKey)
-    );
+    const saved=JSON.parse(localStorage.getItem(storageKey));
     const result=emptyProgress();
     if(saved && typeof saved==="object"){
       Object.keys(result).forEach(key=>{
-        if(Number.isFinite(saved[key]) &&
-           saved[key]>=0){
+        if(Number.isFinite(saved[key]) && saved[key]>=0){
           result[key]=saved[key];
         }
       });
     }
     return result;
-  }catch{
-    return emptyProgress();
-  }
+  }catch{return emptyProgress();}
 }
 
 let progress=loadProgress();
 
 function saveProgress(){
   try{
-    localStorage.setItem(
-      storageKey,JSON.stringify(progress)
-    );
+    localStorage.setItem(storageKey,JSON.stringify(progress));
   }catch{}
-  document.getElementById("stars").textContent=
-    progress.stars;
+  document.getElementById("stars").textContent=progress.stars;
 }
 
 function recordAnswer(correct){
@@ -374,47 +357,76 @@ function recordAnswer(correct){
 
 const beginner=["s","a","t","p","i","n","m"];
 const basicLetters=[
-  ...beginner,
-  "d","g","o","c","k","e","u","r",
+  ...beginner,"d","g","o","c","k","e","u","r",
   "h","b","f","l","j","v","w","y","z"
 ];
-
 const advanced=[
-  "ch","sh","ng","th-voiced",
-  "th-unvoiced","ai","ee","igh",
-  "oa","oo-short","oo-long","ow"
+  "ch","sh","ng","th-voiced","th-unvoiced",
+  "ai","ee","igh","oa","oo-short","oo-long","ow"
 ];
 
 const wordData=[
-  {word:"sat",parts:["s","a","t"]},
-  {word:"mat",parts:["m","a","t"]},
-  {word:"pin",parts:["p","i","n"]},
-  {word:"sit",parts:["s","i","t"]},
-  {word:"tap",parts:["t","a","p"]},
-  {word:"map",parts:["m","a","p"]},
-  {word:"nap",parts:["n","a","p"]}
+{word:"sat",parts:["s","a","t"]},
+{word:"mat",parts:["m","a","t"]},
+{word:"pin",parts:["p","i","n"]},
+{word:"sit",parts:["s","i","t"]},
+{word:"tap",parts:["t","a","p"]},
+{word:"map",parts:["m","a","p"]},
+{word:"nap",parts:["n","a","p"]}
 ];
 
-const sentenceData=[
-  {
-    text:"Sam sat.",
-    question:"Who sat?",
-    options:["Sam","Tom","Pat"],
-    answer:"Sam"
-  },
-  {
-    text:"A cat sat on a mat.",
-    question:"What sat on the mat?",
-    options:["A cat","A dog","A bird"],
-    answer:"A cat"
-  },
-  {
-    text:"The sun is hot.",
-    question:"What is hot?",
-    options:["The sun","The rain","The moon"],
-    answer:"The sun"
-  }
+// WEEKLY SPELLING - 19 OCTOBER 2026
+const spellingWords=[
+{word:"bangle",sentence:"Pamela wore a silver bangle on her right wrist."},
+{word:"beautiful",sentence:"We saw many beautiful flowers in the garden."},
+{word:"slipped",sentence:"Johnny slipped under his blanket when he felt scared."},
+{word:"broken",sentence:"I nearly stepped on a piece of broken glass when I was walking on the beach."},
+{word:"truth",sentence:"The policeman asked the man who was caught stealing to tell the truth."},
+{word:"crunchy",sentence:"Devi enjoys eating crunchy cookies with cheese."},
+{word:"dipped",sentence:"My baby sister dipped her hands in the water and played in it."},
+{word:"golden",sentence:"The princess has big blue eyes and long golden hair."},
+{word:"dangly",sentence:"The famous singer loves to wear dangly earrings."},
+{word:"brighter",sentence:"One of the stars in the sky is brighter than the rest."}
 ];
+
+// DAILY SENTENCES - 5 DAYS
+const dailySentences={
+1:[
+{text:"Sam sat on a mat.",question:"Who sat on the mat?",options:["Sam","Tom","Pat"],answer:"Sam"},
+{text:"The cat is big.",question:"What is big?",options:["The cat","The dog","The sun"],answer:"The cat"},
+{text:"I can see a red bag.",question:"What colour is the bag?",options:["Blue","Red","Green"],answer:"Red"},
+{text:"Mum has a cup.",question:"Who has a cup?",options:["Dad","Mum","Sam"],answer:"Mum"},
+{text:"The sun is hot.",question:"What is hot?",options:["The sun","The rain","The moon"],answer:"The sun"}
+],
+2:[
+{text:"The dog ran fast.",question:"What ran fast?",options:["The cat","The dog","The bird"],answer:"The dog"},
+{text:"Ben has a blue hat.",question:"What colour is the hat?",options:["Red","Blue","Yellow"],answer:"Blue"},
+{text:"The fish can swim.",question:"What can swim?",options:["The fish","The cat","The hen"],answer:"The fish"},
+{text:"I put my book on the desk.",question:"Where is the book?",options:["On the desk","On the bed","In the bag"],answer:"On the desk"},
+{text:"The baby is sleeping.",question:"Who is sleeping?",options:["The baby","The teacher","The dog"],answer:"The baby"}
+],
+3:[
+{text:"The little bird is in the tree.",question:"Where is the bird?",options:["In the tree","In the house","On the road"],answer:"In the tree"},
+{text:"Mary likes to eat apples.",question:"What does Mary like?",options:["Apples","Bananas","Bread"],answer:"Apples"},
+{text:"The children play in the park.",question:"Where do they play?",options:["At school","In the park","At home"],answer:"In the park"},
+{text:"Dad is washing the car.",question:"What is Dad washing?",options:["The car","The bike","The floor"],answer:"The car"},
+{text:"It is raining outside.",question:"What is the weather?",options:["Sunny","Raining","Snowing"],answer:"Raining"}
+],
+4:[
+{text:"The rabbit jumped over the log.",question:"What jumped?",options:["The rabbit","The cat","The frog"],answer:"The rabbit"},
+{text:"Sarah opened her school bag.",question:"What did Sarah open?",options:["Her bag","A box","A door"],answer:"Her bag"},
+{text:"The flowers are beautiful.",question:"What is beautiful?",options:["The flowers","The rocks","The shoes"],answer:"The flowers"},
+{text:"Tom found a golden coin.",question:"What did Tom find?",options:["A coin","A key","A toy"],answer:"A coin"},
+{text:"The glass fell and broke.",question:"What broke?",options:["The glass","The plate","The cup"],answer:"The glass"}
+],
+5:[
+{text:"The bright moon shone in the sky.",question:"What shone in the sky?",options:["The moon","The sun","A plane"],answer:"The moon"},
+{text:"The little girl wore a silver bangle.",question:"What did she wear?",options:["A bangle","A hat","A ring"],answer:"A bangle"},
+{text:"The boy slipped on the wet floor.",question:"Where did he slip?",options:["On the floor","On the grass","On the road"],answer:"On the floor"},
+{text:"The crunchy biscuits were delicious.",question:"What was crunchy?",options:["Biscuits","Apples","Rice"],answer:"Biscuits"},
+{text:"The princess had long golden hair.",question:"What colour was her hair?",options:["Golden","Black","Red"],answer:"Golden"}
+]
+};
 
 // ====================================
 // NAVIGATION
@@ -427,10 +439,11 @@ let score=0;
 let answered=false;
 let selected=[];
 let used=[];
+let tileOrder=[];
 
 function show(id){
-  ["home","game","libraryPage",
-   "journey","finish"].forEach(name=>{
+  ["home","game","spellingPage","dailyPage",
+   "libraryPage","journey","finish"].forEach(name=>{
     document.getElementById(name)
       .classList.toggle("hidden",name!==id);
   });
@@ -460,8 +473,7 @@ function button(text,action){
 }
 
 function feedback(text){
-  document.getElementById("feedback")
-    .textContent=text;
+  document.getElementById("feedback").textContent=text;
 }
 
 function startGame(game){
@@ -473,14 +485,9 @@ function startGame(game){
   if(game==="letters"){
     questions=shuffle(basicLetters).slice(0,7);
   }else if(game==="phonics"){
-    questions=shuffle([
-      ...beginner,...advanced
-    ]).slice(0,10);
-  }else if(game==="blending" ||
-           game==="words"){
+    questions=shuffle([...beginner,...advanced]).slice(0,10);
+  }else if(game==="blending"||game==="words"){
     questions=shuffle(wordData).slice(0,5);
-  }else{
-    questions=shuffle(sentenceData);
   }
 
   show("game");
@@ -497,30 +504,20 @@ function loadQuestion(){
     letters:"🔠 Find the Letter",
     phonics:"🔊 Letter Sounds",
     blending:"🎵 Sound Blending",
-    words:"🧩 Build a Word",
-    sentences:"📖 Read a Sentence"
+    words:"🧩 Build a Word"
   };
 
-  document.getElementById("gameTitle")
-    .textContent=titles[currentGame];
-
-  document.getElementById("counter")
-    .textContent=
+  document.getElementById("gameTitle").textContent=titles[currentGame];
+  document.getElementById("counter").textContent=
     `Question ${index+1} of ${questions.length}`;
-
-  document.getElementById("next")
-    .classList.add("hidden");
-
-  document.getElementById("gameArea")
-    .innerHTML="";
-
+  document.getElementById("next").classList.add("hidden");
+  document.getElementById("gameArea").innerHTML="";
   feedback("");
 
-  if(currentGame==="letters") renderLetters();
-  if(currentGame==="phonics") renderPhonics();
-  if(currentGame==="blending") renderBlending();
-  if(currentGame==="words") renderWords();
-  if(currentGame==="sentences") renderSentences();
+  if(currentGame==="letters")renderLetters();
+  if(currentGame==="phonics")renderPhonics();
+  if(currentGame==="blending")renderBlending();
+  if(currentGame==="words")renderWords();
 }
 
 function submit(correct,answer){
@@ -528,35 +525,27 @@ function submit(correct,answer){
   answered=true;
   recordAnswer(correct);
   if(correct)score++;
-
-  feedback(correct
-    ?"⭐ Wonderful! Great job!"
-    :"Good try! The answer is "+answer+".");
-
-  document.getElementById("next")
-    .classList.remove("hidden");
+  feedback(correct?"⭐ Wonderful! Great job!":"Good try! The answer is "+answer+".");
+  document.getElementById("next").classList.remove("hidden");
 }
 
 function nextQuestion(){
   stopAudio();
   index++;
-
   if(index<questions.length){
     loadQuestion();
   }else{
     progress.completed++;
     saveProgress();
-    document.getElementById("result")
-      .textContent=
+    document.getElementById("result").textContent=
       `You got ${score} out of ${questions.length}!`;
+    document.getElementById("playAgain").classList.remove("hidden");
     show("finish");
   }
 }
 
 function makeChoices(correct,pool,count=3){
-  const distractors=shuffle(
-    pool.filter(x=>x!==correct)
-  ).slice(0,count-1);
+  const distractors=shuffle(pool.filter(x=>x!==correct)).slice(0,count-1);
   return shuffle([correct,...distractors]);
 }
 
@@ -566,13 +555,9 @@ function makeChoices(correct,pool,count=3){
 
 function renderLetters(){
   const target=questions[index];
-  document.getElementById("instruction")
-    .textContent="Find the letter "+target;
-
+  document.getElementById("instruction").textContent="Find the letter "+target;
   const area=document.getElementById("gameArea");
-  const choices=makeChoices(target,basicLetters);
-
-  choices.forEach(letter=>{
+  makeChoices(target,basicLetters).forEach(letter=>{
     area.appendChild(button(letter,()=>{
       submit(letter===target,target);
     }));
@@ -585,38 +570,26 @@ function renderLetters(){
 
 function renderPhonics(){
   const target=questions[index];
-
-  document.getElementById("instruction")
-    .textContent="Listen and choose the sound's spelling.";
-
+  document.getElementById("instruction").textContent=
+    "Listen and choose the sound's spelling.";
   const area=document.getElementById("gameArea");
+  area.appendChild(button("🔊 Hear the Sound",()=>playSound(target)));
 
-  area.appendChild(button("🔊 Hear the Sound",()=>{
-    playSound(target);
-  }));
-
-  const pool=advanced.includes(target)
-    ? advanced : beginner;
-
-  const choices=makeChoices(target,pool);
+  const pool=advanced.includes(target)?advanced:beginner;
+  const display={
+    "th-voiced":"th (that)",
+    "th-unvoiced":"th (thing)",
+    "oo-short":"oo (book)",
+    "oo-long":"oo (moon)"
+  };
 
   const box=document.createElement("div");
   box.className="options";
-
-  choices.forEach(choice=>{
-    const display={
-      "th-voiced":"th (that)",
-      "th-unvoiced":"th (thing)",
-      "oo-short":"oo (book)",
-      "oo-long":"oo (moon)"
-    };
-    box.appendChild(button(
-      display[choice]||choice,()=>{
-        submit(choice===target,display[target]||target);
-      }
-    ));
+  makeChoices(target,pool).forEach(choice=>{
+    box.appendChild(button(display[choice]||choice,()=>{
+      submit(choice===target,display[target]||target);
+    }));
   });
-
   area.appendChild(box);
 }
 
@@ -624,61 +597,23 @@ function renderPhonics(){
 // SOUND BLENDING
 // ====================================
 
-function playSequence(parts){
-  stopAudio();
-  const run=audioRun;
-  let pos=0;
-
-  function next(){
-    if(run!==audioRun)return;
-    if(pos>=parts.length)return;
-    const part=parts[pos++];
-    playSound(part,()=>{
-      // Continue after the current clip.
-      pendingDelay=setTimeout(next,100);
-    });
-  }
-
-  // playSound increments audioRun, so a
-  // separate sequence token is needed.
-  let sequenceActive=true;
-  function playNext(){
-    if(!sequenceActive || pos>=parts.length)return;
-    playSound(parts[pos++],()=>{
-      pendingDelay=setTimeout(playNext,100);
-    });
-  }
-  playNext();
-}
-
 function renderBlending(){
   const q=questions[index];
   const area=document.getElementById("gameArea");
-
-  document.getElementById("instruction")
-    .textContent=
+  document.getElementById("instruction").textContent=
     "Listen to the sounds. Which word do they make?";
 
   area.appendChild(button("🔊 Hear Each Sound",()=>{
     playSequence(q.parts);
   }));
-
   area.appendChild(button("🔊 Hear Whole Word",()=>{
-    stopAudio();
-    speak(q.word);
+    stopAudio();speak(q.word);
   }));
-
-  const choices=makeChoices(
-    q.word,wordData.map(w=>w.word)
-  );
 
   const box=document.createElement("div");
   box.className="options";
-
-  choices.forEach(word=>{
-    box.appendChild(button(word,()=>{
-      submit(word===q.word,q.word);
-    }));
+  makeChoices(q.word,wordData.map(w=>w.word)).forEach(word=>{
+    box.appendChild(button(word,()=>submit(word===q.word,q.word)));
   });
   area.appendChild(box);
 }
@@ -687,18 +622,13 @@ function renderBlending(){
 // BUILD A WORD
 // ====================================
 
-let tileOrder=[];
-
 function renderWords(){
   const q=questions[index];
   const area=document.getElementById("gameArea");
+  document.getElementById("instruction").textContent=
+    "Listen and build the word.";
 
-  document.getElementById("instruction")
-    .textContent="Listen and build the word.";
-
-  area.appendChild(button("🔊 Hear the Word",()=>{
-    speak(q.word);
-  }));
+  area.appendChild(button("🔊 Hear the Word",()=>speak(q.word)));
 
   const answer=document.createElement("div");
   answer.id="answerTiles";
@@ -715,9 +645,7 @@ function renderWords(){
 
   area.appendChild(button("↩ Clear Letters",()=>{
     if(answered)return;
-    selected=[];
-    used=[];
-    updateTiles();
+    selected=[];used=[];updateTiles();
   }));
 }
 
@@ -725,7 +653,6 @@ function updateTiles(){
   const q=questions[index];
   const answer=document.getElementById("answerTiles");
   const choices=document.getElementById("wordTiles");
-
   answer.innerHTML="";
   choices.innerHTML="";
 
@@ -742,7 +669,6 @@ function updateTiles(){
       used.push(i);
       selected.push(letter);
       updateTiles();
-
       if(selected.length===q.word.length){
         submit(selected.join("")===q.word,q.word);
       }
@@ -753,21 +679,197 @@ function updateTiles(){
 }
 
 // ====================================
-// READ A SENTENCE
+// WEEKLY SPELLING
 // ====================================
 
-function renderSentences(){
-  const q=questions[index];
-  const area=document.getElementById("gameArea");
+let spellingMode="learn";
+let spellingIndex=0;
+let spellingScore=0;
+let spellingAnswered=false;
 
-  document.getElementById("instruction")
-    .textContent="Read the sentence and answer.";
+function showSpelling(){
+  stopAudio();
+  spellingIndex=0;
+  spellingScore=0;
+  spellingMode="learn";
+  show("spellingPage");
+  renderSpelling();
+}
+
+function setSpellingMode(mode){
+  stopAudio();
+  spellingMode=mode;
+  spellingIndex=0;
+  spellingScore=0;
+  renderSpelling();
+}
+
+function renderSpelling(){
+  stopAudio();
+  spellingAnswered=false;
+  const q=spellingWords[spellingIndex];
+
+  document.getElementById("learnModeBtn").classList.toggle(
+    "selected",spellingMode==="learn"
+  );
+  document.getElementById("practiceModeBtn").classList.toggle(
+    "selected",spellingMode==="practice"
+  );
+
+  document.getElementById("spellingCounter").textContent=
+    `Word ${spellingIndex+1} of ${spellingWords.length}`;
+  document.getElementById("spellingFeedback").textContent="";
+  document.getElementById("spellingNext").classList.add("hidden");
+
+  const area=document.getElementById("spellingContent");
+  area.innerHTML="";
+
+  area.appendChild(button("🔊 Hear the Word",()=>{
+    speak(q.word);
+  }));
+
+  area.appendChild(button("🔊 Hear the Sentence",()=>{
+    speak(q.sentence);
+  }));
+
+  if(spellingMode==="learn"){
+    const word=document.createElement("div");
+    word.className="spelling-word";
+    word.textContent=q.word;
+    area.appendChild(word);
+
+    const sentence=document.createElement("p");
+    sentence.textContent=q.sentence;
+    area.appendChild(sentence);
+
+    area.appendChild(button("Next Word ➜",nextSpelling));
+  }else{
+    const hint=document.createElement("p");
+    hint.textContent="Listen carefully and type the word.";
+    area.appendChild(hint);
+
+    const input=document.createElement("input");
+    input.className="spelling-input";
+    input.type="text";
+    input.id="spellingInput";
+    input.placeholder="Type the spelling";
+    input.autocomplete="off";
+    input.spellcheck=false;
+    input.setAttribute("autocapitalize","off");
+    area.appendChild(input);
+
+    area.appendChild(document.createElement("br"));
+
+    area.appendChild(button("✓ Check Spelling",()=>{
+      checkSpelling();
+    }));
+
+    input.addEventListener("keydown",e=>{
+      if(e.key==="Enter")checkSpelling();
+    });
+  }
+}
+
+function checkSpelling(){
+  if(spellingAnswered)return;
+  const q=spellingWords[spellingIndex];
+  const input=document.getElementById("spellingInput");
+  const answer=input.value.trim().toLowerCase();
+
+  if(!answer){
+    document.getElementById("spellingFeedback").textContent=
+      "Please type your spelling first.";
+    return;
+  }
+
+  spellingAnswered=true;
+  input.disabled=true;
+  const correct=answer===q.word;
+  recordAnswer(correct);
+  if(correct)spellingScore++;
+
+  document.getElementById("spellingFeedback").textContent=
+    correct?"⭐ Correct! Well done!":
+    "Good try! The correct spelling is "+q.word+".";
+
+  document.getElementById("spellingNext").classList.remove("hidden");
+}
+
+function nextSpelling(){
+  stopAudio();
+  spellingIndex++;
+  if(spellingIndex<spellingWords.length){
+    renderSpelling();
+  }else{
+    if(spellingMode==="practice"){
+      progress.completed++;
+      saveProgress();
+    }
+    document.getElementById("result").textContent=
+      spellingMode==="practice"
+      ? `You spelled ${spellingScore} out of ${spellingWords.length} words correctly!`
+      : "You have finished learning all the spelling words!";
+    document.getElementById("playAgain").classList.add("hidden");
+    show("finish");
+  }
+}
+
+// ====================================
+// DAILY SENTENCE READING
+// ====================================
+
+let currentDay=1;
+let dailyIndex=0;
+let dailyScore=0;
+let dailyAnswered=false;
+
+function showDailyReading(){
+  stopAudio();
+  currentDay=1;
+  dailyIndex=0;
+  dailyScore=0;
+  show("dailyPage");
+  renderDayButtons();
+  renderDailySentence();
+}
+
+function renderDayButtons(){
+  const area=document.getElementById("dayButtons");
+  area.innerHTML="";
+  for(let day=1;day<=5;day++){
+    const b=button("Day "+day,()=>{
+      stopAudio();
+      currentDay=day;
+      dailyIndex=0;
+      dailyScore=0;
+      renderDayButtons();
+      renderDailySentence();
+    });
+    if(day===currentDay)b.classList.add("selected");
+    area.appendChild(b);
+  }
+}
+
+function renderDailySentence(){
+  stopAudio();
+  dailyAnswered=false;
+  const q=dailySentences[currentDay][dailyIndex];
+  const total=dailySentences[currentDay].length;
+  const area=document.getElementById("dailyContent");
+  area.innerHTML="";
+
+  document.getElementById("dailyFeedback").textContent="";
+  document.getElementById("dailyNext").classList.add("hidden");
+
+  const counter=document.createElement("p");
+  counter.textContent=`Day ${currentDay} — Sentence ${dailyIndex+1} of ${total}`;
+  area.appendChild(counter);
 
   const sentence=document.createElement("div");
   sentence.className="sentence";
-  sentence.id="sentenceDisplay";
-
+  sentence.id="dailySentenceDisplay";
   const words=q.text.split(" ");
+
   words.forEach(word=>{
     const span=document.createElement("span");
     span.textContent=word;
@@ -776,49 +878,11 @@ function renderSentences(){
   area.appendChild(sentence);
 
   area.appendChild(button("🔊 Read Whole Sentence",()=>{
-    stopAudio();
-    speak(q.text);
+    stopAudio();speak(q.text);
   }));
 
   area.appendChild(button("🔊 Read Word by Word",()=>{
-    stopAudio();
-    const run=speechRun;
-    let position=0;
-
-    function nextWord(){
-      if(run!==speechRun)return;
-      if(position>=words.length)return;
-
-      sentence.querySelectorAll("span")
-        .forEach(s=>s.classList.remove("active"));
-
-      sentence.children[position]
-        .classList.add("active");
-
-      speak(words[position++],()=>{
-        pendingDelay=setTimeout(nextWord,100);
-      });
-    }
-
-    // Use a dedicated callback chain below.
-    function playWord(){
-      if(position>=words.length){
-        sentence.querySelectorAll("span")
-          .forEach(s=>s.classList.remove("active"));
-        return;
-      }
-
-      sentence.querySelectorAll("span")
-        .forEach(s=>s.classList.remove("active"));
-
-      sentence.children[position]
-        .classList.add("active");
-
-      speak(words[position++],()=>{
-        pendingDelay=setTimeout(playWord,100);
-      });
-    }
-    playWord();
+    readWordByWord(words,"dailySentenceDisplay");
   }));
 
   const heading=document.createElement("h3");
@@ -830,10 +894,33 @@ function renderSentences(){
 
   q.options.forEach(choice=>{
     box.appendChild(button(choice,()=>{
-      submit(choice===q.answer,q.answer);
+      if(dailyAnswered)return;
+      dailyAnswered=true;
+      const correct=choice===q.answer;
+      recordAnswer(correct);
+      if(correct)dailyScore++;
+      document.getElementById("dailyFeedback").textContent=
+        correct?"⭐ Fantastic reading!":
+        "Good try! The answer is "+q.answer+".";
+      document.getElementById("dailyNext").classList.remove("hidden");
     }));
   });
   area.appendChild(box);
+}
+
+function nextDailySentence(){
+  stopAudio();
+  dailyIndex++;
+  if(dailyIndex<dailySentences[currentDay].length){
+    renderDailySentence();
+  }else{
+    progress.completed++;
+    saveProgress();
+    document.getElementById("result").textContent=
+      `Day ${currentDay} complete! You got ${dailyScore} out of ${dailySentences[currentDay].length} correct!`;
+    document.getElementById("playAgain").classList.add("hidden");
+    show("finish");
+  }
 }
 
 // ====================================
@@ -850,24 +937,20 @@ function renderLibrary(){
   const group=document.getElementById("soundGroup").value;
   const area=document.getElementById("soundLibrary");
   area.innerHTML="";
-  document.getElementById("libraryFeedback")
-    .textContent="";
+  document.getElementById("libraryFeedback").textContent="";
 
-  const items=sounds.filter(s=>{
-    if(group==="all")return true;
-    if(group==="beginner")return s.group==="beginner";
-    return s.group===group;
-  });
+  const items=sounds.filter(s=>
+    group==="all"||s.group===group
+  );
 
   items.forEach(s=>{
-    const label={
+    const labels={
       "th-voiced":"th — that",
       "th-unvoiced":"th — thing",
       "oo-short":"oo — book",
       "oo-long":"oo — moon"
-    }[s.id]||s.id;
-
-    area.appendChild(button("🔊 "+label,()=>{
+    };
+    area.appendChild(button("🔊 "+(labels[s.id]||s.id),()=>{
       playSound(s.id);
     }));
   });
@@ -880,9 +963,7 @@ function renderLibrary(){
 function showJourney(){
   stopAudio();
   const accuracy=progress.attempts
-    ? Math.round(
-      100*progress.correct/progress.attempts
-    ):0;
+    ?Math.round(100*progress.correct/progress.attempts):0;
 
   const entries=[
     ["⭐ Stars",progress.stars],
@@ -898,27 +979,27 @@ function showJourney(){
   entries.forEach(([label,value])=>{
     const div=document.createElement("div");
     div.className="stat";
-
     const name=document.createElement("div");
     name.textContent=label;
-
     const number=document.createElement("strong");
     number.textContent=value;
-
     div.appendChild(name);
     div.appendChild(number);
     area.appendChild(div);
   });
-
   show("journey");
 }
 
 function resetProgress(){
-  if(!confirm("Reset all progress?"))return;
+  if(!confirm("Reset all learning progress?"))return;
   progress=emptyProgress();
   saveProgress();
   showJourney();
 }
+
+// ====================================
+// START
+// ====================================
 
 saveProgress();
 goHome();
