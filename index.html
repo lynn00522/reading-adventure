@@ -4,14 +4,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Reading Adventure V8</title>
+<title>Reading Adventure V8.1</title>
 
 <style>
 :root {
   --bg:#f1f8ff;
-  --card:#ffffff;
   --ink:#294764;
-  --border:#9ac4e8;
+  --card:#ffffff;
+  --border:#9bc6e9;
   --fs:20px;
 }
 * { box-sizing:border-box; }
@@ -25,8 +25,8 @@ body {
   text-align:center;
 }
 header {
-  padding:22px 12px;
   background:linear-gradient(120deg,#d8efff,#f7e5ff);
+  padding:24px 12px;
 }
 h1 { margin:0;font-size:clamp(28px,5vw,42px); }
 main { max-width:1050px;margin:20px auto;padding:12px; }
@@ -56,56 +56,57 @@ button,input,select {
 }
 button { cursor:pointer;min-height:52px;margin:4px; }
 button:hover { background:#d2e9ff; }
-button:focus-visible,input:focus-visible,
+button:focus-visible,
+input:focus-visible,
 select:focus-visible {
   outline:4px solid #e9a22e;
   outline-offset:2px;
 }
 button:disabled { opacity:.5;cursor:not-allowed; }
 .menu button {
-  min-height:110px;
+  min-height:112px;
   display:flex;
   flex-direction:column;
-  justify-content:center;
   align-items:center;
+  justify-content:center;
   font-weight:bold;
 }
-.emoji { font-size:34px; }
-.small,.note { font-size:.78em;color:#59728a; }
-.mascot { font-size:60px; }
+.emoji { font-size:35px; }
+.small,.note { font-size:.78em;color:#58728a; }
+.mascot { font-size:60px;line-height:1.3; }
 .bubble {
-  background:#fff6dd;
-  border:2px solid #f4daa1;
+  background:#fff6dc;
+  border:2px solid #f1d9a0;
   border-radius:18px;
-  padding:13px;
+  padding:14px;
   max-width:650px;
   margin:15px auto;
 }
 .options {
   display:flex;
-  justify-content:center;
   flex-wrap:wrap;
+  justify-content:center;
   gap:8px;
   margin:18px auto;
 }
-.options button { min-width:72px;font-size:1.2em; }
+.options button { min-width:75px;font-size:1.2em; }
 .tile {
   display:inline-block;
-  min-width:52px;
+  min-width:54px;
   padding:10px;
   margin:4px;
   border:2px solid var(--border);
   border-radius:12px;
   font-size:1.5em;
 }
-.feedback { min-height:45px;font-weight:bold; }
+.feedback { min-height:48px;font-weight:bold; }
 .progressbar {
-  max-width:600px;
   height:12px;
+  max-width:600px;
+  margin:15px auto;
   background:#e5eaf0;
   border-radius:20px;
   overflow:hidden;
-  margin:15px auto;
 }
 .progressfill {
   height:100%;
@@ -114,17 +115,17 @@ button:disabled { opacity:.5;cursor:not-allowed; }
   transition:width .3s;
 }
 .sentence {
-  background:#eff7ff;
-  border-radius:15px;
-  padding:18px;
   font-size:1.35em;
   line-height:2;
+  padding:18px;
   margin:12px auto;
+  background:#eff7ff;
+  border-radius:15px;
 }
 .sentence span {
   display:inline-block;
-  margin:0 4px;
   padding:0 5px;
+  margin:0 3px;
   border-radius:6px;
 }
 .sentence .active { background:#ffe39c; }
@@ -166,16 +167,19 @@ button:disabled { opacity:.5;cursor:not-allowed; }
 .wordCard {
   background:#fff7e6;
   border-radius:16px;
-  padding:15px;
+  padding:16px;
   margin:12px auto;
 }
 .wordCard strong { font-size:1.6em; }
 .weekGrid button { min-height:75px;font-size:.85em; }
-.selected { background:#d3f1dc!important; }
+.selected {
+  background:#d3f1dc!important;
+  border-color:#65b889!important;
+}
 .wordList {
   display:flex;
-  justify-content:center;
   flex-wrap:wrap;
+  justify-content:center;
   gap:8px;
   margin:15px;
 }
@@ -184,8 +188,8 @@ button:disabled { opacity:.5;cursor:not-allowed; }
   border-radius:10px;
   padding:8px 14px;
 }
-.settingsRow { margin:15px; }
-.settingsRow label { display:block; }
+.settingsRow { margin:15px auto; }
+.settingsRow label { display:block;margin-bottom:5px; }
 .dayGrid {
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(85px,1fr));
@@ -197,46 +201,82 @@ button:disabled { opacity:.5;cursor:not-allowed; }
 .dayGrid button { font-size:15px;min-height:55px; }
 .stageBox {
   background:#eaf5ff;
-  padding:15px;
   border-radius:15px;
-  margin:15px 0;
+  padding:15px;
+  margin:15px auto;
 }
 .readingControls {
   display:flex;
   flex-wrap:wrap;
   justify-content:center;
   gap:6px;
-  margin:15px 0;
-}
-.recording {
-  background:#fff0ef;
-  border:2px solid #e8b4b0;
-}
-.recording.active {
-  background:#ffd7d2;
-}
-.wordMatched {
-  background:#d5f2df;
-  border-radius:6px;
-  padding:3px 6px;
-}
-.wordDifferent {
-  background:#fff0cb;
-  border-radius:6px;
-  padding:3px 6px;
+  margin:15px auto;
 }
 .compareWords {
   display:flex;
   flex-wrap:wrap;
   justify-content:center;
-  gap:6px;
-  margin:15px;
+  gap:7px;
+  margin:15px auto;
 }
 .compareWords span {
   padding:6px 10px;
   border-radius:8px;
 }
+.wordMatched { background:#d5f2df; }
+.wordDifferent { background:#fff0cb; }
 audio { max-width:100%;margin:12px auto; }
+
+/* SOUND SAFARI */
+.safariModes {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:8px;
+}
+.safariCard {
+  max-width:600px;
+  margin:18px auto;
+  padding:22px;
+  border-radius:22px;
+  background:#f0f8e8;
+  border:2px solid #b8dda7;
+}
+.safariSymbol {
+  font-size:2.4em;
+  font-weight:bold;
+  margin:12px auto;
+}
+.safariExample {
+  font-size:1.25em;
+  font-weight:bold;
+}
+.safariChoice {
+  min-width:85px!important;
+  min-height:80px!important;
+  font-size:1.5em!important;
+}
+.hintBox {
+  background:#fff3d2;
+  border:2px solid #eed59a;
+  border-radius:15px;
+  padding:12px;
+  margin:12px auto;
+}
+.safariLevels {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:8px;
+}
+.checkboxRow {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  margin:15px auto;
+}
+.checkboxRow input { width:22px;height:22px; }
 @media(max-width:650px) {
   .menu { grid-template-columns:1fr; }
   .weekGrid { grid-template-columns:repeat(2,1fr); }
@@ -257,7 +297,9 @@ audio { max-width:100%;margin:12px auto; }
 <header>
 <h1>📚 Reading Adventure</h1>
 <p>Little steps, big reading adventures!</p>
-<div class="stars">⭐ Stars: <span id="stars">0</span></div>
+<div class="stars">
+⭐ Stars: <span id="stars">0</span>
+</div>
 </header>
 
 <main>
@@ -266,40 +308,60 @@ audio { max-width:100%;margin:12px auto; }
 <section id="home" class="panel">
 <div class="mascot">🦊</div>
 <h2>Hello, Little Reader!</h2>
-<div class="bubble">I'm Foxy! Let's learn together!</div>
+<div class="bubble">
+I'm Foxy! Let's go on a reading adventure!
+</div>
+
 <div class="menu">
 <button onclick="showAlphabet()">
-<span class="emoji">🌳</span>Alphabet Forest
+<span class="emoji">🌳</span>
+Alphabet Forest
 <span class="small">Find & Match Letters</span>
 </button>
-<button onclick="startGame('phonics')">
-<span class="emoji">🦜</span>Sound Safari
-<span class="small">Letter Sounds</span>
+
+<button onclick="showSafari()">
+<span class="emoji">🦜</span>
+Sound Safari
+<span class="small">Learn, Practise & Challenge</span>
 </button>
+
 <button onclick="startGame('blending')">
-<span class="emoji">🌉</span>Sound Bridge
+<span class="emoji">🌉</span>
+Sound Bridge
 <span class="small">Blend Sounds</span>
 </button>
+
 <button onclick="showWordWeeks()">
-<span class="emoji">🧩</span>Word Builder
+<span class="emoji">🧩</span>
+Word Builder
 <span class="small">52 Weeks · 5 Words</span>
 </button>
+
 <button onclick="showStoryVillage()">
-<span class="emoji">📖</span>Story Village
+<span class="emoji">📖</span>
+Story Village
 <span class="small">365-Day Read Aloud</span>
 </button>
+
 <button onclick="showSpelling()">
-<span class="emoji">✏️</span>Spelling Castle
+<span class="emoji">✏️</span>
+Spelling Castle
 <span class="small">Weekly Spelling</span>
 </button>
+
 <button onclick="showLibrary()">
-<span class="emoji">🎧</span>Sound Library
+<span class="emoji">🎧</span>
+Sound Library
 </button>
+
 <button onclick="showJourney()">
-<span class="emoji">🏆</span>My Rewards
+<span class="emoji">🏆</span>
+My Rewards
 </button>
+
 <button onclick="showSettings()">
-<span class="emoji">⚙️</span>Reading Settings
+<span class="emoji">⚙️</span>
+Reading Settings
 </button>
 </div>
 <p class="note">No timers. No lost stars.</p>
@@ -309,31 +371,128 @@ audio { max-width:100%;margin:12px auto; }
 <section id="alphabet" class="panel hidden">
 <div class="mascot">🦊🌳</div>
 <h2>Alphabet Forest</h2>
-<div class="bubble">Let's discover big and small letters!</div>
-<button onclick="startAlphabet('find')">🔎 Find the Letter</button>
-<button onclick="startAlphabet('match')">🔠 Match Big & Small</button>
+<div class="bubble">
+Let's discover capital and small letters!
+</div>
+<button onclick="startAlphabet('find')">
+🔎 Find the Letter
+</button>
+<button onclick="startAlphabet('match')">
+🔠 Match Capital & Small
+</button>
 <button onclick="goHome()">🏠 Home</button>
 </section>
 
-<!-- PHONICS GAME -->
+<!-- SOUND SAFARI MENU -->
+<section id="safariMenu" class="panel hidden">
+<div class="mascot">🦜🌴</div>
+<h2>Sound Safari</h2>
+<div class="bubble">
+Listen to sounds and discover their spellings!
+</div>
+
+<h3>Choose a learning level</h3>
+<div class="safariLevels">
+<button id="levelBeginner"
+ onclick="setSafariLevel('beginner')">
+Level 1 · First Sounds
+</button>
+<button id="levelConsonants"
+ onclick="setSafariLevel('consonants')">
+Level 2 · Consonant Teams
+</button>
+<button id="levelVowels"
+ onclick="setSafariLevel('vowels')">
+Level 3 · Vowel Patterns
+</button>
+</div>
+
+<h3>Choose how to learn</h3>
+<div class="menu">
+<button onclick="startSafari('learn')">
+<span class="emoji">📖</span>
+Learn Mode
+<span class="small">See, hear and learn</span>
+</button>
+
+<button onclick="startSafari('practice')">
+<span class="emoji">🎧</span>
+Practice Mode
+<span class="small">Listen with optional hints</span>
+</button>
+
+<button onclick="startSafari('challenge')">
+<span class="emoji">🏅</span>
+Challenge Mode
+<span class="small">Listen independently</span>
+</button>
+</div>
+
+<div class="checkboxRow">
+<input type="checkbox" id="showIPA"
+ onchange="saveIPASetting()">
+<label for="showIPA">
+Show IPA symbols (Parent/Teacher)
+</label>
+</div>
+
+<p class="note">
+IPA is optional. Young learners do not need to
+memorise phonetic symbols.
+</p>
+<button onclick="goHome()">🏠 Home</button>
+</section>
+
+<!-- SOUND SAFARI GAME -->
+<section id="safariGame" class="panel hidden">
+<div class="mascot">🦜</div>
+<h2 id="safariTitle"></h2>
+<div class="progressbar">
+<div id="safariBar" class="progressfill"></div>
+</div>
+<p id="safariCounter"></p>
+
+<div class="safariCard">
+<p id="safariInstruction"></p>
+<button onclick="playSafariSound()">
+🔊 Hear the Sound
+</button>
+<div id="safariVisual"></div>
+</div>
+
+<div id="safariChoices" class="options"></div>
+<div id="safariHintArea"></div>
+
+<p id="safariFeedback" class="feedback"
+ role="status" aria-live="polite"></p>
+
+<button id="safariNext" class="hidden"
+ onclick="nextSafari()">Next Sound ➜</button>
+
+<button onclick="showSafari()">← Sound Safari Menu</button>
+<button onclick="goHome()">🏠 Home</button>
+</section>
+
+<!-- OTHER PHONICS GAMES -->
 <section id="game" class="panel hidden">
 <div class="mascot">🦊</div>
 <h2 id="gameTitle"></h2>
 <div class="progressbar">
-<div class="progressfill" id="gameBar"></div>
+<div id="gameBar" class="progressfill"></div>
 </div>
 <p id="gameCounter"></p>
 <div class="bubble" id="gameInstruction"></div>
 <div id="gameArea"></div>
-<p class="feedback" id="gameFeedback" role="status"></p>
+<p id="gameFeedback" class="feedback"
+ role="status" aria-live="polite"></p>
 <button id="gameNext" class="hidden">Next ➜</button>
 <button onclick="goHome()">🏠 Home</button>
 </section>
 
-<!-- WORD WEEKS -->
+<!-- 52-WEEK WORD BUILDER -->
 <section id="wordWeeks" class="panel hidden">
 <h2>🧩 Word Builder Adventure</h2>
-<p>52 weeks, five words each week.</p>
+<p>52 weeks · Five words each week</p>
 <p id="recommendedWeek"></p>
 <div class="weekGrid" id="weekGrid"></div>
 <button onclick="goHome()">🏠 Home</button>
@@ -352,15 +511,14 @@ audio { max-width:100%;margin:12px auto; }
 <section id="wordPlay" class="panel hidden">
 <h2 id="wordPlayTitle"></h2>
 <div class="progressbar">
-<div class="progressfill" id="wordBar"></div>
+<div id="wordBar" class="progressfill"></div>
 </div>
 <p id="wordCounter"></p>
 <div class="bubble" id="wordInstruction"></div>
 <div id="wordArea"></div>
 <p id="wordFeedback" class="feedback" role="status"></p>
-<button id="wordNext" class="hidden" onclick="nextWord()">
-Next Word ➜
-</button>
+<button id="wordNext" class="hidden"
+ onclick="nextWord()">Next Word ➜</button>
 <button onclick="openWordWeek()">← Week Menu</button>
 </section>
 
@@ -370,7 +528,7 @@ Next Word ➜
 <h2>Story Village</h2>
 <p>365-Day Reading Adventure</p>
 <div class="bubble">
-Choose a day. Listen, read aloud and practise!
+Choose a day, listen, read and practise!
 </div>
 <p id="storySummary"></p>
 <label for="daySelect">Jump to day:</label>
@@ -386,10 +544,9 @@ Choose a day. Listen, read aloud and practise!
 <h2 id="readingDayTitle"></h2>
 <div class="stageBox" id="readingStage"></div>
 <div class="progressbar">
-<div class="progressfill" id="readingBar"></div>
+<div id="readingBar" class="progressfill"></div>
 </div>
 <p id="readingCounter"></p>
-
 <div class="sentence" id="readingSentence"></div>
 
 <div class="readingControls">
@@ -401,23 +558,21 @@ Choose a day. Listen, read aloud and practise!
 <p class="note">
 Ask a parent or guardian before using the microphone.
 </p>
-
 <div class="readingControls">
-<button id="recordButton" class="recording"
+<button id="recordButton"
  onclick="startRecording()">🔴 Record My Reading</button>
 <button id="stopRecordButton" disabled
  onclick="stopRecording()">⏹ Stop Recording</button>
 </div>
-
 <p id="recordStatus" role="status"></p>
 <audio id="recordPlayback" controls class="hidden"></audio>
 
 <div class="stageBox">
 <h3>Optional Reading Check</h3>
 <p class="note">
-Speech recognition may mishear children's voices.
-This is not a reading assessment or diagnosis.
-Recognition may use an external service.
+Speech recognition may mishear children.
+It is not a validated reading assessment.
+Audio may be processed by the browser provider.
 </p>
 <label>
 <input type="checkbox" id="recognitionConsent">
@@ -438,7 +593,9 @@ Recognition may use an external service.
 <button onclick="markSentencePractised()">
 ⭐ I Practised This Sentence
 </button>
-<button onclick="nextReadingSentence()">Next Sentence ➜</button>
+<button onclick="nextReadingSentence()">
+Next Sentence ➜
+</button>
 <div>
 <button onclick="showStoryVillage()">← All Days</button>
 <button onclick="goHome()">🏠 Home</button>
@@ -454,9 +611,8 @@ Recognition may use an external service.
 <p id="spellCounter"></p>
 <div id="spellArea"></div>
 <p id="spellFeedback" class="feedback" role="status"></p>
-<button id="spellNext" class="hidden" onclick="nextSpell()">
-Next Word ➜
-</button>
+<button id="spellNext" class="hidden"
+ onclick="nextSpell()">Next Word ➜</button>
 <button onclick="goHome()">🏠 Home</button>
 </section>
 
@@ -464,10 +620,10 @@ Next Word ➜
 <section id="libraryPage" class="panel hidden">
 <h2>🎧 Sound Library</h2>
 <select id="soundGroup" onchange="renderLibrary()">
-<option value="beginner">Beginner</option>
+<option value="beginner">Beginner Sounds</option>
 <option value="letters">Other Letters</option>
-<option value="consonants">Consonants</option>
-<option value="vowels">Vowels</option>
+<option value="consonants">Consonant Combinations</option>
+<option value="vowels">Vowel Combinations</option>
 <option value="all">All Sounds</option>
 </select>
 <div class="library" id="libraryArea"></div>
@@ -479,7 +635,9 @@ Next Word ➜
 <section id="journey" class="panel hidden">
 <h2>🏆 My Learning Journey</h2>
 <div id="journeyArea"></div>
-<p class="note">Progress is stored on this device only.</p>
+<p class="note">
+Progress is saved on this device only.
+</p>
 <button onclick="goHome()">🏠 Home</button>
 <button onclick="resetProgress()">Reset Progress</button>
 </section>
@@ -488,7 +646,7 @@ Next Word ➜
 <section id="settings" class="panel hidden">
 <h2>⚙️ Reading Settings</h2>
 <div class="settingsRow">
-<label>Background</label>
+<label for="bgSelect">Background</label>
 <select id="bgSelect" onchange="updateSettings()">
 <option value="blue">Soft Blue</option>
 <option value="cream">Warm Cream</option>
@@ -496,7 +654,7 @@ Next Word ➜
 </select>
 </div>
 <div class="settingsRow">
-<label>Text Size</label>
+<label for="sizeSelect">Text Size</label>
 <select id="sizeSelect" onchange="updateSettings()">
 <option value="normal">Normal</option>
 <option value="large">Large</option>
@@ -504,7 +662,7 @@ Next Word ➜
 </select>
 </div>
 <div class="settingsRow">
-<label>Audio Speed</label>
+<label for="speedSelect">Audio Speed</label>
 <select id="speedSelect" onchange="updateSettings()">
 <option value="0.65">Slow</option>
 <option value="0.8">Normal</option>
@@ -519,13 +677,16 @@ Next Word ➜
 <div class="mascot">🦊⭐</div>
 <h2>Adventure Complete!</h2>
 <p id="finishMessage"></p>
-<div class="bubble">Great effort! Every practice helps!</div>
+<div class="bubble">
+Great effort! Every practice helps you grow!
+</div>
 <button id="finishReplay">Play Again</button>
 <button onclick="goHome()">🏠 Home</button>
 </section>
 
 </main>
 
+<!-- KEEP YOUR EXISTING READING DATA FILE -->
 <script src="reading-data.js"></script>
 
 <script>
@@ -537,8 +698,8 @@ const $=id=>document.getElementById(id);
 
 function stored(key,fallback){
  try{
-  const v=JSON.parse(localStorage.getItem(key));
-  return v??fallback;
+  const value=JSON.parse(localStorage.getItem(key));
+  return value??fallback;
  }catch{return fallback;}
 }
 
@@ -578,10 +739,10 @@ function setBar(id,current,total){
 }
 
 const sections=[
- "home","alphabet","game","wordWeeks",
- "wordWeek","wordPlay","storyVillage",
- "readingDay","spelling","libraryPage",
- "journey","settings","finish"
+ "home","alphabet","safariMenu","safariGame",
+ "game","wordWeeks","wordWeek","wordPlay",
+ "storyVillage","readingDay","spelling",
+ "libraryPage","journey","settings","finish"
 ];
 
 function show(id){
@@ -668,15 +829,17 @@ function recordAnswer(correct){
 function completeActivity(score,total,label,replay){
  progress.completed++;
  saveProgress();
+
  $("finishMessage").textContent=
   label+": "+score+" out of "+total+" correct!";
+
  $("finishReplay").classList.toggle("hidden",!replay);
  if(replay)$("finishReplay").onclick=replay;
  show("finish");
 }
 
 // ===================================
-// AUDIO
+// AUDIO LIBRARY
 // ===================================
 
 const sounds=[
@@ -738,13 +901,16 @@ function stopAudio(){
  playbackToken++;
  audio.pause();
  audio.onended=null;
+
  if(playbackTimer!==null){
   clearTimeout(playbackTimer);
   playbackTimer=null;
  }
+
  if("speechSynthesis" in window){
   speechSynthesis.cancel();
  }
+
  document.querySelectorAll(".active").forEach(
   el=>el.classList.remove("active")
  );
@@ -752,10 +918,12 @@ function stopAudio(){
 
 function audioError(message){
  for(const [page,target] of [
+  ["safariGame","safariFeedback"],
   ["game","gameFeedback"],
   ["wordPlay","wordFeedback"],
   ["spelling","spellFeedback"],
-  ["libraryPage","libraryFeedback"]
+  ["libraryPage","libraryFeedback"],
+  ["readingDay","recordStatus"]
  ]){
   if(!$(page).classList.contains("hidden")){
    $(target).textContent=message;
@@ -766,62 +934,90 @@ function audioError(message){
 
 function playSound(id,callback){
  const file=soundMap[id];
- if(!file){audioError("Sound unavailable.");return;}
+ if(!file){
+  audioError("Sound recording unavailable.");
+  return;
+ }
+
  audio.pause();
  const token=++playbackToken;
  audio=new Audio("audio/"+file);
+
  audio.onended=()=>{
   if(token===playbackToken&&callback)callback();
  };
- audio.onerror=()=>audioError("Cannot load audio/"+file);
- audio.play().catch(()=>audioError("Audio unavailable."));
+
+ audio.onerror=()=>{
+  if(token===playbackToken){
+   audioError("Cannot load audio/"+file);
+  }
+ };
+
+ audio.play().catch(()=>{
+  if(token===playbackToken){
+   audioError("Unable to play the sound.");
+  }
+ });
 }
 
 function speak(text,callback){
  if(!("speechSynthesis" in window)){
-  audioError("Speech unavailable.");
+  audioError("Speech unavailable in this browser.");
   return;
  }
+
  speechSynthesis.cancel();
  const token=++playbackToken;
- const u=new SpeechSynthesisUtterance(text);
- u.lang="en-GB";
- u.rate=Number(settings.speed);
- u.onend=()=>{
+ const utterance=new SpeechSynthesisUtterance(text);
+
+ utterance.lang="en-GB";
+ utterance.rate=Number(settings.speed);
+
+ utterance.onend=()=>{
   if(token===playbackToken&&callback)callback();
  };
- speechSynthesis.speak(u);
+
+ speechSynthesis.speak(utterance);
 }
 
 function playSounds(parts){
  stopAudio();
  const session=playbackToken;
  let pos=0;
+
  function next(){
-  if(session>playbackToken||pos>=parts.length)return;
+  if(pos>=parts.length)return;
+  if(playbackToken<session)return;
+
   playSound(parts[pos++],()=>{
    playbackTimer=setTimeout(next,150);
   });
  }
+
  next();
 }
 
 function readHighlighted(text,id){
  stopAudio();
+
  const words=text.split(" ");
  const container=$(id);
- const session=playbackToken;
  let pos=0;
+
  function next(){
-  if(pos>=words.length)return;
   container.querySelectorAll("span").forEach(
    s=>s.classList.remove("active")
   );
+
+  if(pos>=words.length)return;
+
   container.children[pos].classList.add("active");
+
   speak(words[pos++],()=>{
    playbackTimer=setTimeout(next,100);
   });
  }
+
  next();
 }
 
@@ -835,6 +1031,7 @@ function speakLetterName(letter){
   u:"you",v:"vee",w:"double you",
   x:"ex",y:"why",z:"zed"
  };
+
  speak(names[letter.toLowerCase()]||letter);
 }
 
@@ -843,6 +1040,7 @@ function speakLetterName(letter){
 // ===================================
 
 const alphabet="abcdefghijklmnopqrstuvwxyz".split("");
+
 let alphabetMode="find";
 let alphabetQuestions=[];
 let alphabetIndex=0;
@@ -858,9 +1056,14 @@ function startAlphabet(mode){
  alphabetMode=mode;
  alphabetIndex=0;
  alphabetScore=0;
+
  alphabetQuestions=shuffle(alphabet).slice(0,3).map(
-  letter=>({letter,upper:Math.random()<0.5})
+  letter=>({
+   letter,
+   upper:Math.random()<0.5
+  })
  );
+
  show("game");
  renderAlphabet();
 }
@@ -868,6 +1071,7 @@ function startAlphabet(mode){
 function renderAlphabet(){
  stopAudio();
  alphabetAnswered=false;
+
  const q=alphabetQuestions[alphabetIndex];
  const match=alphabetMode==="match";
  const target=match?q.letter:
@@ -875,11 +1079,14 @@ function renderAlphabet(){
 
  $("gameTitle").textContent=
   match?"🔠 Match Big & Small":"🔎 Find the Letter";
+
  $("gameCounter").textContent=
   `Question ${alphabetIndex+1} of 3`;
+
  $("gameInstruction").textContent=
-  match?"Find the small letter matching "+
-  q.letter.toUpperCase():"Find the letter "+target;
+  match
+  ?"Find the small letter matching "+q.letter.toUpperCase()
+  :"Find the letter "+target;
 
  setBar("gameBar",alphabetIndex,3);
  $("gameFeedback").textContent="";
@@ -909,41 +1116,392 @@ function renderAlphabet(){
  choices(target,pool).forEach(letter=>{
   const b=btn(letter,()=>{
    if(alphabetAnswered)return;
+
    if(letter!==target){
     $("gameFeedback").textContent=
-     "Good try! Look again.";
+     "Good try! Look carefully and try again.";
     return;
    }
+
    alphabetAnswered=true;
    alphabetScore++;
    recordAnswer(true);
-   $("gameFeedback").textContent="⭐ Wonderful!";
+
+   $("gameFeedback").textContent=
+    "⭐ Wonderful! You found "+target+"!";
+
    $("gameNext").classList.remove("hidden");
   });
+
   b.className="alphabetChoice";
   box.appendChild(b);
  });
+
  area.appendChild(box);
 }
 
 function nextAlphabet(){
  alphabetIndex++;
- if(alphabetIndex<3)renderAlphabet();
- else completeActivity(
-  alphabetScore,3,"Alphabet Forest",
-  ()=>startAlphabet(alphabetMode)
- );
+
+ if(alphabetIndex<3){
+  renderAlphabet();
+ }else{
+  completeActivity(
+   alphabetScore,3,"Alphabet Forest",
+   ()=>startAlphabet(alphabetMode)
+  );
+ }
 }
 
 // ===================================
-// SOUND SAFARI AND SOUND BRIDGE
+// SOUND SAFARI V8.1
 // ===================================
 
-const beginner=["s","a","t","p","i","n","m"];
-const advanced=[
- "ch","sh","ng","th-voiced","th-unvoiced",
- "ai","ee","igh","oa","oo-short","oo-long","ow"
+// IPA is reference information for adults.
+// The main learning target is the sound
+// and its spelling correspondence.
+
+const safariSounds=[
+ {id:"s",spell:"s",ipa:"/s/",word:"sun",
+  level:"beginner"},
+ {id:"a",spell:"a",ipa:"/æ/",word:"apple",
+  level:"beginner"},
+ {id:"t",spell:"t",ipa:"/t/",word:"tap",
+  level:"beginner"},
+ {id:"p",spell:"p",ipa:"/p/",word:"pin",
+  level:"beginner"},
+ {id:"i",spell:"i",ipa:"/ɪ/",word:"sit",
+  level:"beginner"},
+ {id:"n",spell:"n",ipa:"/n/",word:"net",
+  level:"beginner"},
+ {id:"m",spell:"m",ipa:"/m/",word:"mat",
+  level:"beginner"},
+
+ {id:"ch",spell:"ch",ipa:"/tʃ/",word:"chair",
+  level:"consonants"},
+ {id:"sh",spell:"sh",ipa:"/ʃ/",word:"ship",
+  level:"consonants"},
+ {id:"ng",spell:"ng",ipa:"/ŋ/",word:"sing",
+  level:"consonants"},
+ {id:"th-voiced",spell:"th",ipa:"/ð/",
+  word:"that",level:"consonants"},
+ {id:"th-unvoiced",spell:"th",ipa:"/θ/",
+  word:"thing",level:"consonants"},
+ {id:"zh",spell:"zh",ipa:"/ʒ/",
+  word:"vision",level:"consonants"},
+
+ {id:"ai",spell:"ai",ipa:"/eɪ/",word:"rain",
+  level:"vowels"},
+ {id:"ee",spell:"ee",ipa:"/iː/",word:"see",
+  level:"vowels"},
+ {id:"igh",spell:"igh",ipa:"/aɪ/",word:"night",
+  level:"vowels"},
+ {id:"oa",spell:"oa",ipa:"/əʊ/",word:"boat",
+  level:"vowels"},
+ {id:"oi",spell:"oi",ipa:"/ɔɪ/",word:"coin",
+  level:"vowels"},
+ {id:"oo-short",spell:"oo",ipa:"/ʊ/",
+  word:"book",level:"vowels"},
+ {id:"oo-long",spell:"oo",ipa:"/uː/",
+  word:"moon",level:"vowels"},
+ {id:"ow",spell:"ow",ipa:"/aʊ/",
+  word:"cow",level:"vowels"},
+ {id:"ar",spell:"ar",ipa:"/ɑː/",
+  word:"car",level:"vowels"},
+ {id:"or",spell:"or",ipa:"/ɔː/",
+  word:"fork",level:"vowels"},
+ {id:"ur",spell:"ur",ipa:"/ɜː/",
+  word:"turn",level:"vowels"},
+ {id:"air",spell:"air",ipa:"/eə/",
+  word:"hair",level:"vowels"},
+ {id:"ear",spell:"ear",ipa:"/ɪə/",
+  word:"hear",level:"vowels"},
+ {id:"ure",spell:"ure",ipa:"/ʊə/",
+  word:"pure",level:"vowels"}
 ];
+
+const safariKey="readingAdventureSafariV81";
+
+let safariProgress=stored(safariKey,{
+ independent:0,
+ supported:0,
+ attempts:0,
+ completed:0
+});
+
+let safariLevel="beginner";
+let safariMode="practice";
+let safariQueue=[];
+let safariIndex=0;
+let safariScore=0;
+let safariAnswered=false;
+let safariHintUsed=false;
+let safariMistakes=0;
+
+function saveSafariProgress(){
+ save(safariKey,safariProgress);
+}
+
+function showSafari(){
+ stopAudio();
+ $("showIPA").checked=
+  stored("readingAdventureShowIPA",false);
+
+ setSafariLevel(safariLevel);
+ show("safariMenu");
+}
+
+function saveIPASetting(){
+ save("readingAdventureShowIPA",$("showIPA").checked);
+}
+
+function setSafariLevel(level){
+ safariLevel=level;
+
+ ["beginner","consonants","vowels"].forEach(l=>{
+  $("level"+l.charAt(0).toUpperCase()+l.slice(1))
+   .classList.toggle("selected",l===level);
+ });
+}
+
+function startSafari(mode){
+ stopAudio();
+
+ safariMode=mode;
+ safariIndex=0;
+ safariScore=0;
+
+ const pool=safariSounds.filter(
+  s=>s.level===safariLevel
+ );
+
+ safariQueue=shuffle(pool).slice(0,5);
+
+ show("safariGame");
+ renderSafari();
+}
+
+function safariCurrent(){
+ return safariQueue[safariIndex];
+}
+
+function playSafariSound(){
+ playSound(safariCurrent().id);
+}
+
+function safariLabel(item){
+ if(item.id==="th-voiced")return "th (that)";
+ if(item.id==="th-unvoiced")return "th (thing)";
+ if(item.id==="oo-short")return "oo (book)";
+ if(item.id==="oo-long")return "oo (moon)";
+ return item.spell;
+}
+
+function renderSafari(){
+ stopAudio();
+
+ safariAnswered=false;
+ safariHintUsed=false;
+ safariMistakes=0;
+
+ const q=safariCurrent();
+
+ $("safariTitle").textContent=
+  safariMode==="learn"?"📖 Learn the Sound":
+  safariMode==="practice"?"🎧 Practise the Sound":
+  "🏅 Sound Challenge";
+
+ $("safariCounter").textContent=
+  `Sound ${safariIndex+1} of ${safariQueue.length}`;
+
+ setBar("safariBar",safariIndex,safariQueue.length);
+
+ $("safariFeedback").textContent="";
+ $("safariHintArea").innerHTML="";
+ $("safariChoices").innerHTML="";
+ $("safariVisual").innerHTML="";
+ $("safariNext").classList.add("hidden");
+
+ $("safariInstruction").textContent=
+  safariMode==="learn"
+  ?"Listen, look and learn the sound."
+  :"Listen carefully. Which spelling matches?";
+
+ if(safariMode==="learn"){
+  revealSafariSound(q,true);
+
+  $("safariChoices").appendChild(
+   btn("⭐ I've Practised This Sound",()=>{
+    if(safariAnswered)return;
+    safariAnswered=true;
+    $("safariFeedback").textContent=
+     "Great practising! Let's keep exploring.";
+    $("safariNext").classList.remove("hidden");
+   })
+  );
+
+  return;
+ }
+
+ const pool=safariSounds.filter(
+  s=>s.level===safariLevel
+ );
+
+ // Choose distractors with distinct visible labels.
+ const distractors=shuffle(
+  pool.filter(s=>
+   s.id!==q.id &&
+   safariLabel(s)!==safariLabel(q)
+  )
+ );
+
+ const optionItems=[q];
+ const usedLabels=new Set([safariLabel(q)]);
+
+ for(const item of distractors){
+  if(!usedLabels.has(safariLabel(item))){
+   optionItems.push(item);
+   usedLabels.add(safariLabel(item));
+  }
+  if(optionItems.length===3)break;
+ }
+
+ shuffle(optionItems).forEach(item=>{
+  const b=btn(safariLabel(item),()=>{
+   checkSafari(item.id===q.id);
+  });
+
+  b.className="safariChoice";
+  $("safariChoices").appendChild(b);
+ });
+
+ if(safariMode==="practice"){
+  $("safariHintArea").appendChild(
+   btn("💡 Show Hint",showSafariHint)
+  );
+ }
+}
+
+function revealSafariSound(q,includeSpelling){
+ const area=$("safariVisual");
+ area.innerHTML="";
+
+ if(includeSpelling){
+  const symbol=document.createElement("div");
+  symbol.className="safariSymbol";
+  symbol.textContent=q.spell;
+  area.appendChild(symbol);
+ }
+
+ const example=document.createElement("div");
+ example.className="safariExample";
+ example.textContent=
+  q.spell+" as in "+q.word;
+ area.appendChild(example);
+
+ if(stored("readingAdventureShowIPA",false)){
+  const ipa=document.createElement("p");
+  ipa.className="note";
+  ipa.textContent="IPA: "+q.ipa;
+  area.appendChild(ipa);
+ }
+}
+
+function showSafariHint(){
+ if(safariAnswered)return;
+
+ safariHintUsed=true;
+
+ const q=safariCurrent();
+ const area=$("safariHintArea");
+ area.innerHTML="";
+
+ const hint=document.createElement("div");
+ hint.className="hintBox";
+
+ // The example is deliberately a supported hint.
+ hint.textContent=
+  "Hint: "+q.spell+" as in "+q.word;
+
+ area.appendChild(hint);
+
+ if(stored("readingAdventureShowIPA",false)){
+  const ipa=document.createElement("p");
+  ipa.className="note";
+  ipa.textContent="IPA: "+q.ipa;
+  area.appendChild(ipa);
+ }
+}
+
+function checkSafari(correct){
+ if(safariAnswered)return;
+
+ safariProgress.attempts++;
+
+ if(!correct){
+  safariMistakes++;
+  $("safariFeedback").textContent=
+   "Good try! Listen again and choose carefully.";
+
+  saveSafariProgress();
+  return;
+ }
+
+ safariAnswered=true;
+ safariScore++;
+
+ const independent=
+  !safariHintUsed && safariMistakes===0;
+
+ if(independent){
+  safariProgress.independent++;
+ }else{
+  safariProgress.supported++;
+ }
+
+ // One star for a completed sound,
+ // regardless of whether a hint was used.
+ progress.stars++;
+ saveProgress();
+ saveSafariProgress();
+
+ revealSafariSound(safariCurrent(),true);
+
+ $("safariHintArea").innerHTML="";
+ $("safariFeedback").textContent=
+  independent
+  ?"⭐ Great listening! You found it independently!"
+  :"⭐ Well done! You kept trying!";
+
+ $("safariNext").classList.remove("hidden");
+}
+
+function nextSafari(){
+ safariIndex++;
+
+ if(safariIndex<safariQueue.length){
+  renderSafari();
+ }else{
+  safariProgress.completed++;
+  saveSafariProgress();
+
+  progress.completed++;
+  saveProgress();
+
+  $("finishMessage").textContent=
+   "Sound Safari complete! You explored "+
+   safariQueue.length+" sounds.";
+
+  $("finishReplay").classList.remove("hidden");
+  $("finishReplay").onclick=()=>startSafari(safariMode);
+
+  show("finish");
+ }
+}
+
+// ===================================
+// SOUND BRIDGE
+// ===================================
 
 const blendingWords=[
  {word:"sat",parts:["s","a","t"]},
@@ -965,9 +1523,9 @@ function startGame(game){
  currentGame=game;
  gameIndex=0;
  gameScore=0;
- questions=game==="phonics"
-  ?shuffle([...beginner,...advanced]).slice(0,3)
-  :shuffle(blendingWords).slice(0,3);
+
+ questions=shuffle(blendingWords).slice(0,3);
+
  show("game");
  renderGame();
 }
@@ -975,77 +1533,70 @@ function startGame(game){
 function renderGame(){
  stopAudio();
  gameAnswered=false;
+
  const q=questions[gameIndex];
 
- $("gameTitle").textContent=
-  currentGame==="phonics"
-  ?"🦜 Sound Safari":"🌉 Sound Bridge";
-
+ $("gameTitle").textContent="🌉 Sound Bridge";
  $("gameCounter").textContent=
   `Question ${gameIndex+1} of 3`;
+
+ $("gameInstruction").textContent=
+  "Listen to the sounds. Which word do they make?";
+
  setBar("gameBar",gameIndex,3);
+
  $("gameFeedback").textContent="";
  $("gameNext").classList.add("hidden");
  $("gameNext").onclick=nextGame;
 
  const area=$("gameArea");
  area.innerHTML="";
+
+ area.appendChild(btn("🔊 Hear Each Sound",()=>{
+  playSounds(q.parts);
+ }));
+
+ area.appendChild(btn("🔊 Hear Whole Word",()=>{
+  stopAudio();
+  speak(q.word);
+ }));
+
  const box=document.createElement("div");
  box.className="options";
 
- if(currentGame==="phonics"){
-  $("gameInstruction").textContent=
-   "Listen and choose the matching spelling.";
-  area.appendChild(btn("🔊 Hear Sound",()=>playSound(q)));
-  const pool=advanced.includes(q)?advanced:beginner;
-  const labels={
-   "th-voiced":"th (that)",
-   "th-unvoiced":"th (thing)",
-   "oo-short":"oo (book)",
-   "oo-long":"oo (moon)"
-  };
-  choices(q,pool).forEach(option=>{
-   box.appendChild(btn(labels[option]||option,()=>{
-    submitGame(option===q,labels[q]||q);
+ choices(q.word,blendingWords.map(w=>w.word))
+  .forEach(option=>{
+   box.appendChild(btn(option,()=>{
+    if(gameAnswered)return;
+    gameAnswered=true;
+
+    const correct=option===q.word;
+    recordAnswer(correct);
+
+    if(correct)gameScore++;
+
+    $("gameFeedback").textContent=correct
+     ?"⭐ Great job!"
+     :"Let's practise: "+q.word;
+
+    $("gameNext").classList.remove("hidden");
    }));
   });
- }else{
-  $("gameInstruction").textContent=
-   "Listen to the sounds and find the word.";
-  area.appendChild(btn("🔊 Hear Each Sound",()=>{
-   playSounds(q.parts);
-  }));
-  area.appendChild(btn("🔊 Hear Whole Word",()=>{
-   stopAudio();
-   speak(q.word);
-  }));
-  choices(q.word,blendingWords.map(w=>w.word))
-   .forEach(option=>{
-    box.appendChild(btn(option,()=>{
-     submitGame(option===q.word,q.word);
-    }));
-   });
- }
- area.appendChild(box);
-}
 
-function submitGame(correct,answer){
- if(gameAnswered)return;
- gameAnswered=true;
- recordAnswer(correct);
- if(correct)gameScore++;
- $("gameFeedback").textContent=correct
-  ?"⭐ Great job!":"Let's practise: "+answer;
- $("gameNext").classList.remove("hidden");
+ area.appendChild(box);
 }
 
 function nextGame(){
  gameIndex++;
- if(gameIndex<3)renderGame();
- else completeActivity(
-  gameScore,3,"Adventure",
-  ()=>startGame(currentGame)
- );
+
+ if(gameIndex<3){
+  renderGame();
+ }else{
+  completeActivity(
+   gameScore,3,"Sound Bridge",
+   ()=>startGame("blending")
+  );
+ }
 }
 
 // ===================================
@@ -1114,7 +1665,9 @@ let wordProgress=stored(
 function weekRecord(week){
  if(!wordProgress[week]){
   wordProgress[week]={
-   completed:false,mastered:[],review:[]
+   completed:false,
+   mastered:[],
+   review:[]
   };
  }
  return wordProgress[week];
@@ -1136,8 +1689,10 @@ let wordTiles=[];
 
 function showWordWeeks(){
  stopAudio();
+
  const area=$("weekGrid");
  area.innerHTML="";
+
  let recommended=52;
 
  for(let i=1;i<=52;i++){
@@ -1152,30 +1707,37 @@ function showWordWeeks(){
 
  for(let i=1;i<=52;i++){
   const record=weekRecord(i);
+
   area.appendChild(btn(
    (record.completed?"✅ ":"📘 ")+"Week "+i,
    ()=>openWordWeek(i)
   ));
  }
+
  show("wordWeeks");
 }
 
 function openWordWeek(week=selectedWeek){
  stopAudio();
+
  selectedWeek=week;
  const words=weeklyWords[week-1];
  const record=weekRecord(week);
 
  $("weekTitle").textContent="Week "+week;
+
  $("weekStatus").textContent=
-  record.mastered.length+" of 5 words practised correctly.";
+  record.mastered.length+
+  " of 5 words built correctly in practice.";
 
  $("weekWordList").innerHTML="";
+
  words.forEach(word=>{
   const span=document.createElement("span");
   span.textContent=word;
   $("weekWordList").appendChild(span);
  });
+
  show("wordWeek");
 }
 
@@ -1183,6 +1745,7 @@ function startWordMode(mode){
  wordMode=mode;
  wordIndex=0;
  wordScore=0;
+
  const record=weekRecord(selectedWeek);
 
  wordQueue=mode==="review"
@@ -1192,7 +1755,7 @@ function startWordMode(mode){
 
  if(!wordQueue.length){
   $("weekStatus").textContent=
-   "No words need review. Great work!";
+   "No words need review right now!";
   return;
  }
 
@@ -1202,62 +1765,74 @@ function startWordMode(mode){
 
 function renderWord(){
  stopAudio();
+
  wordAnswered=false;
  wordSelected=[];
  wordUsed=[];
 
  const word=wordQueue[wordIndex];
+
  $("wordPlayTitle").textContent=
   "Week "+selectedWeek+" — "+wordMode;
+
  $("wordCounter").textContent=
   `Word ${wordIndex+1} of ${wordQueue.length}`;
+
  $("wordInstruction").textContent=
   wordMode==="learn"
-  ?"Look, listen and read."
+  ?"Look, listen and read the word."
   :"Listen and build the word.";
 
  setBar("wordBar",wordIndex,wordQueue.length);
+
  $("wordFeedback").textContent="";
  $("wordNext").classList.add("hidden");
 
  const area=$("wordArea");
  area.innerHTML="";
+
  area.appendChild(btn("🔊 Hear Word",()=>speak(word)));
 
  if(wordMode==="learn"){
   const card=document.createElement("div");
   card.className="wordCard";
+
   const heading=document.createElement("strong");
   heading.textContent=word;
   card.appendChild(heading);
+
   area.appendChild(card);
 
-  area.appendChild(btn("I Practised ✓",()=>{
+  area.appendChild(btn("I've Practised ✓",()=>{
    $("wordNext").classList.remove("hidden");
   }));
+
   return;
  }
 
  const answer=document.createElement("div");
  answer.id="wordAnswer";
  answer.className="options";
+
  const options=document.createElement("div");
  options.id="wordOptions";
  options.className="options";
+
  area.append(answer,options);
 
  wordTiles=shuffle(word.split(""));
  updateWordTiles();
 
- area.appendChild(btn("↩ Clear",()=>{
+ area.appendChild(btn("↩ Clear Letters",()=>{
   if(wordAnswered)return;
   wordSelected=[];
   wordUsed=[];
   updateWordTiles();
  }));
 
- area.appendChild(btn("💡 Hint",()=>{
-  $("wordFeedback").textContent="Look: "+word;
+ area.appendChild(btn("💡 Show Hint",()=>{
+  $("wordFeedback").textContent=
+   "Look carefully: "+word;
  }));
 }
 
@@ -1265,6 +1840,7 @@ function updateWordTiles(){
  const word=wordQueue[wordIndex];
  const answer=$("wordAnswer");
  const options=$("wordOptions");
+
  answer.innerHTML="";
  options.innerHTML="";
 
@@ -1278,13 +1854,16 @@ function updateWordTiles(){
  wordTiles.forEach((letter,i)=>{
   const b=btn(letter,()=>{
    if(wordAnswered||wordUsed.includes(i))return;
+
    wordUsed.push(i);
    wordSelected.push(letter);
    updateWordTiles();
+
    if(wordSelected.length===word.length){
     checkWord(wordSelected.join("")===word);
    }
   });
+
   b.disabled=wordAnswered||wordUsed.includes(i);
   options.appendChild(b);
  });
@@ -1296,29 +1875,37 @@ function checkWord(correct){
 
  const word=wordQueue[wordIndex];
  const record=weekRecord(selectedWeek);
+
  recordAnswer(correct);
 
  if(correct){
   wordScore++;
+
   if(!record.mastered.includes(word)){
    record.mastered.push(word);
   }
+
   record.review=record.review.filter(w=>w!==word);
  }else{
   record.mastered=record.mastered.filter(w=>w!==word);
+
   if(!record.review.includes(word)){
    record.review.push(word);
   }
  }
 
  saveWordProgress();
+
  $("wordFeedback").textContent=correct
-  ?"⭐ Wonderful!":"Let's practise "+word+" again.";
+  ?"⭐ Wonderful! You built "+word+"!"
+  :"Good try! Let's practise "+word+".";
+
  $("wordNext").classList.remove("hidden");
 }
 
 function nextWord(){
  wordIndex++;
+
  if(wordIndex<wordQueue.length){
   renderWord();
   return;
@@ -1330,8 +1917,9 @@ function nextWord(){
  }
 
  $("finishMessage").textContent=
-  "Week "+selectedWeek+" completed! "+
-  wordScore+" of "+wordQueue.length+" correct.";
+  "Week "+selectedWeek+": "+
+  wordScore+" of "+wordQueue.length+
+  " words built correctly.";
 
  if(wordMode!=="learn"){
   progress.completed++;
@@ -1340,21 +1928,23 @@ function nextWord(){
 
  $("finishReplay").classList.remove("hidden");
  $("finishReplay").onclick=()=>startWordMode(wordMode);
+
  show("finish");
 }
 
 // ===================================
-// STORY VILLAGE - 365 DAYS
+// STORY VILLAGE — 365 DAYS
 // ===================================
 
 const readingKey="readingAdventureReadingV8";
-
 let readingProgress=stored(readingKey,{});
+
 let currentDay=1;
 let readingIndex=0;
 
 function readingRecord(day){
  const key=String(day);
+
  if(!readingProgress[key]){
   readingProgress[key]={
    practised:[],
@@ -1362,6 +1952,7 @@ function readingRecord(day){
    recognitionAttempts:0
   };
  }
+
  return readingProgress[key];
 }
 
@@ -1381,12 +1972,10 @@ function showStoryVillage(){
   const record=readingRecord(d);
   const complete=record.practised.length>=5;
 
-  const b=btn(
+  area.appendChild(btn(
    (complete?"✅ ":"📖 ")+d,
    ()=>openReadingDay(d)
-  );
-
-  area.appendChild(b);
+  ));
  }
 
  const completed=Object.values(readingProgress)
@@ -1400,10 +1989,12 @@ function showStoryVillage(){
 
 function jumpToDay(){
  const day=Number($("daySelect").value);
+
  if(!Number.isInteger(day)||day<1||day>365){
   alert("Choose a day from 1 to 365.");
   return;
  }
+
  openReadingDay(day);
 }
 
@@ -1414,6 +2005,7 @@ function openReadingDay(day){
 
  currentDay=day;
  readingIndex=0;
+
  show("readingDay");
  renderReadingSentence();
 }
@@ -1428,7 +2020,7 @@ function renderReadingSentence(){
 
  if(!stage||sentences.length!==5){
   $("readingSentence").textContent=
-   "Reading content is unavailable. Check reading-data.js.";
+   "Reading content unavailable. Check reading-data.js.";
   return;
  }
 
@@ -1443,11 +2035,10 @@ function renderReadingSentence(){
 
  setBar("readingBar",readingIndex,5);
 
- const text=sentences[readingIndex];
  const area=$("readingSentence");
  area.innerHTML="";
 
- text.split(" ").forEach(word=>{
+ sentences[readingIndex].split(" ").forEach(word=>{
   const span=document.createElement("span");
   span.textContent=word;
   area.appendChild(span);
@@ -1492,8 +2083,7 @@ function nextReadingSentence(){
   readingIndex++;
   renderReadingSentence();
  }else{
-  const record=readingRecord(currentDay);
-  const count=record.practised.length;
+  const count=readingRecord(currentDay).practised.length;
 
   $("finishMessage").textContent=
    "Day "+currentDay+" finished! "+
@@ -1501,6 +2091,7 @@ function nextReadingSentence(){
 
   $("finishReplay").classList.remove("hidden");
   $("finishReplay").onclick=()=>openReadingDay(currentDay);
+
   show("finish");
  }
 }
@@ -1513,13 +2104,14 @@ let mediaRecorder=null;
 let microphoneStream=null;
 let recordedChunks=[];
 let recordingURL=null;
+let recordingGeneration=0;
 
 async function startRecording(){
  if(!navigator.mediaDevices ||
     !navigator.mediaDevices.getUserMedia ||
     !window.MediaRecorder){
   $("recordStatus").textContent=
-   "Recording is not supported in this browser.";
+   "Recording is unavailable in this browser.";
   return;
  }
 
@@ -1527,51 +2119,63 @@ async function startRecording(){
  stopAudio();
  stopRecognition();
 
+ const generation=recordingGeneration;
+
  try{
-  microphoneStream=await navigator.mediaDevices
+  const stream=await navigator.mediaDevices
    .getUserMedia({audio:true});
 
-  recordedChunks=[];
-  mediaRecorder=new MediaRecorder(microphoneStream);
+  if(generation!==recordingGeneration){
+   stream.getTracks().forEach(t=>t.stop());
+   return;
+  }
 
-  mediaRecorder.ondataavailable=event=>{
+  microphoneStream=stream;
+  recordedChunks=[];
+
+  const recorder=new MediaRecorder(stream);
+  mediaRecorder=recorder;
+
+  recorder.ondataavailable=event=>{
    if(event.data.size>0){
     recordedChunks.push(event.data);
    }
   };
 
-  mediaRecorder.onstop=()=>{
+  recorder.onstop=()=>{
+   if(generation!==recordingGeneration)return;
+
    if(recordedChunks.length){
     const blob=new Blob(recordedChunks,{
-     type:mediaRecorder.mimeType||"audio/webm"
+     type:recorder.mimeType||"audio/webm"
     });
 
     recordingURL=URL.createObjectURL(blob);
     $("recordPlayback").src=recordingURL;
     $("recordPlayback").classList.remove("hidden");
+
     $("recordStatus").textContent=
      "Recording ready! Press Play to hear yourself.";
    }
 
-   if(microphoneStream){
-    microphoneStream.getTracks().forEach(t=>t.stop());
-    microphoneStream=null;
-   }
+   stream.getTracks().forEach(t=>t.stop());
+   microphoneStream=null;
   };
 
-  mediaRecorder.start();
+  recorder.start();
 
   $("recordButton").disabled=true;
   $("stopRecordButton").disabled=false;
+
   $("recordStatus").textContent=
    "Recording... Read the sentence aloud.";
 
   readingRecord(currentDay).recordingAttempts++;
   saveReadingProgress();
 
- }catch(error){
+ }catch{
   $("recordStatus").textContent=
-   "Microphone access was not available.";
+   "Microphone permission was not available.";
  }
 }
 
@@ -1579,11 +2183,14 @@ function stopRecording(){
  if(mediaRecorder&&mediaRecorder.state==="recording"){
   mediaRecorder.stop();
  }
+
  $("recordButton").disabled=false;
  $("stopRecordButton").disabled=true;
 }
 
 function cleanupRecording(){
+ recordingGeneration++;
+
  if(mediaRecorder&&mediaRecorder.state==="recording"){
   mediaRecorder.onstop=null;
   mediaRecorder.stop();
@@ -1620,14 +2227,22 @@ const SpeechRecognitionAPI=
  window.webkitSpeechRecognition;
 
 let recognition=null;
+let recognitionGeneration=0;
 
 function stopRecognition(){
+ recognitionGeneration++;
+
  if(recognition){
   recognition.onresult=null;
   recognition.onerror=null;
   recognition.onend=null;
   try{recognition.abort();}catch{}
   recognition=null;
+ }
+
+ if(!$("readingDay").classList.contains("hidden")){
+  $("recognitionStatus").textContent=
+   "Recognition stopped.";
  }
 }
 
@@ -1643,8 +2258,9 @@ function compareReading(expected,spoken){
  const target=normalizeWords(expected);
  const actual=normalizeWords(spoken);
 
- // Levenshtein word-level alignment.
- const m=target.length,n=actual.length;
+ const m=target.length;
+ const n=actual.length;
+
  const dp=Array.from(
   {length:m+1},
   ()=>Array(n+1).fill(0)
@@ -1656,6 +2272,7 @@ function compareReading(expected,spoken){
  for(let i=1;i<=m;i++){
   for(let j=1;j<=n;j++){
    const cost=target[i-1]===actual[j-1]?0:1;
+
    dp[i][j]=Math.min(
     dp[i-1][j]+1,
     dp[i][j-1]+1,
@@ -1669,22 +2286,29 @@ function compareReading(expected,spoken){
 
  while(i>0||j>0){
   if(i>0&&j>0&&
-    dp[i][j]===dp[i-1][j-1]+
-    (target[i-1]===actual[j-1]?0:1)){
+   dp[i][j]===dp[i-1][j-1]+
+   (target[i-1]===actual[j-1]?0:1)){
+
    aligned.push({
     expected:target[i-1],
     heard:actual[j-1],
     match:target[i-1]===actual[j-1]
    });
    i--;j--;
+
   }else if(i>0&&dp[i][j]===dp[i-1][j]+1){
    aligned.push({
-    expected:target[i-1],heard:"—",match:false
+    expected:target[i-1],
+    heard:"—",
+    match:false
    });
    i--;
+
   }else{
    aligned.push({
-    expected:"—",heard:actual[j-1],match:false
+    expected:"—",
+    heard:actual[j-1],
+    match:false
    });
    j--;
   }
@@ -1693,11 +2317,11 @@ function compareReading(expected,spoken){
  aligned.reverse();
 
  const matches=aligned.filter(x=>x.match).length;
- const agreement=m
-  ?Math.round(100*matches/m)
-  :0;
 
- return {aligned,agreement};
+ return {
+  aligned,
+  agreement:m?Math.round(100*matches/m):0
+ };
 }
 
 function startRecognition(){
@@ -1709,19 +2333,24 @@ function startRecognition(){
 
  if(!SpeechRecognitionAPI){
   $("recognitionStatus").textContent=
-   "Automatic recognition is unavailable in this browser. "+
-   "You can still record and replay your reading.";
+   "Speech recognition is unavailable. "+
+   "You can still record and replay.";
   return;
  }
 
  stopRecognition();
  stopAudio();
 
- recognition=new SpeechRecognitionAPI();
- recognition.lang="en-GB";
- recognition.continuous=false;
- recognition.interimResults=false;
- recognition.maxAlternatives=1;
+ const generation=recognitionGeneration;
+ const expected=currentSentence();
+
+ const engine=new SpeechRecognitionAPI();
+ recognition=engine;
+
+ engine.lang="en-GB";
+ engine.continuous=false;
+ engine.interimResults=false;
+ engine.maxAlternatives=1;
 
  $("recognitionResult").innerHTML="";
  $("recognitionStatus").textContent=
@@ -1730,29 +2359,32 @@ function startRecognition(){
  readingRecord(currentDay).recognitionAttempts++;
  saveReadingProgress();
 
- recognition.onresult=event=>{
+ engine.onresult=event=>{
+  if(generation!==recognitionGeneration)return;
+
   const transcript=event.results[0][0].transcript;
 
   $("recognitionStatus").textContent=
    "Speech recognition completed.";
 
-  showReadingComparison(
-   currentSentence(),transcript
-  );
+  showReadingComparison(expected,transcript);
  };
 
- recognition.onerror=event=>{
+ engine.onerror=event=>{
+  if(generation!==recognitionGeneration)return;
+
   $("recognitionStatus").textContent=
-   "Recognition could not complete: "+event.error+
-   ". Please try again or use recording mode.";
+   "Recognition could not complete: "+event.error;
  };
 
- recognition.onend=()=>{
-  recognition=null;
+ engine.onend=()=>{
+  if(generation===recognitionGeneration){
+   recognition=null;
+  }
  };
 
  try{
-  recognition.start();
+  engine.start();
  }catch{
   $("recognitionStatus").textContent=
    "Unable to start speech recognition.";
@@ -1762,10 +2394,11 @@ function startRecognition(){
 function showReadingComparison(expected,spoken){
  const result=compareReading(expected,spoken);
  const area=$("recognitionResult");
+
  area.innerHTML="";
 
  const heading=document.createElement("h3");
- heading.textContent="Words the browser recognised:";
+ heading.textContent="Words recognised by the browser:";
  area.appendChild(heading);
 
  const transcript=document.createElement("p");
@@ -1774,15 +2407,14 @@ function showReadingComparison(expected,spoken){
 
  const agreement=document.createElement("p");
  agreement.textContent=
-  "Word agreement with expected sentence: "+
-  result.agreement+"%";
+  "Word agreement: "+result.agreement+"%";
  area.appendChild(agreement);
 
  const note=document.createElement("p");
  note.className="note";
  note.textContent=
   "This is a speech-recognition comparison, "+
-  "not a reliable measure of reading accuracy.";
+  "not a validated reading accuracy score.";
  area.appendChild(note);
 
  const box=document.createElement("div");
@@ -1790,6 +2422,7 @@ function showReadingComparison(expected,spoken){
 
  result.aligned.forEach(item=>{
   const span=document.createElement("span");
+
   span.className=item.match
    ?"wordMatched":"wordDifferent";
 
@@ -1802,13 +2435,14 @@ function showReadingComparison(expected,spoken){
 
  area.appendChild(box);
 
- const encouragement=document.createElement("p");
- encouragement.textContent=
+ const message=document.createElement("p");
+ message.textContent=
   result.agreement===100
-   ?"⭐ All expected words were recognised!"
-   :"Some words may have been misheard. "+
-    "Listen again or ask an adult to help review.";
- area.appendChild(encouragement);
+  ?"⭐ All expected words were recognised!"
+  :"Some words may have been misheard. "+
+   "Try again or ask an adult to review.";
+
+ area.appendChild(message);
 }
 
 // ===================================
@@ -1837,6 +2471,7 @@ function showSpelling(){
  spellMode="learn";
  spellIndex=0;
  spellScore=0;
+
  show("spelling");
  renderSpell();
 }
@@ -1851,10 +2486,12 @@ function setSpellMode(mode){
 function renderSpell(){
  stopAudio();
  spellAnswered=false;
+
  const q=spellingWords[spellIndex];
 
  $("spellCounter").textContent=
   `Word ${spellIndex+1} of ${spellingWords.length}`;
+
  $("spellFeedback").textContent="";
  $("spellNext").classList.add("hidden");
 
@@ -1874,6 +2511,7 @@ function renderSpell(){
   area.appendChild(sentence);
 
   area.appendChild(btn("Next Word ➜",nextSpell));
+
  }else{
   const input=document.createElement("input");
   input.className="wordInput";
@@ -1881,18 +2519,26 @@ function renderSpell(){
   input.autocomplete="off";
   input.spellcheck=false;
   input.setAttribute("autocapitalize","off");
+
   area.appendChild(input);
 
   const check=()=>{
    if(spellAnswered)return;
+
    const value=input.value.trim().toLowerCase();
-   if(!value)return;
+
+   if(!value){
+    $("spellFeedback").textContent=
+     "Please type the word first.";
+    return;
+   }
 
    spellAnswered=true;
    input.disabled=true;
 
    const correct=value===q[0];
    recordAnswer(correct);
+
    if(correct)spellScore++;
 
    $("spellFeedback").textContent=correct
@@ -1903,6 +2549,7 @@ function renderSpell(){
   };
 
   area.appendChild(btn("Check Spelling",check));
+
   input.addEventListener("keydown",e=>{
    if(e.key==="Enter")check();
   });
@@ -1911,6 +2558,7 @@ function renderSpell(){
 
 function nextSpell(){
  spellIndex++;
+
  if(spellIndex<spellingWords.length){
   renderSpell();
  }else if(spellMode==="practice"){
@@ -1921,6 +2569,7 @@ function nextSpell(){
  }else{
   $("finishMessage").textContent=
    "You have practised all ten words!";
+
   $("finishReplay").classList.add("hidden");
   show("finish");
  }
@@ -1939,6 +2588,7 @@ function showLibrary(){
 function renderLibrary(){
  const group=$("soundGroup").value;
  const area=$("libraryArea");
+
  area.innerHTML="";
  $("libraryFeedback").textContent="";
 
@@ -1979,8 +2629,13 @@ function showJourney(){
   ["📊 Practice Accuracy",accuracy+"%"],
   ["🏆 Adventures Completed",progress.completed],
   ["🧩 Word Weeks Completed",
-   Object.values(wordProgress).filter(w=>w.completed).length],
-  ["📖 Reading Days Practised",completedDays]
+   Object.values(wordProgress)
+    .filter(w=>w.completed).length],
+  ["📖 Reading Days Practised",completedDays],
+  ["🦜 Safari Independent Answers",
+   safariProgress.independent],
+  ["💡 Safari Supported Answers",
+   safariProgress.supported]
  ];
 
  const area=$("journeyArea");
@@ -1989,10 +2644,13 @@ function showJourney(){
  data.forEach(([label,value])=>{
   const box=document.createElement("div");
   box.className="stat";
+
   const title=document.createElement("div");
   title.textContent=label;
+
   const number=document.createElement("strong");
   number.textContent=value;
+
   box.append(title,number);
   area.appendChild(box);
  });
@@ -2009,9 +2667,18 @@ function resetProgress(){
  wordProgress={};
  readingProgress={};
 
+ safariProgress={
+  independent:0,
+  supported:0,
+  attempts:0,
+  completed:0
+ };
+
  saveProgress();
  saveWordProgress();
  saveReadingProgress();
+ saveSafariProgress();
+
  showJourney();
 }
 
